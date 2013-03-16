@@ -2,6 +2,8 @@
 #include "BaseScene.h"
 #include "Cursor.h"
 #include "Stage.h"
+#include "Object.h"
+using namespace std;
 
 class BattleScene : public BaseScene{
 public:
@@ -13,4 +15,6 @@ public:
 private:
 	Stage stage;
 	Cursor cursor;
+	vector<Player> players;
+	vector<Enemy> enemies;
 };

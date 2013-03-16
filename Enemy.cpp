@@ -2,12 +2,12 @@
 #include "Object.h"
 //#include "Cursor.h"
 //#include "Event.h"
-//#include "Stage.h"
+#include "Stage.h"
 
-Enemy::Enemy(int x, int z, int id, int hp, int mp, int str, int def, int agi, int mobility)/*:
-	mypos(x, z),
-	move_pos(0,0),
-	act_pos(0,0)*/{
+Enemy::Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility):
+	mypos(x, y),
+	move_pos(),
+	act_pos(){
 		image = GetColor(255, 0, 0);
 		this->id = id;
 		this->hp = maxhp = hp;
@@ -27,25 +27,27 @@ Enemy::Enemy(int x, int z, int id, int hp, int mp, int str, int def, int agi, in
 }
 
 void Enemy::update(){
-	//Stage::setObjectAt(mypos.getXByMap(), mypos.getYByMap(), this);
+	myvec = VGet(mypos.getY()*chipsize + chipsize/2, Stage::getHeight(mypos.getX(), mypos.getY())*chipsize + chipsize/2, mypos.getX()*chipsize + chipsize/2);
+	//Stage::setObjectAt(mypos.getX(), mypos.getY(), this);
 }
 
 void Enemy::draw(){
-	//Event::DrawGraphOnMap(mypos.getXByMap(), mypos.getYByMap(), image);
+	DrawSphere3D(myvec, 10, 50, image, image, true);
+	//Event::DrawGraphOnMap(mypos.getX(), mypos.getY(), image);
 	//show id on object
 	//DrawFormatString(mypos.getXByPx(), mypos.getYByPx(), GetColor(255,255,255), "%d", id);
 
-	//if(mypos.targetted(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
+	//if(mypos.targetted(Cursor::pos().getX(), Cursor::pos().getY())){
 		showStatus(200, 0);
 	//}
 
 	switch(state){
 	case MOVE:
-		//Event::range(mypos.getXByMap(), mypos.getYByMap(), mobility, true);
+		//Event::range(mypos.getX(), mypos.getY(), mobility, true);
 		break;
 	case ACTION:
 		if(can_act)
-			//Event::reachTo(mypos.getXByMap(), mypos.getYByMap(), Event::GetColorAttack(), 1, attack_range);
+			//Event::reachTo(mypos.getX(), mypos.getY(), Event::GetColorAttack(), 1, attack_range);
 		break;
 	default:
 		break;
@@ -67,14 +69,14 @@ void Enemy::action(){
 
 	case MOVE:
 		//calcMove(player.pos());
-		//Cursor::set(move_pos.getXByMap(), move_pos.getYByMap());
+		//Cursor::set(move_pos.getX(), move_pos.getY());
 		state = WAIT;
 		break;
 
 	case ACTION:
 		//calcAttack(players);
 		if(can_act)
-			//Cursor::set(act_pos.getXByMap(), act_pos.getYByMap());
+			//Cursor::set(act_pos.getX(), act_pos.getY());
 		state = WAIT;
 		//attack(players);
 		break;
@@ -90,14 +92,14 @@ void Enemy::action(){
 		if(can_act){
 			break;
 		} else if(can_move){
-			//if(Cursor::pos().targetted(mypos.getXByMap(), mypos.getYByMap())){
+			//if(Cursor::pos().targetted(mypos.getX(), mypos.getY())){
 				can_move = false;
 				//Stage::eraseBrightPoints();
 				state = SELECT;
 				break;
 			//}
 			if(isCountOver(30)){
-				//mypos.setByMap(Cursor::pos().getXByMap(), Cursor::pos().getYByMap());
+				//mypos.set(Cursor::pos().getX(), Cursor::pos().getY());
 				can_move = false;
 				moved = false;
 				//Stage::eraseBrightPoints();
@@ -134,7 +136,7 @@ bool Enemy::isCountOver(int time){
 }
 
 //void Enemy::calcMove(vector<Player>& players){
-//	Event::range(mypos.getXByMap(), mypos.getYByMap(), mobility, true);
+//	Event::range(mypos.getX(), mypos.getY(), mobility, true);
 //
 //	int finalX = -1, finalY = -1;
 //	int dist = INT_MAX, diff;
@@ -143,11 +145,11 @@ bool Enemy::isCountOver(int time){
 //			if(!Stage::getBrightPoint(x, y) || Stage::getObjectAt(x, y)) continue;
 //
 //			for(auto& player : players){
-//				diff = mypos.getDistByMap(x, y, player.pos().getXByMap(), player.pos().getYByMap());
+//				diff = mypos.getDist(x, y, player.pos().getX(), player.pos().getY());
 //				//最適な間合い（？）
 //				if(diff == attack_range){
 //					finalX = x, finalY = y;
-//					move_pos.setByMap(finalX, finalY);
+//					move_pos.set(finalX, finalY);
 //					Stage::eraseBrightPoints();
 //					return;
 //				}
@@ -160,14 +162,14 @@ bool Enemy::isCountOver(int time){
 //			}
 //		}
 //	}
-//	move_pos.setByMap(finalX, finalY);
+//	move_pos.set(finalX, finalY);
 //	Stage::eraseBrightPoints();
 //}
 //
 //void Enemy::calcAttack(vector<Player>& players){
 //	if(attacked) return;
 //
-//	Event::reachTo(mypos.getXByMap(), mypos.getYByMap(), Event::GetColorAttack(), 1, attack_range);
+//	Event::reachTo(mypos.getX(), mypos.getY(), Event::GetColorAttack(), 1, attack_range);
 //
 //	int finalX, finalY, diff;
 //	for(int y = 0; y < Stage::getHeight(); ++y){
@@ -175,10 +177,10 @@ bool Enemy::isCountOver(int time){
 //			if(!Stage::getBrightPoint(x, y)) continue;
 //
 //			for(auto& player : players){
-//				diff = mypos.getDistByMap(x, y, player.pos().getXByMap(), player.pos().getYByMap());
+//				diff = mypos.getDist(x, y, player.pos().getX(), player.pos().getY());
 //				if(diff == 0){
 //					finalX = x, finalY = y;
-//					act_pos.setByMap(finalX, finalY);
+//					act_pos.set(finalX, finalY);
 //					can_act = true;
 //					Stage::eraseBrightPoints();
 //					return;
@@ -187,12 +189,12 @@ bool Enemy::isCountOver(int time){
 //		}
 //	}
 //	//探索にヒットしなかったら
-//	act_pos.setByMap(-1, -1);
+//	act_pos.set(-1, -1);
 //	Stage::eraseBrightPoints();
 //}
 //
 //void Enemy::attack(vector<Player>& players){
-//	if(act_pos.getXByMap() < 0) return;
+//	if(act_pos.getX() < 0) return;
 //	if(!can_act && attacked) return;
 //	if(!isCountOver(30)) return;
 //
@@ -200,12 +202,12 @@ bool Enemy::isCountOver(int time){
 //	attacked = true;
 //	state = SELECT;
 //
-//	if(Stage::getBrightPoint(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
+//	if(Stage::getBrightPoint(Cursor::pos().getX(), Cursor::pos().getY())){
 //		for(auto& player : players){
 //			int diff = str - player.getDef();
 //			if(diff <= 0) continue;
 //
-//			if(player.pos().targetted(Cursor::pos().getXByMap(), Cursor::pos().getYByMap())){
+//			if(player.pos().targetted(Cursor::pos().getX(), Cursor::pos().getY())){
 //				player.setHP(player.getHP() - diff);
 //				break;
 //			}
