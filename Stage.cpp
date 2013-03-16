@@ -65,3 +65,11 @@ void Stage::initMap(){
 		}
 	}
 }
+
+void Stage::draw(){
+	for(int d = 0; d < depth; ++d){
+		for(int w = 0; w < width; ++w){
+			DrawFormatString(w*16, d*16, GetColor(255,255,255), "%d", mapchip[d][w].definition->id);
+		}
+	}
+}

@@ -85,6 +85,7 @@
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectStatus.h" />
+    <ClInclude Include="Position.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Vector3.h" />
   </ItemGroup>
