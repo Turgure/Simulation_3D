@@ -5,7 +5,7 @@
 //#include "Event.h"
 //#include "Stage.h"
 
-Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility)/*:mypos(x, y)*/{
+Player::Player(int x, int z, int id, int hp, int mp, int str, int def, int agi, int mobility)/*:mypos(x, z)*/{
 	image = GetColor(0, 0, 255);
 	this->id = id;
 	this->hp = maxhp = hp;

@@ -4,8 +4,8 @@
 //#include "Event.h"
 //#include "Stage.h"
 
-Enemy::Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility)/*:
-	mypos(x, y),
+Enemy::Enemy(int x, int z, int id, int hp, int mp, int str, int def, int agi, int mobility)/*:
+	mypos(x, z),
 	move_pos(0,0),
 	act_pos(0,0)*/{
 		image = GetColor(255, 0, 0);
