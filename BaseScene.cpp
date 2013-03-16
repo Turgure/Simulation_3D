@@ -15,7 +15,7 @@ BaseScene* BaseScene::main(){
 	
 	//メインループ
 	while(looping){
-		if(processLoop()){
+		if(!processLoop()){
 			running = false;
 			return nullptr;
 		}
@@ -36,11 +36,12 @@ void BaseScene::changeScene(BaseScene* next_scene){
 	looping = false;
 }
 
-int BaseScene::processLoop(){
-	if(ProcessMessage() != 0)  return -1;	//プロセス処理がエラーなら-1を返す
-	if(ClearDrawScreen() != 0) return -1;	//画面クリア処理がエラーなら-1を返す
-	if(Keyboard::update() != 0) return -1;	//キーのアップデート処理がエラーなら-1を返す
-	return 0;
+bool BaseScene::processLoop(){
+	if(ProcessMessage() != 0)  return false;	//プロセス処理がエラーのとき
+	if(ClearDrawScreen() != 0) return false;	//画面クリア処理がエラーのとき
+	clsDx();
+	if(Keyboard::update() != 0) return false;	//キーのアップデート処理がエラーのとき
+	return true;
 }
 
 

@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "BaseScene.h"
-
+#include "Cursor.h"
 #include "Stage.h"
 
 class BattleScene : public BaseScene{
@@ -12,4 +12,5 @@ public:
 
 private:
 	Stage stage;
+	Cursor cursor;
 };

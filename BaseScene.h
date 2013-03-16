@@ -16,7 +16,7 @@ protected:
 	void changeScene(BaseScene* next_scene);
 
 private:
-	int processLoop();
+	bool processLoop();
 	BaseScene* next_scene;
 	bool looping;	//ループ中フラグ
 	static bool running;
