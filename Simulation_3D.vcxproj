@@ -68,8 +68,13 @@
   <ItemGroup>
     <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="BattleScene.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FileStream.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="ObjectStatus.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Stage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseScene.h" />
@@ -77,6 +82,10 @@
     <ClInclude Include="FileStream.h" />
     <ClInclude Include="GV.h" />
     <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="ObjectStatus.h" />
+    <ClInclude Include="Stage.h" />
+    <ClInclude Include="Vector3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
