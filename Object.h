@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 #include "GV.h"
-#include "ObjectStatus.h"
+#include "Position.h"
 using namespace std;
 
 //オブジェクトの基底クラス
@@ -27,7 +27,7 @@ protected:
 	bool can_act;
 
 	struct Status{
-		void showStatus(int x, int z) const;
+		void showStatus(int x, int y) const;
 
 		void setHP(int hp){ this->hp = hp; }
 		int getHP() const { return hp; }
@@ -69,14 +69,14 @@ class Enemy;
 //生成等を行う
 class ObjectManager{
 public:
-	static void create(vector<Player> &players, string filename, int x, int z);
+	static void create(vector<Player> &players, string filename, int x, int y);
 	static void create(vector<Enemy> &enemies, string filename);
 };
 
 //プレイヤークラス
 class Player : public BaseObject, public BaseObject::Status{
 public:
-	Player(int x, int z, int id, int hp, int mp, int str, int def, int agi, int mobility);
+	Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility);
 	virtual void update() override;
 	virtual void draw() override;
 	virtual void action() override;
@@ -88,13 +88,18 @@ public:
 	void attack(vector<Enemy>& enemies);
 
 	Status status;
+	Position pos(){ return mypos;}
+
+private:
+	VECTOR myvec;
+	Position mypos;
 };
 
 
 //エネミークラス
 class Enemy : public BaseObject, public BaseObject::Status{
 public:
-	Enemy(int x, int z, int id, int hp, int mp, int str, int def, int agi, int mobility);
+	Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility);
 	virtual void update() override;
 	virtual void draw() override;
 	virtual void action() override;
@@ -107,10 +112,16 @@ public:
 	void attack(vector<Player>& players);
 
 	Status status;
+	Position pos(){ return mypos;}
 
 private:
 	int wait_time;
 	int attack_range;
 	bool moved;
 	bool attacked;
+
+	VECTOR myvec;
+	Position mypos;
+	Position move_pos;
+	Position act_pos;
 };

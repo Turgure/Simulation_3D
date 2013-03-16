@@ -66,27 +66,93 @@ void Stage::initMap(){
 	}
 }
 
+void Stage::update(){
+	camera.update();
+}
+
+void Stage::draw(){
+	drawMap();
+	drawBrightPoints();
+}
 
 void Stage::drawSquare(VECTOR v1, VECTOR v2, VECTOR v3, VECTOR v4,int color){
 	DrawTriangle3D(v1, v2, v3, color, false);
 	DrawTriangle3D(v2, v3, v4, color, false);
 }
 
-void Stage::draw(){
+void Stage::drawMap(){
 	VECTOR v1, v2, v3, v4;
 
 	for(int d = 0; d < depth; ++d){
 		for(int w = 0; w < width; ++w){
-			v1 = VGet( d * chipsize            ,       mapchip[d][w].height*20, w * chipsize );
-			v2 = VGet( d * chipsize + chipsize,       mapchip[d][w].height*20, w * chipsize );
-			v3 = VGet( d * chipsize             ,       mapchip[d][w].height*20, w * chipsize + chipsize );
-			v4 = VGet( d * chipsize + chipsize,       mapchip[d][w].height*20, w * chipsize + chipsize );
+			v1 = VGet(d*chipsize           , mapchip[d][w].height*chipsize, w*chipsize);
+			v2 = VGet(d*chipsize + chipsize, mapchip[d][w].height*chipsize, w*chipsize);
+			v3 = VGet(d*chipsize           , mapchip[d][w].height*chipsize, w*chipsize + chipsize);
+			v4 = VGet(d*chipsize + chipsize, mapchip[d][w].height*chipsize, w*chipsize + chipsize);
 
 			drawSquare(v1, v2, v3, v4, GetColor(0,255,0));
 		}
 	}
 }
 
-void Stage::update(){
-	camera.update();
+void Stage::drawBrightPoints(){
+	for(int h = 0; h < depth; h++){
+		for(int w = 0; w < width; w++){
+			if(mapchip[h][w].is_brighting){
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 192);
+				DrawBox(getLeftupPositionX() + w*chipsize, getLeftupPositionY() + h*chipsize,
+					getLeftupPositionX() + w*chipsize + chipsize, getLeftupPositionY() + h*chipsize + chipsize, mapchip[h][w].bright_color, true);
+				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+			}
+		}
+	}
+}
+
+void Stage::lateUpdate(){
+	for(int h = 0; h < depth; h++){
+		for(int w = 0; w < width; w++){
+			mapchip[h][w].object = nullptr;
+		}
+	}
+}
+
+void Stage::setBrightPoint(int x, int y, int color){
+	mapchip[y][x].is_brighting = true;
+	mapchip[y][x].bright_color = color;
+}
+
+bool Stage::getBrightPoint(int x, int y){
+	return mapchip[y][x].is_brighting;
+}
+
+void Stage::eraseBrightPoint(int x, int y){
+	mapchip[y][x].is_brighting = false;
+}
+
+void Stage::eraseBrightPoints(){
+	for(int h = 0; h < depth; h++){
+		for(int w = 0; w < width; w++){
+			eraseBrightPoint(w, h);
+		}
+	}
+}
+
+void Stage::setObjectAt(int x, int y, BaseObject* obj){
+	mapchip[y][x].object = obj;
+}
+
+BaseObject* Stage::getObjectAt(int x, int y){
+	return mapchip[y][x].object;
+}
+
+bool Stage::canMove(int x, int y){
+	if(x >= 0 && y >= 0 && x < width && y < depth){
+		return (mapchip[y][x].definition->id != 0);
+	} else {
+		return false;
+	}
+}
+
+int Stage::getResistance(int x, int y){
+	return mapchip[y][x].definition->resistance;
 }

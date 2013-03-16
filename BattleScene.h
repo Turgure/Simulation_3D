@@ -1,7 +1,8 @@
 ﻿#pragma once
 #include "BaseScene.h"
-
 #include "Stage.h"
+#include "Object.h"
+using namespace std;
 
 class BattleScene : public BaseScene{
 public:
@@ -12,4 +13,7 @@ public:
 
 private:
 	Stage stage;
+
+	vector<Player> players;
+	vector<Enemy> enemies;
 };
