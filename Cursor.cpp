@@ -14,16 +14,16 @@ Cursor::Cursor(int x, int y){
 }
 
 void Cursor::update(){
-	if(Keyboard::get(KEY_INPUT_LEFT) == 1 || Keyboard::get(KEY_INPUT_LEFT) > 30){
+	if(Keyboard::pushed(KEY_INPUT_LEFT) || (Keyboard::pushingUntil(KEY_INPUT_LEFT, 30) && Keyboard::pushingPer(KEY_INPUT_LEFT, 6))){
 		mypos.Move(-1,  0);
 	}
-	if(Keyboard::get(KEY_INPUT_RIGHT) == 1 || Keyboard::get(KEY_INPUT_RIGHT) > 30){
+	if(Keyboard::pushed(KEY_INPUT_RIGHT) || (Keyboard::pushingUntil(KEY_INPUT_RIGHT, 30) && Keyboard::pushingPer(KEY_INPUT_RIGHT, 6))){
 		mypos.Move( 1,  0);
 	}
-	if(Keyboard::get(KEY_INPUT_UP) == 1 || Keyboard::get(KEY_INPUT_UP) > 30){
+	if(Keyboard::pushed(KEY_INPUT_UP) || (Keyboard::pushingUntil(KEY_INPUT_UP, 30) && Keyboard::pushingPer(KEY_INPUT_UP, 6))){
 		mypos.Move( 0, -1);
 	}
-	if(Keyboard::get(KEY_INPUT_DOWN) == 1 || Keyboard::get(KEY_INPUT_DOWN) > 30){
+	if(Keyboard::pushed(KEY_INPUT_DOWN) || (Keyboard::pushingUntil(KEY_INPUT_DOWN, 30) && Keyboard::pushingPer(KEY_INPUT_DOWN, 6))){
 		mypos.Move( 0,  1);
 	}
 	//ステージ外にはみ出ないようにする
