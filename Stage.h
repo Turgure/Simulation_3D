@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <vector>
 //#include "Position.h"
+#include "Camera.h"
 using namespace std;
 
 class BaseObject;
@@ -40,6 +41,10 @@ private:
 	static int depth;
 	static int leftup_positionX;
 	static int leftup_positionY;
+	
+	Camera camera;
+	
+	void drawSquare(VECTOR v1, VECTOR v2, VECTOR v3, VECTOR v4, int color);
 
 	struct MapchipDefinition{
 		MapchipDefinition(int id){ this-> id = id; }

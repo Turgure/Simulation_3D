@@ -66,10 +66,27 @@ void Stage::initMap(){
 	}
 }
 
+
+void Stage::drawSquare(VECTOR v1, VECTOR v2, VECTOR v3, VECTOR v4,int color){
+	DrawTriangle3D(v1, v2, v3, color, false);
+	DrawTriangle3D(v2, v3, v4, color, false);
+}
+
 void Stage::draw(){
+	VECTOR v1, v2, v3, v4;
+
 	for(int d = 0; d < depth; ++d){
 		for(int w = 0; w < width; ++w){
-			DrawFormatString(w*16, d*16, GetColor(255,255,255), "%d", mapchip[d][w].definition->id);
+			v1 = VGet( d * chipsize            ,       mapchip[d][w].height*20, w * chipsize );
+			v2 = VGet( d * chipsize + chipsize,       mapchip[d][w].height*20, w * chipsize );
+			v3 = VGet( d * chipsize             ,       mapchip[d][w].height*20, w * chipsize + chipsize );
+			v4 = VGet( d * chipsize + chipsize,       mapchip[d][w].height*20, w * chipsize + chipsize );
+
+			drawSquare(v1, v2, v3, v4, GetColor(0,255,0));
 		}
 	}
+}
+
+void Stage::update(){
+	camera.update();
 }

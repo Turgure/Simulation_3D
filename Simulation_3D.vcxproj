@@ -69,6 +69,7 @@
   <ItemGroup>
     <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="BattleScene.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FileStream.cpp" />
     <ClCompile Include="main.cpp" />
@@ -80,6 +81,7 @@
   <ItemGroup>
     <ClInclude Include="BaseScene.h" />
     <ClInclude Include="BattleScene.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="FileStream.h" />
     <ClInclude Include="GV.h" />
     <ClInclude Include="Keyboard.h" />
