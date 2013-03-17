@@ -80,7 +80,11 @@ void Stage::drawSquare(VECTOR v1, VECTOR v2, VECTOR v3, VECTOR v4,int color, boo
 }
 
 void Stage::drawChip(int x, int y, int color){
-	drawSquare( VGet((y*chipsize), mapchip[y][x].height, (x*chipsize)) , VGet(y*(chipsize+1), mapchip[y][x].height, (x*chipsize)) , VGet((y*chipsize), mapchip[y][x].height, (x*(chipsize+1))),  VGet((y*(chipsize+1)), mapchip[y][x].height, (x*(chipsize+1))), color, true);
+	drawSquare(VGet( y       *chipsize , mapchip[y][x].height*chipheight  , x         *chipsize),
+						 VGet((y+1)*chipsize ,  mapchip[y][x].height*chipheight , x         *chipsize),
+						 VGet( y       *chipsize , mapchip[y][x].height*chipheight , (x+1)  *chipsize),
+						 VGet((y+1)*chipsize , mapchip[y][x].height*chipheight , (x+1)   *chipsize),
+									color, true);
 }
 
 void Stage::drawMap(){
@@ -106,7 +110,7 @@ void Stage::drawBrightPoints(){
 				//DrawBox(getLeftupPositionX() + w*chipsize, getLeftupPositionY() + d*chipsize,
 				//	getLeftupPositionX() + w*chipsize + chipsize, getLeftupPositionY() + d*chipsize + chipsize, mapchip[d][w].bright_color, true);
 
-				drawChip(w, d,  GetColor(128,128,128)/*mapchip[h][w].bright_color*/);
+				drawChip(w, d,  mapchip[d][w].bright_color);
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			}
 		}
