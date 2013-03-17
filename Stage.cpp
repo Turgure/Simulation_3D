@@ -80,11 +80,12 @@ void Stage::drawSquare(VECTOR v1, VECTOR v2, VECTOR v3, VECTOR v4,int color, boo
 }
 
 void Stage::drawChip(int x, int y, int color, bool fillFlag){
-	drawSquare(VGet( y       *chipsize , mapchip[y][x].height*chipheight  , x         *chipsize),
-						 VGet((y+1)*chipsize ,  mapchip[y][x].height*chipheight , x         *chipsize),
-						 VGet( y       *chipsize , mapchip[y][x].height*chipheight , (x+1)  *chipsize),
-						 VGet((y+1)*chipsize , mapchip[y][x].height*chipheight , (x+1)   *chipsize),
-									color, fillFlag);
+	drawSquare(
+		VGet(y    *chipsize, mapchip[y][x].height*chipheight , x     *chipsize),
+		VGet((y+1)*chipsize, mapchip[y][x].height*chipheight , x     *chipsize),
+		VGet(y    *chipsize, mapchip[y][x].height*chipheight , (x+1) *chipsize),
+		VGet((y+1)*chipsize, mapchip[y][x].height*chipheight , (x+1) *chipsize),
+		color, fillFlag);
 }
 
 void Stage::drawMap(){
@@ -97,7 +98,7 @@ void Stage::drawMap(){
 			v3 = VGet(d*chipsize           , mapchip[d][w].height*chipheight , w*chipsize + chipsize);
 			v4 = VGet(d*chipsize + chipsize, mapchip[d][w].height*chipheight , w*chipsize + chipsize);
 
-			drawSquare(v1, v2, v3, v4, GetColor(0,255,0), false);
+			drawSquare(v1, v2, v3, v4, mapchip[d][w].definition->image, false);
 		}
 	}
 }
@@ -107,7 +108,7 @@ void Stage::drawBrightenedPoints(){
 		for(int w = 0; w < width; ++w){
 			if(mapchip[d][w].is_brighting){
 				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 192);
-				drawChip(w, d,  mapchip[d][w].bright_color, true);
+				drawChip(w, d, mapchip[d][w].bright_color, true);
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			}
 		}
