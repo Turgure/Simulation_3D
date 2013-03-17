@@ -35,29 +35,35 @@ void ChipBrightManager::range(const Position& pos, int n, bool consider_resistan
 	}
 }
 
-//void ChipBrightManager::reachAt(const Position& pos, int color, int n){
-//	for(int m = 0; m < n; ++m){
-//		if(Stage::canMove(x-n+m, y-m)){
-//			Stage::brighten(x-n+m, y-m, color);
-//		}
-//		if(Stage::canMove(x+m, y-n+m)){
-//			Stage::brighten(x+m, y-n+m, color);
-//		}
-//		if(Stage::canMove(x+n-m, y+m)){
-//			Stage::brighten(x+n-m, y+m, color);
-//		}
-//		if(Stage::canMove(x-m, y+n-m)){
-//			Stage::brighten(x-m, y+n-m, color);
-//		}
-//	}
-//}
-//
-//void ChipBrightManager::reachTo(const Position& pos, int color, int min_range, int max_range){
-//	for(int i = min_range; i <= max_range; ++i){
-//		reachAt(x, y, color, i);
-//	}
-//}
-//
+void ChipBrightManager::reachAt(const Position& pos, int color, int n){
+	Position topos;
+	
+	for(int m = 0; m < n; ++m){
+		topos.set(pos.x -n+m, pos.y -m);
+		if(Stage::canMove(topos)){
+			Stage::brighten(topos, color);
+		}
+		topos.set(pos.x +m, pos.y -n+m);
+		if(Stage::canMove(topos)){
+			Stage::brighten(topos, color);
+		}
+		topos.set(pos.x +n-m, pos.y +m);
+		if(Stage::canMove(topos)){
+			Stage::brighten(topos, color);
+		}
+		topos.set(pos.x -m, pos.y +n-m);
+		if(Stage::canMove(topos)){
+			Stage::brighten(topos, color);
+		}
+	}
+}
+
+void ChipBrightManager::reachTo(const Position& pos, int color, int min_range, int max_range){
+	for(int i = min_range; i <= max_range; ++i){
+		reachAt(pos, color, i);
+	}
+}
+
 //void ChipBrightManager::around8(const Position& pos, int color){
 //	for(int i = 0; i < 8; ++i){
 //		if(Stage::canMove(x + dir[i][0], y + dir[i][1])){
@@ -65,7 +71,7 @@ void ChipBrightManager::range(const Position& pos, int n, bool consider_resistan
 //		}
 //	}
 //}
-//
+
 //void ChipBrightManager::aroundTo(const Position& pos, int color, int n){
 //	if(n <= 0) return;
 //

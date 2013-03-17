@@ -42,7 +42,7 @@ void Player::draw(){
 		ChipBrightManager::range(mypos, mobility, false);
 		break;
 	case ACTION:
-		//ChipBrightManager::aroundTo(mypos, ChipBrightManager::GetColorAttack(), 3);
+		ChipBrightManager::reachTo(mypos, ChipBrightManager::GetColorAttack(), 1, 3);
 		break;
 	default:
 		break;
@@ -132,24 +132,24 @@ void Player::showCommand(){
 }
 
 void Player::attack(vector<Enemy> &enemies){
-	//if(state != ACTION) return;
+	if(state != ACTION) return;
 
-	//if(Keyboard::pushed(KEY_INPUT_3) == 1) state = SELECT;
-	//if(Keyboard::pushed(KEY_INPUT_1) == 1){
-	//	state = SELECT;
-	//	for(auto& enemy : enemies){
-	//		if(Stage::isBrightened(Cursor::pos().getX(), Cursor::pos().getY())){
-	//			if(enemy.pos().targetted(Cursor::pos().getX(), Cursor::pos().getY())){
-	//				can_act = false;
+	if(Keyboard::pushed(KEY_INPUT_3)) state = SELECT;
+	if(Keyboard::pushed(KEY_INPUT_1)){
+		state = SELECT;
+		for(auto& enemy : enemies){
+			if(Stage::isBrightened(Cursor::pos())){
+				if(enemy.pos() == Cursor::pos()){
+					can_act = false;
 
-	//				int diff = str - enemy.getDef();
-	//				if(diff <= 0){
-	//					break;
-	//				}
-	//				enemy.status.setHP(enemy.getHP() - diff);
-	//				break;
-	//			}
-	//		}
-	//	}
-	//}
+					int diff = str - enemy.getDef();
+					if(diff <= 0){
+						break;
+					}
+					enemy.status.setHP(enemy.getHP() - diff);
+					break;
+				}
+			}
+		}
+	}
 }
