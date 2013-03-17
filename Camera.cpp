@@ -3,67 +3,91 @@
 Camera::Camera(){
 
 	// カメラの座標をセット
-	pos = VGet(  476, 289, 331);
+	x = 470;
+	y = 290;
+	z = 330;
 	// カメラの注視点をセット
-	target = VGet(187,-56, 70);
+	targetX = 190;
+	targetY = -56;
+	targetZ = 70;
 }
 
 void Camera::update(){
 
 	//カメラテスト用です
-	/*
-	static int x = 0;
+	//カメラの位置を移動
 	if(Keyboard::pushing(KEY_INPUT_Z) ){
-		x++;
+		x += 3;
 	}
 	if(Keyboard::pushing(KEY_INPUT_A) ){
-		x--;
+		x -= 3;
 	}
-	static int y = 0;
 	if(Keyboard::pushing(KEY_INPUT_X) ){
-		y++;
+		y += 3;
 	}
 	if(Keyboard::pushing(KEY_INPUT_S) ){
-		y--;
+		y -= 3;
 	}
-	static int z = 1;
 	if(Keyboard::pushing(KEY_INPUT_C) ){
-		z++;
+		z += 3;
 	}
 	if(Keyboard::pushing(KEY_INPUT_D) ){
-		z--;
+		z -= 3;
 	}
 
-	//static int a = 0;
-	//if(Keyboard::pushing(KEY_INPUT_V) ){
-	//	a++;
-	//}
-	//if(Keyboard::pushing(KEY_INPUT_F) ){
-	//	a--;
-	//}
-	//static int b = 0;
-	//if(Keyboard::pushing(KEY_INPUT_B) ){
-	//	b++;
-	//}
-	//if(Keyboard::pushing(KEY_INPUT_G) ){
-	//	b--;
-	//}
-	//static int c = 0;
-	//if(Keyboard::pushing(KEY_INPUT_N) ){
-	//	c++;
-	//}
-	//if(Keyboard::pushing(KEY_INPUT_H) ){
-	//	c--;
-	//}
-	//DrawFormatString(0, 0, GetColor(255,255,255), " x:%d y:%d z:%d", x, y, z);
-	//DrawFormatString(0, 20, GetColor(255,255,255), " a:%d b:%d c:%d", a, b, c);
-	//pos = VGet( x, y, z);
-	//target = VGet(a,b,c);
-	//
+	//カメラの注視点のみ移動
+	if(Keyboard::pushing(KEY_INPUT_V) ){
+		targetX += 3;
+	}
+	if(Keyboard::pushing(KEY_INPUT_F) ){
+		targetX -= 3;
+	}
+	if(Keyboard::pushing(KEY_INPUT_B) ){
+		targetY += 3;
+	}
+	if(Keyboard::pushing(KEY_INPUT_G) ){
+		targetY -= 3;
+	}
+	if(Keyboard::pushing(KEY_INPUT_N) ){
+		targetZ += 3;
+	}
+	if(Keyboard::pushing(KEY_INPUT_H) ){
+		targetZ -= 3;
+	}
+
+	//カメラを平行移動
+	if(Keyboard::pushing(KEY_INPUT_Q) ){
+		x += 3;
+		targetX +=3;
+	}
+	if(Keyboard::pushing(KEY_INPUT_W) ){
+		x -= 3;
+		targetX -= 3;
+	}
+	if(Keyboard::pushing(KEY_INPUT_E) ){
+		y += 3;
+		targetY += 3;
+	}
+	if(Keyboard::pushing(KEY_INPUT_R) ){
+		y -= 3;
+		targetY -= 3;
+	}
+	if(Keyboard::pushing(KEY_INPUT_T) ){
+		z += 3;
+		targetZ += 3;
+	}
+	if(Keyboard::pushing(KEY_INPUT_Y) ){
+		z -= 3;
+		targetZ -= 3;
+	}
+	DrawFormatString(0, 60, GetColor(255,255,255), " x:%d y:%d z:%d", x, y, z);
+	DrawFormatString(0, 80, GetColor(255,255,255), " a:%d b:%d c:%d", targetX, targetY, targetZ);
+	pos = VGet( x, y, z);
+	target = VGet(targetX,targetY,targetZ);
 
 	//	平行移動
-	target = VAdd(pos, target);
-	*/
+	//target = VAdd(pos, target);
+
 
 	// カメラの位置と向きをセットする
 	SetCameraPositionAndTarget_UpVecY(pos, target);

@@ -46,7 +46,7 @@ protected:
 
 	protected:
 		int id;
-		int image;
+		int model;
 		string name;
 		int maxhp;
 		int maxmp;

@@ -8,7 +8,9 @@
 Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility):pos(x, y){
 	//image = GetColor(0, 0, 255);
 	// ３Ｄモデルの読み込み
-	image = MV1LoadModel( "data/image/3Dmodel/boko.pmd" ) ;
+	model = MV1LoadModel( "data/image/3Dmodel/boko.pmd" );
+	// ３Ｄモデルのスケールをx軸方向に3倍にする
+	MV1SetScale( model, VGet( 3.0f, 3.0f, 3.0f ) ) ;
 	this->id = id;
 	this->hp = maxhp = hp;
 	this->mp = maxmp = mp;
@@ -24,14 +26,15 @@ Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, 
 
 void Player::update(){
 	myvec = VGet(pos.y*chipsize, Stage::getHeight(pos)*chipheight, pos.x*chipsize);
-	MV1SetPosition(image, VAdd(myvec, VGet(chipsize/2, chipsize/2, chipsize/2)));
+	//3Dモデルの配置
+	MV1SetPosition(model, VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));
 	Stage::setObjectAt(pos, this);
 }
 
 void Player::draw(){
 	//DrawSphere3D(VAdd(myvec, VGet(chipsize/2, chipsize/2, chipsize/2)), chipsize/2 -5, 50, image, image, true);
 	// ３Ｄモデルの描画
-	MV1DrawModel(image ) ;
+	MV1DrawModel(model) ;
 	//show id on object
 	//DrawFormatString(pos.getXByPx(), pos.getYByPx(), GetColor(255,255,255), "%d", id);
 
