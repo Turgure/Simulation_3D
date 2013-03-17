@@ -71,7 +71,7 @@ void Player::action(){
 			if(Stage::isBrightened(Cursor::pos().x, Cursor::pos().y) && !Stage::getObjectAt(Cursor::pos().x, Cursor::pos().y)){
 					mypos = Cursor::pos();
 					can_move = false;
-			//}
+			}
 		}
 		break;
 

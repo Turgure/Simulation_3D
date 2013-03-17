@@ -84,10 +84,6 @@ void Stage::drawChip(int x, int y, int color){
 	drawSquare( VGet((y*chipsize), mapchip[x][y].height, (x*chipsize)) , VGet(y*(chipsize+1), mapchip[x][y].height, (x*chipsize)) , VGet((y*chipsize), mapchip[x][y].height, (x*(chipsize+1))),  VGet((y*(chipsize+1)), mapchip[x][y].height, (x*(chipsize+1))), color, true);
 }
 
-void Stage::drawChip(int x, int y, int color){
-	drawSquare( VGet((y*chipsize), mapchip[x][y].height, (x*chipsize)) , VGet(y*(chipsize+1), mapchip[x][y].height, (x*chipsize)) , VGet((y*chipsize), mapchip[x][y].height, (x*(chipsize+1))),  VGet((y*(chipsize+1)), mapchip[x][y].height, (x*(chipsize+1))), color);
-}
-
 void Stage::drawMap(){
 	VECTOR v1, v2, v3, v4;
 
