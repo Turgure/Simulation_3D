@@ -27,13 +27,13 @@ Enemy::Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi, in
 }
 
 void Enemy::update(){
-	myvec = VGet(mypos.getY()*chipsize, Stage::getHeight(mypos.getX(), mypos.getY())*chipheight, mypos.getX()*chipsize);
-	//Stage::setObjectAt(mypos.getX(), mypos.getY(), this);
+	myvec = VGet(mypos.getY()*chipsize, Stage::getHeight(mypos.x, mypos.y)*chipheight, mypos.getX()*chipsize);
+	//Stage::setObjectAt(mypos, this);
 }
 
 void Enemy::draw(){
 	DrawSphere3D(VAdd(myvec, VGet(chipsize/2, chipsize/2, chipsize/2)), chipsize/2, 50, image, image, true);
-	//Event::DrawGraphOnMap(mypos.getX(), mypos.getY(), image);
+	//Event::DrawGraphOnMap(mypos, image);
 	//show id on object
 	//DrawFormatString(mypos.getXByPx(), mypos.getYByPx(), GetColor(255,255,255), "%d", id);
 
@@ -43,11 +43,11 @@ void Enemy::draw(){
 
 	switch(state){
 	case MOVE:
-		//Event::range(mypos.getX(), mypos.getY(), mobility, true);
+		//Event::range(mypos, mobility, true);
 		break;
 	case ACTION:
 		if(can_act)
-			//Event::reachTo(mypos.getX(), mypos.getY(), Event::GetColorAttack(), 1, attack_range);
+			//Event::reachTo(mypos, Event::GetColorAttack(), 1, attack_range);
 		break;
 	default:
 		break;
@@ -92,7 +92,7 @@ void Enemy::action(){
 		if(can_act){
 			break;
 		} else if(can_move){
-			//if(Cursor::pos().targetted(mypos.getX(), mypos.getY())){
+			//if(Cursor::pos().targetted(mypos)){
 				can_move = false;
 				//Stage::eraseBrightPoints();
 				state = SELECT;
@@ -136,7 +136,7 @@ bool Enemy::isCountOver(int time){
 }
 
 //void Enemy::calcMove(vector<Player>& players){
-//	Event::range(mypos.getX(), mypos.getY(), mobility, true);
+//	Event::range(mypos, mobility, true);
 //
 //	int finalX = -1, finalY = -1;
 //	int dist = INT_MAX, diff;
@@ -169,7 +169,7 @@ bool Enemy::isCountOver(int time){
 //void Enemy::calcAttack(vector<Player>& players){
 //	if(attacked) return;
 //
-//	Event::reachTo(mypos.getX(), mypos.getY(), Event::GetColorAttack(), 1, attack_range);
+//	Event::reachTo(mypos, Event::GetColorAttack(), 1, attack_range);
 //
 //	int finalX, finalY, diff;
 //	for(int y = 0; y < Stage::getHeight(); ++y){

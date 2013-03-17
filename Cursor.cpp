@@ -12,7 +12,7 @@ Cursor::Cursor(){
 }
 
 void Cursor::update(){
-	myvec = VGet(mypos.getY()*chipsize, Stage::getHeight(mypos.getX(), mypos.getY())*chipheight, mypos.getX()*chipsize);
+	myvec = VGet(mypos.getY()*chipsize, Stage::getHeight(mypos.x, mypos.y)*chipheight, mypos.getX()*chipsize);
 
 	if(Keyboard::pushed(KEY_INPUT_LEFT) || (Keyboard::pushingUntil(KEY_INPUT_LEFT, 30) && Keyboard::pushingPer(KEY_INPUT_LEFT, 6))){
 		mypos.Move(-1,  0);

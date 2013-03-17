@@ -21,13 +21,13 @@ Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, 
 }
 
 void Player::update(){
-	myvec = VGet(mypos.getY()*chipsize, Stage::getHeight(mypos.getX(), mypos.getY())*chipheight, mypos.getX()*chipsize);
-	Stage::setObjectAt(mypos.getX(), mypos.getY(), this);
+	myvec = VGet(mypos.y*chipsize, Stage::getHeight(mypos.x, mypos.y)*chipheight, mypos.x*chipsize);
+	//Stage::setObjectAt(mypos, this);
 }
 
 void Player::draw(){
 	DrawSphere3D(VAdd(myvec, VGet(chipsize/2, chipsize/2, chipsize/2)), chipsize/2, 50, image, image, true);
-	//ChipBrightManager::DrawGraphOnMap(mypos.getX(), mypos.getY(), image);
+	//ChipBrightManager::DrawGraphOnMap(mypos, image);
 	//show id on object
 	//DrawFormatString(mypos.getXByPx(), mypos.getYByPx(), GetColor(255,255,255), "%d", id);
 
@@ -39,10 +39,10 @@ void Player::draw(){
 
 	switch(state){
 	case MOVE:
-		ChipBrightManager::range(mypos.getX(), mypos.getY(), mobility, true);
+		ChipBrightManager::range(mypos.getY(), mypos.getY(), mobility, false);
 		break;
 	case ACTION:
-		//ChipBrightManager::aroundTo(mypos.getX(), mypos.getY(), ChipBrightManager::GetColorAttack(), 3);
+		//ChipBrightManager::aroundTo(mypos, ChipBrightManager::GetColorAttack(), 3);
 		break;
 	default:
 		break;
@@ -57,7 +57,7 @@ void Player::action(){
 	switch(state){
 	case SELECT:
 		Stage::eraseBrightPoints();
-		if(mypos.targetted(Cursor::pos().getX(), Cursor::pos().getY())){
+		if(mypos == Cursor::pos()){
 			if(Keyboard::pushed(KEY_INPUT_1) && can_move) state = MOVE;
 			if(Keyboard::pushed(KEY_INPUT_2) && can_act) state = ACTION;
 			if(Keyboard::pushed(KEY_INPUT_3)) state = END;
@@ -68,11 +68,10 @@ void Player::action(){
 		if(Keyboard::pushed(KEY_INPUT_3)) state = SELECT;
 		if(Keyboard::pushed(KEY_INPUT_1)){
 			state = SELECT;
-			if(Stage::getBrightPoint(Cursor::pos().getX(), Cursor::pos().getY()) &&
-				!Stage::getObjectAt(Cursor::pos().getX(), Cursor::pos().getY())){
-					mypos.set(Cursor::pos().getX(), Cursor::pos().getY());
+			//if(Stage::getBrightPoint(Cursor::pos().x, Cursor::pos().y) && !Stage::getObjectAt(Cursor::pos().x, Cursor::pos().y)){
+					mypos = Cursor::pos();
 					can_move = false;
-			}
+			//}
 		}
 		break;
 

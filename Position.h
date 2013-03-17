@@ -56,10 +56,7 @@ public:
 		x += diffX;
 		y += diffY;
 	}
-	bool targetted(int x, int y){
-		return (this->x == x && this->y == y);
-	}
-	int getDist(int x, int y, int toX, int toY){
+	int getDist(int x, int y, int toX, int toY) const{
 		return (abs(x - toX) + abs(y - toY));
 	}
 };

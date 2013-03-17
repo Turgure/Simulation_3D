@@ -28,7 +28,7 @@ void ObjectManager::create(vector<Player> &players, string filename, int x, int 
 	//int型に変換
 	vector<int> d;
 	for(auto& s : status){
-		d.push_back(atoi(s.c_str()));
+		d.push_back(stoi(s));
 	}
 	players.push_back( Player(x, y, d[0], d[1], d[2], d[3], d[4], d[5], d[6]) );
 }
@@ -37,7 +37,7 @@ void ObjectManager::create(vector<Enemy> &enemies, string filename){
 	vector<vector<string>> status;
 	FileStream::load(filename, status);
 	
-	int x, y;
+	Position finalpos;
 
 	//int型に変換
 	int d[256][256];
@@ -47,9 +47,9 @@ void ObjectManager::create(vector<Enemy> &enemies, string filename){
 		}
 
 		do{
-			x = GetRand(Stage::getWidth());
-			y = GetRand(Stage::getDepth());
-		}while(!Stage::canMove(x, y));
-		enemies.push_back( Enemy(x, y, d[i][0], d[i][1], d[i][2], d[i][3], d[i][4], d[i][5], d[i][6]) );
+			finalpos.x = GetRand(Stage::getWidth());
+			finalpos.y = GetRand(Stage::getDepth());
+		}while(!Stage::canMove(finalpos.x, finalpos.y));
+		enemies.push_back( Enemy(finalpos.x, finalpos.y, d[i][0], d[i][1], d[i][2], d[i][3], d[i][4], d[i][5], d[i][6]) );
 	}
 }
