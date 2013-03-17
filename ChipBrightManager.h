@@ -1,4 +1,5 @@
 ﻿#pragma once
+//#include "Position.h"
 
 class ChipBrightManager{
 public:
