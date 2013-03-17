@@ -2,14 +2,15 @@
 #include "Keyboard.h"
 Camera::Camera(){
 
+	// カメラの座標をセット
+	pos = VGet(  476, 289, 331);
 	// カメラの注視点をセット
-	//pos = VGet( -70, 115, 457);
-	//target = VGet(45,81,314);
+	target = VGet(187,-56, 70);
 }
 
 void Camera::update(){
-	
-	
+
+
 	//カメラテスト用です
 	
 	static int x = 0;
@@ -34,7 +35,7 @@ void Camera::update(){
 		z--;
 	}
 
-		static int a = 0;
+	static int a = 0;
 	if(Keyboard::pushing(KEY_INPUT_V) ){
 		a++;
 	}
@@ -61,13 +62,9 @@ void Camera::update(){
 	target = VGet(a,b,c);
 	
 
-	// カメラの座標をセット
-	//pos = VGet( -70, 115, 457);	//仮
-	//target = VGet(45,81,314);		//仮
-	//pos = VGet(  11, 166, 522);
-	//target = VGet(234,-6, -99);
-	//target = VAdd(pos, target);
-	
+
+	target = VAdd(pos, target);
+
 	// カメラの位置と向きをセットする
 	SetCameraPositionAndTarget_UpVecY(pos, target);
 }
