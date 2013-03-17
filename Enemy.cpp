@@ -142,7 +142,7 @@ bool Enemy::isCountOver(int time){
 //	int dist = INT_MAX, diff;
 //	for(int y = 0; y < Stage::getHeight(); ++y){
 //		for(int x = 0; x < Stage::getWidth(); ++x){
-//			if(!Stage::getBrightPoint(x, y) || Stage::getObjectAt(x, y)) continue;
+//			if(!Stage::isBrightened(x, y) || Stage::getObjectAt(x, y)) continue;
 //
 //			for(auto& player : players){
 //				diff = mypos.getDist(x, y, player.pos().getX(), player.pos().getY());
@@ -174,7 +174,7 @@ bool Enemy::isCountOver(int time){
 //	int finalX, finalY, diff;
 //	for(int y = 0; y < Stage::getHeight(); ++y){
 //		for(int x = 0; x < Stage::getWidth(); ++x){
-//			if(!Stage::getBrightPoint(x, y)) continue;
+//			if(!Stage::isBrightened(x, y)) continue;
 //
 //			for(auto& player : players){
 //				diff = mypos.getDist(x, y, player.pos().getX(), player.pos().getY());
@@ -202,7 +202,7 @@ bool Enemy::isCountOver(int time){
 //	attacked = true;
 //	state = SELECT;
 //
-//	if(Stage::getBrightPoint(Cursor::pos().getX(), Cursor::pos().getY())){
+//	if(Stage::isBrightened(Cursor::pos().getX(), Cursor::pos().getY())){
 //		for(auto& player : players){
 //			int diff = str - player.getDef();
 //			if(diff <= 0) continue;

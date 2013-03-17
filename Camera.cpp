@@ -10,30 +10,29 @@ Camera::Camera(){
 
 void Camera::update(){
 
-
 	//カメラテスト用です
-	
-	//static int x = 0;
-	//if(Keyboard::pushing(KEY_INPUT_Z) ){
-	//	x++;
-	//}
-	//if(Keyboard::pushing(KEY_INPUT_A) ){
-	//	x--;
-	//}
-	//static int y = 0;
-	//if(Keyboard::pushing(KEY_INPUT_X) ){
-	//	y++;
-	//}
-	//if(Keyboard::pushing(KEY_INPUT_S) ){
-	//	y--;
-	//}
-	//static int z = 1;
-	//if(Keyboard::pushing(KEY_INPUT_C) ){
-	//	z++;
-	//}
-	//if(Keyboard::pushing(KEY_INPUT_D) ){
-	//	z--;
-	//}
+	/*
+	static int x = 0;
+	if(Keyboard::pushing(KEY_INPUT_Z) ){
+		x++;
+	}
+	if(Keyboard::pushing(KEY_INPUT_A) ){
+		x--;
+	}
+	static int y = 0;
+	if(Keyboard::pushing(KEY_INPUT_X) ){
+		y++;
+	}
+	if(Keyboard::pushing(KEY_INPUT_S) ){
+		y--;
+	}
+	static int z = 1;
+	if(Keyboard::pushing(KEY_INPUT_C) ){
+		z++;
+	}
+	if(Keyboard::pushing(KEY_INPUT_D) ){
+		z--;
+	}
 
 	//static int a = 0;
 	//if(Keyboard::pushing(KEY_INPUT_V) ){
@@ -62,8 +61,9 @@ void Camera::update(){
 	//target = VGet(a,b,c);
 	//
 
-
-	//target = VAdd(pos, target);
+	//	平行移動
+	target = VAdd(pos, target);
+	*/
 
 	// カメラの位置と向きをセットする
 	SetCameraPositionAndTarget_UpVecY(pos, target);

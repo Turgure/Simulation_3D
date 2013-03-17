@@ -75,9 +75,13 @@ void Stage::draw(){
 	drawBrightPoints();
 }
 
-void Stage::drawSquare(VECTOR v1, VECTOR v2, VECTOR v3, VECTOR v4,int color){
-	DrawTriangle3D(v1, v2, v3, color, false);
-	DrawTriangle3D(v2, v3, v4, color, false);
+void Stage::drawSquare(VECTOR v1, VECTOR v2, VECTOR v3, VECTOR v4,int color, bool fillFlag){
+	DrawTriangle3D(v1, v2, v3, color, fillFlag);
+	DrawTriangle3D(v2, v3, v4, color, fillFlag);
+}
+
+void Stage::drawChip(int x, int y, int color){
+	drawSquare( VGet((y*chipsize), mapchip[x][y].height, (x*chipsize)) , VGet(y*(chipsize+1), mapchip[x][y].height, (x*chipsize)) , VGet((y*chipsize), mapchip[x][y].height, (x*(chipsize+1))),  VGet((y*(chipsize+1)), mapchip[x][y].height, (x*(chipsize+1))), color, true);
 }
 
 void Stage::drawChip(int x, int y, int color){
@@ -94,19 +98,20 @@ void Stage::drawMap(){
 			v3 = VGet(d*chipsize           , mapchip[d][w].height*chipheight , w*chipsize + chipsize);
 			v4 = VGet(d*chipsize + chipsize, mapchip[d][w].height*chipheight , w*chipsize + chipsize);
 
-			drawSquare(v1, v2, v3, v4, GetColor(0,255,0));
+			drawSquare(v1, v2, v3, v4, GetColor(0,255,0), false);
 		}
 	}
 }
 
 void Stage::drawBrightPoints(){
-	for(int h = 0; h < depth; h++){
-		for(int w = 0; w < width; w++){
-			if(mapchip[h][w].is_brighting){
+	for(int d = 0; d < depth; ++d){
+		for(int w = 0; w < width; ++w){
+			if(mapchip[d][w].is_brighting){
 				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 192);
-				//DrawBox(getLeftupPositionX() + w*chipsize, getLeftupPositionY() + h*chipsize,
-				// getLeftupPositionX() + w*chipsize + chipsize, getLeftupPositionY() + h*chipsize + chipsize, mapchip[h][w].bright_color, true);
-				drawChip(w, h, mapchip[h][w].bright_color);
+				//DrawBox(getLeftupPositionX() + w*chipsize, getLeftupPositionY() + d*chipsize,
+				//	getLeftupPositionX() + w*chipsize + chipsize, getLeftupPositionY() + d*chipsize + chipsize, mapchip[d][w].bright_color, true);
+
+				drawChip(w, d,  GetColor(128,128,128)/*mapchip[h][w].bright_color*/);
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			}
 		}
@@ -121,12 +126,12 @@ void Stage::lateUpdate(){
 	}
 }
 
-void Stage::setBrightPoint(int x, int y, int color){
+void Stage::brighten(int x, int y, int color){
 	mapchip[y][x].is_brighting = true;
 	mapchip[y][x].bright_color = color;
 }
 
-bool Stage::getBrightPoint(int x, int y){
+bool Stage::isBrightened(int x, int y){
 	return mapchip[y][x].is_brighting;
 }
 
