@@ -1,7 +1,7 @@
 ﻿#include <DxLib.h>
 #include "Object.h"
 #include "Keyboard.h"
-//#include "Cursor.h"
+#include "Cursor.h"
 //#include "Event.h"
 #include "Stage.h"
 
@@ -21,19 +21,19 @@ Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, 
 }
 
 void Player::update(){
-	myvec = VGet(mypos.getY()*chipsize + chipsize/2, Stage::getHeight(mypos.getX(), mypos.getY())*chipsize + chipsize/2, mypos.getX()*chipsize + chipsize/2);
-	//Stage::setObjectAt(mypos.getX(), mypos.getY(), this);
+	myvec = VGet(mypos.getY()*chipsize, Stage::getHeight(mypos.getX(), mypos.getY())*chipheight, mypos.getX()*chipsize);
+	Stage::setObjectAt(mypos.getX(), mypos.getY(), this);
 }
 
 void Player::draw(){
-	DrawSphere3D(myvec, 10, 50, image, image, true);
+	DrawSphere3D(VAdd(myvec, VGet(chipsize/2, chipsize/2, chipsize/2)), chipsize/2, 50, image, image, true);
 	//Event::DrawGraphOnMap(mypos.getX(), mypos.getY(), image);
-	////show id on object
+	//show id on object
 	//DrawFormatString(mypos.getXByPx(), mypos.getYByPx(), GetColor(255,255,255), "%d", id);
 
-	//if(mypos.targetted(Cursor::pos().getX(), Cursor::pos().getY())){
-	//	showStatus(200, 0);
-	//}
+	if(mypos == Cursor::pos()){
+		showStatus(200, 0);
+	}
 
 	showCommand();
 

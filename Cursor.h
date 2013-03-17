@@ -1,4 +1,5 @@
 #pragma once
+#include <DxLib.h>
 #include "Position.h"
 
 class Cursor{
@@ -13,5 +14,6 @@ public:
 private:
 	int image;
 
+	VECTOR myvec;
 	static Position mypos;
 };

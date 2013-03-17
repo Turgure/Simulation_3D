@@ -14,6 +14,8 @@ Cursor::Cursor(int x, int y){
 }
 
 void Cursor::update(){
+	myvec = VGet(mypos.getY()*chipsize, Stage::getHeight(mypos.getX(), mypos.getY())*chipheight, mypos.getX()*chipsize);
+
 	if(Keyboard::pushed(KEY_INPUT_LEFT) || (Keyboard::pushingUntil(KEY_INPUT_LEFT, 30) && Keyboard::pushingPer(KEY_INPUT_LEFT, 6))){
 		mypos.Move(-1,  0);
 	}
@@ -36,5 +38,5 @@ void Cursor::update(){
 
 void Cursor::draw(){
 	//球の描画（カーソル）
-	DrawSphere3D(VAdd( VGet(chipsize/2, chipsize/2, chipsize/2) , VGet(mypos.getX()*chipsize, Stage::getHeight(mypos.getX(), mypos.getY())*chipheight, mypos.getY()*chipsize)), chipsize/2 , 50, GetColor(0,255,0), GetColor(0,255,0), true);
+	DrawSphere3D(VAdd(myvec, VGet(chipsize/2, chipsize/2, chipsize/2)), chipsize/2, 50, image, image, true);
 }
