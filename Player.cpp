@@ -68,7 +68,7 @@ void Player::action(){
 		if(Keyboard::pushed(KEY_INPUT_3)) state = SELECT;
 		if(Keyboard::pushed(KEY_INPUT_1)){
 			state = SELECT;
-			if(Stage::getBrightPoint(Cursor::pos().getX(), Cursor::pos().getY()) &&
+			if(Stage::isBrightened(Cursor::pos().getX(), Cursor::pos().getY()) &&
 				!Stage::getObjectAt(Cursor::pos().getX(), Cursor::pos().getY())){
 					mypos.set(Cursor::pos().getX(), Cursor::pos().getY());
 					can_move = false;
@@ -139,7 +139,7 @@ void Player::attack(vector<Enemy> &enemies){
 	//if(Keyboard::pushed(KEY_INPUT_1) == 1){
 	//	state = SELECT;
 	//	for(auto& enemy : enemies){
-	//		if(Stage::getBrightPoint(Cursor::pos().getX(), Cursor::pos().getY())){
+	//		if(Stage::isBrightened(Cursor::pos().getX(), Cursor::pos().getY())){
 	//			if(enemy.pos().targetted(Cursor::pos().getX(), Cursor::pos().getY())){
 	//				can_act = false;
 
