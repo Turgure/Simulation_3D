@@ -146,7 +146,7 @@ void Player::attack(vector<Enemy> &enemies){
 					if(diff <= 0){
 						break;
 					}
-					enemy.status.setHP(enemy.getHP() - diff);
+					enemy.setHP(enemy.getHP() - diff);
 					break;
 				}
 			}
