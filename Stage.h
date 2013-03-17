@@ -45,7 +45,7 @@ private:
 	Camera camera;
 	
 	void drawSquare(VECTOR v1, VECTOR v2, VECTOR v3, VECTOR v4, int color , bool fillFlag);
-	void drawChip(int x, int y, int color);
+	void drawChip(int x, int y, int color, bool fillFlag);
 
 	struct MapchipDefinition{
 		MapchipDefinition(int id){ this-> id = id; }

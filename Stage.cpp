@@ -79,8 +79,12 @@ void Stage::drawSquare(VECTOR v1, VECTOR v2, VECTOR v3, VECTOR v4,int color, boo
 	DrawTriangle3D(v2, v3, v4, color, fillFlag);
 }
 
-void Stage::drawChip(int x, int y, int color){
-	drawSquare( VGet((y*chipsize), mapchip[y][x].height, (x*chipsize)) , VGet(y*(chipsize+1), mapchip[y][x].height, (x*chipsize)) , VGet((y*chipsize), mapchip[y][x].height, (x*(chipsize+1))),  VGet((y*(chipsize+1)), mapchip[y][x].height, (x*(chipsize+1))), color, true);
+void Stage::drawChip(int x, int y, int color, bool fillFlag){
+	drawSquare(VGet( y       *chipsize , mapchip[y][x].height*chipheight  , x         *chipsize),
+						 VGet((y+1)*chipsize ,  mapchip[y][x].height*chipheight , x         *chipsize),
+						 VGet( y       *chipsize , mapchip[y][x].height*chipheight , (x+1)  *chipsize),
+						 VGet((y+1)*chipsize , mapchip[y][x].height*chipheight , (x+1)   *chipsize),
+									color, fillFlag);
 }
 
 void Stage::drawMap(){
@@ -103,10 +107,7 @@ void Stage::drawBrightPoints(){
 		for(int w = 0; w < width; ++w){
 			if(mapchip[d][w].is_brighting){
 				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 192);
-				//DrawBox(getLeftupPositionX() + w*chipsize, getLeftupPositionY() + d*chipsize,
-				//	getLeftupPositionX() + w*chipsize + chipsize, getLeftupPositionY() + d*chipsize + chipsize, mapchip[d][w].bright_color, true);
-
-				drawChip(w, d,  GetColor(128,128,128)/*mapchip[h][w].bright_color*/);
+				drawChip(w, d,  mapchip[d][w].bright_color, true);
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			}
 		}
