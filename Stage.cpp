@@ -52,7 +52,6 @@ void Stage::initMap(){
 	vector<vector<string>> mapdata;
 	FileStream::load("data/stage/stage1/map.csv", mapdata);
 
-
 	auto& header = mapdata[0];
 	width = stoi(header[0]);
 	depth = stoi(header[1]);
@@ -81,7 +80,7 @@ void Stage::drawSquare(VECTOR v1, VECTOR v2, VECTOR v3, VECTOR v4,int color, boo
 }
 
 void Stage::drawChip(int x, int y, int color){
-	drawSquare( VGet((y*chipsize), mapchip[x][y].height, (x*chipsize)) , VGet(y*(chipsize+1), mapchip[x][y].height, (x*chipsize)) , VGet((y*chipsize), mapchip[x][y].height, (x*(chipsize+1))),  VGet((y*(chipsize+1)), mapchip[x][y].height, (x*(chipsize+1))), color, true);
+	drawSquare( VGet((y*chipsize), mapchip[y][x].height, (x*chipsize)) , VGet(y*(chipsize+1), mapchip[y][x].height, (x*chipsize)) , VGet((y*chipsize), mapchip[y][x].height, (x*(chipsize+1))),  VGet((y*(chipsize+1)), mapchip[y][x].height, (x*(chipsize+1))), color, true);
 }
 
 void Stage::drawMap(){
@@ -122,17 +121,17 @@ void Stage::lateUpdate(){
 	}
 }
 
-void Stage::brighten(int x, int y, int color){
-	mapchip[y][x].is_brighting = true;
-	mapchip[y][x].bright_color = color;
+void Stage::brighten(const Position& pos, int color){
+	mapchip[pos.y][pos.x].is_brighting = true;
+	mapchip[pos.y][pos.x].bright_color = color;
 }
 
-bool Stage::isBrightened(int x, int y){
-	return mapchip[y][x].is_brighting;
+bool Stage::isBrightened(const Position& pos){
+	return mapchip[pos.y][pos.x].is_brighting;
 }
 
-void Stage::eraseBrightPoint(int x, int y){
-	mapchip[y][x].is_brighting = false;
+void Stage::eraseBrightPoint(const Position& pos){
+	mapchip[pos.y][pos.x].is_brighting = false;
 }
 
 void Stage::eraseBrightPoints(){
@@ -143,22 +142,22 @@ void Stage::eraseBrightPoints(){
 	}
 }
 
-void Stage::setObjectAt(int x, int y, BaseObject* obj){
-	mapchip[y][x].object = obj;
+void Stage::setObjectAt(const Position& pos, BaseObject* obj){
+	mapchip[pos.y][pos.x].object = obj;
 }
 
-BaseObject* Stage::getObjectAt(int x, int y){
-	return mapchip[y][x].object;
+BaseObject* Stage::getObjectAt(const Position& pos){
+	return mapchip[pos.y][pos.x].object;
 }
 
-bool Stage::canMove(int x, int y){
-	if(x >= 0 && y >= 0 && x < width && y < depth){
-		return (mapchip[y][x].definition->id != 0);
+bool Stage::canMove(const Position& pos){
+	if(pos.x >= 0 && pos.y >= 0 && pos.x < width && pos.y < depth){
+		return (mapchip[pos.y][pos.x].definition->id != 0);
 	} else {
 		return false;
 	}
 }
 
-int Stage::getResistance(int x, int y){
-	return mapchip[y][x].definition->resistance;
+int Stage::getResistance(const Position& pos){
+	return mapchip[pos.y][pos.x].definition->resistance;
 }

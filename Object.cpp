@@ -49,7 +49,7 @@ void ObjectManager::create(vector<Enemy> &enemies, string filename){
 		do{
 			finalpos.x = GetRand(Stage::getWidth());
 			finalpos.y = GetRand(Stage::getDepth());
-		}while(!Stage::canMove(finalpos.x, finalpos.y));
+		}while(!Stage::canMove(finalpos));
 		enemies.push_back( Enemy(finalpos.x, finalpos.y, d[i][0], d[i][1], d[i][2], d[i][3], d[i][4], d[i][5], d[i][6]) );
 	}
 }

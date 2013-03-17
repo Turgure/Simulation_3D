@@ -12,7 +12,7 @@ Cursor::Cursor(){
 }
 
 void Cursor::update(){
-	myvec = VGet(mypos.getY()*chipsize, Stage::getHeight(mypos.x, mypos.y)*chipheight, mypos.getX()*chipsize);
+	myvec = VGet(mypos.y*chipsize, Stage::getHeight(mypos)*chipheight, mypos.x*chipsize);
 
 	if(Keyboard::pushed(KEY_INPUT_LEFT) || (Keyboard::pushingUntil(KEY_INPUT_LEFT, 30) && Keyboard::pushingPer(KEY_INPUT_LEFT, 6))){
 		mypos.Move(-1,  0);
@@ -27,10 +27,10 @@ void Cursor::update(){
 		mypos.Move( 0,  1);
 	}
 	//ステージ外にはみ出ないようにする
-	if(mypos.getX() < 0) mypos.setX(0);
-	if(mypos.getY() < 0) mypos.setY(0);
-	if(mypos.getX() > Stage::getWidth()-1) mypos.setX(Stage::getWidth()-1);
-	if(mypos.getY() > Stage::getDepth()-1) mypos.setY(Stage::getDepth()-1);
+	if(mypos.x < 0) mypos.setX(0);
+	if(mypos.y < 0) mypos.setY(0);
+	if(mypos.x > Stage::getWidth()-1) mypos.setX(Stage::getWidth()-1);
+	if(mypos.y > Stage::getDepth()-1) mypos.setY(Stage::getDepth()-1);
 
 }
 

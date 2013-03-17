@@ -6,6 +6,7 @@ public:
 	int x, y;
 	Position():x(0), y(0){};
 	Position(int x, int y):x(x), y(y){};
+	Position(const Position& pos):x(pos.x), y(pos.y){};
 
 	//比較
 	bool operator==(const Position& pos) const{

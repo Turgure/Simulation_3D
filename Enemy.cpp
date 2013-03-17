@@ -27,7 +27,7 @@ Enemy::Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi, in
 }
 
 void Enemy::update(){
-	myvec = VGet(mypos.getY()*chipsize, Stage::getHeight(mypos.x, mypos.y)*chipheight, mypos.getX()*chipsize);
+	myvec = VGet(mypos.getY()*chipsize, Stage::getHeight(mypos)*chipheight, mypos.getX()*chipsize);
 	//Stage::setObjectAt(mypos, this);
 }
 

@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <vector>
-//#include "Position.h"
+#include "Position.h"
 #include "Camera.h"
 using namespace std;
 
@@ -18,19 +18,19 @@ public:
 	void drawBrightPoints();
 	void lateUpdate();
 
-	static void brighten(int x, int y, int color);
-	static bool isBrightened(int x, int y);
-	static void eraseBrightPoint(int x, int y);
+	static void brighten(const Position& pos, int color);
+	static bool isBrightened(const Position& pos);
+	static void eraseBrightPoint(const Position& pos);
 	static void eraseBrightPoints();
 
-	static void setObjectAt(int x, int y, BaseObject* obj);
-	static BaseObject* getObjectAt(int x, int y);
-	static bool canMove(int x, int y);
-	static int getResistance(int x, int y);
+	static void setObjectAt(const Position& pos, BaseObject* obj);
+	static BaseObject* getObjectAt(const Position& pos);
+	static bool canMove(const Position& pos);
+	static int getResistance(const Position& pos);
 
 	static int getWidth(){ return width; }
 	static int getDepth(){ return depth; }
-	static int getHeight(int x, int y){ return mapchip[y][x].height; }
+	static int getHeight(const Position& pos){ return mapchip[pos.y][pos.x].height; }
 	static int getLeftupPositionX(){ return leftup_positionX; }
 	static int getLeftupPositionY(){ return leftup_positionY; }
 

@@ -21,7 +21,7 @@ Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, 
 }
 
 void Player::update(){
-	myvec = VGet(mypos.y*chipsize, Stage::getHeight(mypos.x, mypos.y)*chipheight, mypos.x*chipsize);
+	myvec = VGet(mypos.y*chipsize, Stage::getHeight(mypos)*chipheight, mypos.x*chipsize);
 	//Stage::setObjectAt(mypos, this);
 }
 
@@ -39,7 +39,7 @@ void Player::draw(){
 
 	switch(state){
 	case MOVE:
-		ChipBrightManager::range(mypos.getY(), mypos.getY(), mobility, false);
+		ChipBrightManager::range(mypos, mobility, false);
 		break;
 	case ACTION:
 		//ChipBrightManager::aroundTo(mypos, ChipBrightManager::GetColorAttack(), 3);
@@ -68,7 +68,7 @@ void Player::action(){
 		if(Keyboard::pushed(KEY_INPUT_3)) state = SELECT;
 		if(Keyboard::pushed(KEY_INPUT_1)){
 			state = SELECT;
-			if(Stage::isBrightened(Cursor::pos().x, Cursor::pos().y) && !Stage::getObjectAt(Cursor::pos().x, Cursor::pos().y)){
+			if(Stage::isBrightened(Cursor::pos()) && !Stage::getObjectAt(Cursor::pos())){
 					mypos = Cursor::pos();
 					can_move = false;
 			}
