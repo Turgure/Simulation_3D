@@ -22,6 +22,7 @@ void BattleScene::initialize(){
 
 void BattleScene::update(){
 	stage.update();
+	cursor.update();
 
 	for(auto& player : players){
 		player.update();
@@ -39,7 +40,7 @@ void BattleScene::update(){
 			//check
 			if(player.isMyTurn()){
 				has_come_turn = true;
-				cursor.pos() = player.pos();
+				cursor.pos = player.pos;
 				break;
 			}
 		}
@@ -53,7 +54,7 @@ void BattleScene::update(){
 			//check
 			if(enemy.isMyTurn()){
 				has_come_turn = true;
-				cursor.pos() = enemy.pos();
+				cursor.pos = enemy.pos;
 				break;
 			}
 		}
@@ -65,9 +66,8 @@ void BattleScene::update(){
 		for(auto& player : players){
 			if(!player.isMyTurn()) continue;
 			act_only_one = true;
-
-			cursor.update();
 			
+			cursor.manipulate();	//プレイヤーターンのみカーソルを動かすようにする
 			player.action();
 			player.attack(enemies);
 			if(Keyboard::pushed(KEY_INPUT_9)){

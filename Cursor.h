@@ -7,12 +7,12 @@ public:
 	Cursor();
 	void update();
 	void draw();
+	void manipulate();
 
-	static Position& pos(){ return mypos; }
+	static Position pos;
 
 private:
 	int image;
 
 	VECTOR myvec;
-	static Position mypos;
 };

@@ -41,18 +41,12 @@ public:
 		return *this;
 	}
 
-	void setX(int toX){
-		x = toX;
-	}
-	void setY(int toY){
-		y = toY;
-	}
+	int getX() const{ return x; }
+	int getY() const{ return y; }
 	void set(int toX, int toY){
 		x = toX;
 		y = toY;
 	}
-	int getX() const{ return x; }
-	int getY() const{ return y; }
 	void Move(int diffX, int diffY){
 		x += diffX;
 		y += diffY;

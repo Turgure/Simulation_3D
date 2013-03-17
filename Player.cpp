@@ -5,7 +5,7 @@
 #include "ChipBrightnessManager.h"
 #include "Stage.h"
 
-Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility):mypos(x, y){
+Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility):pos(x, y){
 	image = GetColor(0, 0, 255);
 	this->id = id;
 	this->hp = maxhp = hp;
@@ -21,17 +21,17 @@ Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, 
 }
 
 void Player::update(){
-	myvec = VGet(mypos.y*chipsize, Stage::getHeight(mypos)*chipheight, mypos.x*chipsize);
-	Stage::setObjectAt(mypos, this);
+	myvec = VGet(pos.y*chipsize, Stage::getHeight(pos)*chipheight, pos.x*chipsize);
+	Stage::setObjectAt(pos, this);
 }
 
 void Player::draw(){
 	DrawSphere3D(VAdd(myvec, VGet(chipsize/2, chipsize/2, chipsize/2)), chipsize/2 -5, 50, image, image, true);
 	
 	//show id on object
-	//DrawFormatString(mypos.getXByPx(), mypos.getYByPx(), GetColor(255,255,255), "%d", id);
+	//DrawFormatString(pos.getXByPx(), pos.getYByPx(), GetColor(255,255,255), "%d", id);
 
-	if(mypos == Cursor::pos()){
+	if(pos == Cursor::pos){
 		showStatus(200, 0);
 	}
 
@@ -39,10 +39,10 @@ void Player::draw(){
 
 	switch(state){
 	case MOVE:
-		ChipBrightnessManager::range(mypos, mobility, false);
+		ChipBrightnessManager::range(pos, mobility, false);
 		break;
 	case ACTION:
-		ChipBrightnessManager::reachTo(mypos, ChipBrightnessManager::getColorAttack(), 1, 3);
+		ChipBrightnessManager::reachTo(pos, ChipBrightnessManager::getColorAttack(), 1, 3);
 		break;
 	default:
 		break;
@@ -57,7 +57,7 @@ void Player::action(){
 	switch(state){
 	case SELECT:
 		Stage::disbrighten();
-		if(mypos == Cursor::pos()){
+		if(pos == Cursor::pos){
 			if(Keyboard::pushed(KEY_INPUT_1) && can_move) state = MOVE;
 			if(Keyboard::pushed(KEY_INPUT_2) && can_act) state = ACTION;
 			if(Keyboard::pushed(KEY_INPUT_3)) state = END;
@@ -68,8 +68,8 @@ void Player::action(){
 		if(Keyboard::pushed(KEY_INPUT_3)) state = SELECT;
 		if(Keyboard::pushed(KEY_INPUT_1)){
 			state = SELECT;
-			if(Stage::isBrightened(Cursor::pos()) && !Stage::getObjectAt(Cursor::pos())){
-					mypos = Cursor::pos();
+			if(Stage::isBrightened(Cursor::pos) && !Stage::getObjectAt(Cursor::pos)){
+					pos = Cursor::pos;
 					can_move = false;
 			}
 		}
@@ -103,7 +103,7 @@ void Player::stepATBgauge(){
 void Player::showCommand(){
 	switch(state){
 	case SELECT:
-		if(mypos == Cursor::pos()){
+		if(pos == Cursor::pos){
 			if(can_move){
 				DrawString(400, 0, "MOVE   : key 1", GetColor(255,255,255));
 			}
@@ -124,7 +124,7 @@ void Player::showCommand(){
 		DrawString(400, 32, "cancel : key 3", GetColor(255,255,255));
 		break;
 	case END:
-		if(mypos == Cursor::pos()){
+		if(pos == Cursor::pos){
 			DrawString(400,  0, "end.", GetColor(255,255,255));
 		}
 		break;
@@ -138,8 +138,8 @@ void Player::attack(vector<Enemy> &enemies){
 	if(Keyboard::pushed(KEY_INPUT_1)){
 		state = SELECT;
 		for(auto& enemy : enemies){
-			if(Stage::isBrightened(Cursor::pos())){
-				if(enemy.pos() == Cursor::pos()){
+			if(Stage::isBrightened(Cursor::pos)){
+				if(enemy.pos == Cursor::pos){
 					can_act = false;
 
 					int diff = str - enemy.getDef();
