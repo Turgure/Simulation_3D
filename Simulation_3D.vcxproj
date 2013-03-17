@@ -70,6 +70,7 @@
     <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="BattleScene.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ChipBrightManager.cpp" />
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FileStream.cpp" />
@@ -83,6 +84,7 @@
     <ClInclude Include="BaseScene.h" />
     <ClInclude Include="BattleScene.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="ChipBrightManager.h" />
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="FileStream.h" />
     <ClInclude Include="GV.h" />

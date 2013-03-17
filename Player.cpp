@@ -2,7 +2,7 @@
 #include "Object.h"
 #include "Keyboard.h"
 #include "Cursor.h"
-//#include "Event.h"
+#include "ChipBrightManager.h"
 #include "Stage.h"
 
 Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility):mypos(x, y){
@@ -27,7 +27,7 @@ void Player::update(){
 
 void Player::draw(){
 	DrawSphere3D(VAdd(myvec, VGet(chipsize/2, chipsize/2, chipsize/2)), chipsize/2, 50, image, image, true);
-	//Event::DrawGraphOnMap(mypos.getX(), mypos.getY(), image);
+	//ChipBrightManager::DrawGraphOnMap(mypos.getX(), mypos.getY(), image);
 	//show id on object
 	//DrawFormatString(mypos.getXByPx(), mypos.getYByPx(), GetColor(255,255,255), "%d", id);
 
@@ -39,10 +39,10 @@ void Player::draw(){
 
 	switch(state){
 	case MOVE:
-		//Event::range(mypos.getX(), mypos.getY(), mobility, true);
+		ChipBrightManager::range(mypos.getX(), mypos.getY(), mobility, true);
 		break;
 	case ACTION:
-		//Event::aroundTo(mypos.getX(), mypos.getY(), Event::GetColorAttack(), 3);
+		//ChipBrightManager::aroundTo(mypos.getX(), mypos.getY(), ChipBrightManager::GetColorAttack(), 3);
 		break;
 	default:
 		break;
@@ -51,41 +51,41 @@ void Player::draw(){
 
 void Player::action(){
 //	DrawFormatString(0, 48, GetColor(255,255,255), "player %d's turn.", id);
-//
-//	if(!can_move && !can_act) state = END;
-//
-//	switch(state){
-//	case SELECT:
-//		Stage::eraseBrightPoints();
-//		if(mypos.targetted(Cursor::pos().getX(), Cursor::pos().getY())){
-//			if(Keyboard::get(KEY_INPUT_1) == 1 && can_move) state = MOVE;
-//			if(Keyboard::get(KEY_INPUT_2) == 1 && can_act) state = ACTION;
-//			if(Keyboard::get(KEY_INPUT_3) == 1) state = END;
-//		}
-//		break;
-//
-//	case MOVE:
-//		if(Keyboard::get(KEY_INPUT_3) == 1) state = SELECT;
-//		if(Keyboard::get(KEY_INPUT_1) == 1){
-//			state = SELECT;
-//			if(Stage::getBrightPoint(Cursor::pos().getX(), Cursor::pos().getY()) &&
-//				!Stage::getObjectAt(Cursor::pos().getX(), Cursor::pos().getY())){
-//					mypos.set(Cursor::pos().getX(), Cursor::pos().getY());
-//					can_move = false;
-//			}
-//		}
-//		break;
-//
-//	case ACTION:
-//		attack(enemies);
-//		break;
-//
-//	case END:
-//		can_move = false;
-//		can_act = false;
-//		Stage::eraseBrightPoints();
-//		break;
-//	}
+
+	if(!can_move && !can_act) state = END;
+
+	switch(state){
+	case SELECT:
+		Stage::eraseBrightPoints();
+		if(mypos.targetted(Cursor::pos().getX(), Cursor::pos().getY())){
+			if(Keyboard::pushed(KEY_INPUT_1) && can_move) state = MOVE;
+			if(Keyboard::pushed(KEY_INPUT_2) && can_act) state = ACTION;
+			if(Keyboard::pushed(KEY_INPUT_3)) state = END;
+		}
+		break;
+
+	case MOVE:
+		if(Keyboard::pushed(KEY_INPUT_3)) state = SELECT;
+		if(Keyboard::pushed(KEY_INPUT_1)){
+			state = SELECT;
+			if(Stage::getBrightPoint(Cursor::pos().getX(), Cursor::pos().getY()) &&
+				!Stage::getObjectAt(Cursor::pos().getX(), Cursor::pos().getY())){
+					mypos.set(Cursor::pos().getX(), Cursor::pos().getY());
+					can_move = false;
+			}
+		}
+		break;
+
+	case ACTION:
+		//attack(enemies);
+		break;
+
+	case END:
+		can_move = false;
+		can_act = false;
+		Stage::eraseBrightPoints();
+		break;
+	}
 }
 
 void Player::endMyTurn(){
@@ -104,7 +104,7 @@ void Player::stepATBgauge(){
 void Player::showCommand(){
 	switch(state){
 	case SELECT:
-		//if(mypos.targetted(Cursor::pos().getX(), Cursor::pos().getY())){
+		if(mypos == Cursor::pos()){
 			if(can_move){
 				DrawString(400, 0, "MOVE   : key 1", GetColor(255,255,255));
 			}
@@ -112,7 +112,7 @@ void Player::showCommand(){
 				DrawString(400, 16, "ACTION : key 2", GetColor(255,255,255));
 			}
 			DrawString(400, 32, "END    : key 3", GetColor(255,255,255));
-		//}
+		}
 		break;
 	case MOVE:
 		DrawString(400,  0, "where?", GetColor(255,255,255));
@@ -125,8 +125,9 @@ void Player::showCommand(){
 		DrawString(400, 32, "cancel : key 3", GetColor(255,255,255));
 		break;
 	case END:
-		//if(mypos.targetted(Cursor::pos().getX(), Cursor::pos().getY())) 
+		if(mypos == Cursor::pos()){
 			DrawString(400,  0, "end.", GetColor(255,255,255));
+		}
 		break;
 	}
 }
@@ -134,8 +135,8 @@ void Player::showCommand(){
 void Player::attack(vector<Enemy> &enemies){
 	//if(state != ACTION) return;
 
-	//if(Keyboard::get(KEY_INPUT_3) == 1) state = SELECT;
-	//if(Keyboard::get(KEY_INPUT_1) == 1){
+	//if(Keyboard::pushed(KEY_INPUT_3) == 1) state = SELECT;
+	//if(Keyboard::pushed(KEY_INPUT_1) == 1){
 	//	state = SELECT;
 	//	for(auto& enemy : enemies){
 	//		if(Stage::getBrightPoint(Cursor::pos().getX(), Cursor::pos().getY())){

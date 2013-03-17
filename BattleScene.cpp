@@ -33,4 +33,6 @@ void BattleScene::draw(){
 	for(auto& enemy : enemies){
 		enemy.draw();
 	}
+
+	stage.lateUpdate();
 }
