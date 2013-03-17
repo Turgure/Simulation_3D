@@ -85,10 +85,10 @@ void Stage::drawMap(){
 
 	for(int d = 0; d < depth; ++d){
 		for(int w = 0; w < width; ++w){
-			v1 = VGet(d*chipsize           , mapchip[d][w].height*chipsize, w*chipsize);
-			v2 = VGet(d*chipsize + chipsize, mapchip[d][w].height*chipsize, w*chipsize);
-			v3 = VGet(d*chipsize           , mapchip[d][w].height*chipsize, w*chipsize + chipsize);
-			v4 = VGet(d*chipsize + chipsize, mapchip[d][w].height*chipsize, w*chipsize + chipsize);
+			v1 = VGet(d*chipsize           , mapchip[d][w].height*chipheight , w*chipsize);
+			v2 = VGet(d*chipsize + chipsize, mapchip[d][w].height*chipheight , w*chipsize);
+			v3 = VGet(d*chipsize           , mapchip[d][w].height*chipheight , w*chipsize + chipsize);
+			v4 = VGet(d*chipsize + chipsize, mapchip[d][w].height*chipheight , w*chipsize + chipsize);
 
 			drawSquare(v1, v2, v3, v4, GetColor(0,255,0));
 		}
