@@ -10,9 +10,8 @@ Camera::Camera(){
 
 void Camera::update(){
 
-
 	//カメラテスト用です
-	
+	/*
 	static int x = 0;
 	if(Keyboard::pushing(KEY_INPUT_Z) ){
 		x++;
@@ -62,8 +61,9 @@ void Camera::update(){
 	target = VGet(a,b,c);
 	
 
-
+	//	平行移動
 	target = VAdd(pos, target);
+	*/
 
 	// カメラの位置と向きをセットする
 	SetCameraPositionAndTarget_UpVecY(pos, target);
