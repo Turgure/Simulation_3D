@@ -5,11 +5,9 @@
 //#include "Event.h"
 #include "Stage.h"
 
-Position Cursor::mypos(0,0);
+Position Cursor::mypos;
 
-
-Cursor::Cursor(int x, int y){
-	mypos.set(x, y);
+Cursor::Cursor(){
 	image = GetColor(0, 255, 0);
 }
 

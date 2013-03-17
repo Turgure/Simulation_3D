@@ -4,7 +4,7 @@
 
 class Cursor{
 public:
-	Cursor(int x, int y);
+	Cursor();
 	void update();
 	void draw();
 	static void set(int x, int y);
