@@ -1,7 +1,7 @@
 ﻿#include <DxLib.h>
 #include "BattleScene.h"
 
-BattleScene::BattleScene():cursor(0,9){
+BattleScene::BattleScene(){
 }
 
 void BattleScene::initialize(){
