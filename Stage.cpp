@@ -71,7 +71,7 @@ void Stage::update(){
 
 void Stage::draw(){
 	drawMap();
-	drawBrightPoints();
+	drawBrightenedPoints();
 }
 
 void Stage::drawSquare(VECTOR v1, VECTOR v2, VECTOR v3, VECTOR v4,int color, bool fillFlag){
@@ -102,7 +102,7 @@ void Stage::drawMap(){
 	}
 }
 
-void Stage::drawBrightPoints(){
+void Stage::drawBrightenedPoints(){
 	for(int d = 0; d < depth; ++d){
 		for(int w = 0; w < width; ++w){
 			if(mapchip[d][w].is_brighting){
@@ -131,11 +131,7 @@ bool Stage::isBrightened(const Position& pos){
 	return mapchip[pos.y][pos.x].is_brighting;
 }
 
-void Stage::eraseBrightPoint(const Position& pos){
-	mapchip[pos.y][pos.x].is_brighting = false;
-}
-
-void Stage::eraseBrightPoints(){
+void Stage::disbrighten(){
 	for(int d = 0; d < depth; ++d){
 		for(int w = 0; w < width; ++w){
 			mapchip[d][w].is_brighting = false;

@@ -1,7 +1,7 @@
 ﻿#include <DxLib.h>
 #include "Object.h"
 #include "Cursor.h"
-//#include "Event.h"
+#include "ChipBrightnessManager.h"
 #include "Stage.h"
 
 Enemy::Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility):
@@ -27,13 +27,13 @@ Enemy::Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi, in
 }
 
 void Enemy::update(){
-	myvec = VGet(mypos.getY()*chipsize, Stage::getHeight(mypos)*chipheight, mypos.getX()*chipsize);
-	//Stage::setObjectAt(mypos, this);
+	myvec = VGet(mypos.y*chipsize, Stage::getHeight(mypos)*chipheight, mypos.x*chipsize);
+	Stage::setObjectAt(mypos, this);
 }
 
 void Enemy::draw(){
-	DrawSphere3D(VAdd(myvec, VGet(chipsize/2, chipsize/2, chipsize/2)), chipsize/2, 50, image, image, true);
-	//Event::DrawGraphOnMap(mypos, image);
+	DrawSphere3D(VAdd(myvec, VGet(chipsize/2, chipsize/2, chipsize/2)), chipsize/2 -5, 50, image, image, true);
+	
 	//show id on object
 	//DrawFormatString(mypos.getXByPx(), mypos.getYByPx(), GetColor(255,255,255), "%d", id);
 
@@ -43,11 +43,11 @@ void Enemy::draw(){
 
 	switch(state){
 	case MOVE:
-		//Event::range(mypos, mobility, true);
+		ChipBrightnessManager::range(mypos, mobility, false);
 		break;
 	case ACTION:
 		if(can_act)
-			//Event::reachTo(mypos, Event::GetColorAttack(), 1, attack_range);
+			ChipBrightnessManager::reachTo(mypos, ChipBrightnessManager::getColorAttack(), 1, attack_range);
 		break;
 	default:
 		break;
@@ -55,7 +55,7 @@ void Enemy::draw(){
 }
 
 void Enemy::action(){
-	DrawFormatString(0, 48, GetColor(255,255,255), "enemy %d's turn.", id);
+	DrawFormatString(0, 0, GetColor(255,255,255), "enemy %d's turn.", id);
 
 	switch(state){
 	case SELECT:
@@ -69,14 +69,14 @@ void Enemy::action(){
 
 	case MOVE:
 		//calcMove(player.pos());
-		//Cursor::set(move_pos.getX(), move_pos.getY());
+		Cursor::pos() = move_pos;
 		state = WAIT;
 		break;
 
 	case ACTION:
 		//calcAttack(players);
 		if(can_act)
-			//Cursor::set(act_pos.getX(), act_pos.getY());
+			Cursor::pos() = act_pos;
 		state = WAIT;
 		//attack(players);
 		break;
@@ -84,7 +84,7 @@ void Enemy::action(){
 	case END:
 		can_move = false;
 		can_act = false;
-		//Stage::eraseBrightPoints();
+		Stage::disbrighten();
 		break;
 
 	case WAIT:
@@ -92,17 +92,17 @@ void Enemy::action(){
 		if(can_act){
 			break;
 		} else if(can_move){
-			//if(Cursor::pos().targetted(mypos)){
+			if(Cursor::pos() == mypos){
 				can_move = false;
-				//Stage::eraseBrightPoints();
+				Stage::disbrighten();
 				state = SELECT;
 				break;
-			//}
+			}
 			if(isCountOver(30)){
-				//mypos.set(Cursor::pos().getX(), Cursor::pos().getY());
+				mypos = Cursor::pos();
 				can_move = false;
 				moved = false;
-				//Stage::eraseBrightPoints();
+				Stage::disbrighten();
 				state = SELECT;
 			}
 		}
@@ -135,82 +135,83 @@ bool Enemy::isCountOver(int time){
 	else return false;
 }
 
-//void Enemy::calcMove(vector<Player>& players){
-//	Event::range(mypos, mobility, true);
-//
-//	int finalX = -1, finalY = -1;
-//	int dist = INT_MAX, diff;
-//	for(int y = 0; y < Stage::getHeight(); ++y){
-//		for(int x = 0; x < Stage::getWidth(); ++x){
-//			if(!Stage::isBrightened(x, y) || Stage::getObjectAt(x, y)) continue;
-//
-//			for(auto& player : players){
-//				diff = mypos.getDist(x, y, player.pos().getX(), player.pos().getY());
-//				//最適な間合い（？）
-//				if(diff == attack_range){
-//					finalX = x, finalY = y;
-//					move_pos.set(finalX, finalY);
-//					Stage::eraseBrightPoints();
-//					return;
-//				}
-//
-//				if(diff <= dist){
-//					finalX = x, finalY = y;
-//					dist = diff;
-//
-//				}
-//			}
-//		}
-//	}
-//	move_pos.set(finalX, finalY);
-//	Stage::eraseBrightPoints();
-//}
-//
-//void Enemy::calcAttack(vector<Player>& players){
-//	if(attacked) return;
-//
-//	Event::reachTo(mypos, Event::GetColorAttack(), 1, attack_range);
-//
-//	int finalX, finalY, diff;
-//	for(int y = 0; y < Stage::getHeight(); ++y){
-//		for(int x = 0; x < Stage::getWidth(); ++x){
-//			if(!Stage::isBrightened(x, y)) continue;
-//
-//			for(auto& player : players){
-//				diff = mypos.getDist(x, y, player.pos().getX(), player.pos().getY());
-//				if(diff == 0){
-//					finalX = x, finalY = y;
-//					act_pos.set(finalX, finalY);
-//					can_act = true;
-//					Stage::eraseBrightPoints();
-//					return;
-//				}
-//			}
-//		}
-//	}
-//	//探索にヒットしなかったら
-//	act_pos.set(-1, -1);
-//	Stage::eraseBrightPoints();
-//}
-//
-//void Enemy::attack(vector<Player>& players){
-//	if(act_pos.getX() < 0) return;
-//	if(!can_act && attacked) return;
-//	if(!isCountOver(30)) return;
-//
-//	can_act = false;
-//	attacked = true;
-//	state = SELECT;
-//
-//	if(Stage::isBrightened(Cursor::pos().getX(), Cursor::pos().getY())){
-//		for(auto& player : players){
-//			int diff = str - player.getDef();
-//			if(diff <= 0) continue;
-//
-//			if(player.pos().targetted(Cursor::pos().getX(), Cursor::pos().getY())){
-//				player.setHP(player.getHP() - diff);
-//				break;
-//			}
-//		}
-//	}
-//}
+void Enemy::calcMove(vector<Player>& players){
+	ChipBrightnessManager::range(mypos, mobility, false);
+
+	Position finalpos(-1, -1);
+	int dist = INT_MAX, diff;
+	for(int y = 0; y < Stage::getDepth(); ++y){
+		for(int x = 0; x < Stage::getWidth(); ++x){
+			Position checkpos(x, y);
+			if(!Stage::isBrightened(checkpos) || Stage::getObjectAt(checkpos)) continue;
+
+			for(auto& player : players){
+				diff = mypos.getDist(checkpos, player.pos());
+				//最適な間合い（？）
+				if(diff == attack_range){
+					move_pos = finalpos = checkpos;
+					Stage::disbrighten();
+					return;
+				}
+
+				if(diff <= dist){
+					finalpos = checkpos;
+					dist = diff;
+
+				}
+			}
+		}
+	}
+	move_pos = finalpos;
+	Stage::disbrighten();
+}
+
+void Enemy::calcAttack(vector<Player>& players){
+	if(attacked) return;
+
+	ChipBrightnessManager::reachTo(mypos, ChipBrightnessManager::getColorAttack(), 1, attack_range);
+
+	Position finalpos(-1, -1);
+	int diff;
+	for(int y = 0; y < Stage::getDepth(); ++y){
+		for(int x = 0; x < Stage::getWidth(); ++x){
+			Position checkpos(x, y);
+			if(!Stage::isBrightened(checkpos)) continue;
+
+			for(auto& player : players){
+				diff = mypos.getDist(checkpos, player.pos());
+				if(diff == 0){
+					act_pos = finalpos = checkpos;
+					can_act = true;
+					Stage::disbrighten();
+					return;
+				}
+			}
+		}
+	}
+	//探索にヒットしなかったら
+	act_pos = finalpos;
+	Stage::disbrighten();
+}
+
+void Enemy::attack(vector<Player>& players){
+	if(act_pos.x < 0) return;
+	if(!can_act && attacked) return;
+	if(!isCountOver(30)) return;
+
+	can_act = false;
+	attacked = true;
+	state = SELECT;
+
+	if(Stage::isBrightened(Cursor::pos())){
+		for(auto& player : players){
+			int diff = str - player.getDef();
+			if(diff <= 0) continue;
+
+			if(player.pos() == Cursor::pos()){
+				player.setHP(player.getHP() - diff);
+				break;
+			}
+		}
+	}
+}

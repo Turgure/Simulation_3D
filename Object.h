@@ -88,7 +88,7 @@ public:
 	void attack(vector<Enemy>& enemies);
 
 	Status status;
-	Position pos(){ return mypos;}
+	Position& pos(){ return mypos;}
 
 private:
 	VECTOR myvec;
@@ -112,7 +112,7 @@ public:
 	void attack(vector<Player>& players);
 
 	Status status;
-	Position pos(){ return mypos;}
+	Position& pos(){ return mypos;}
 
 private:
 	int wait_time;

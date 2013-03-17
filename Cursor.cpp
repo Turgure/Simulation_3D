@@ -2,7 +2,6 @@
 #include "Cursor.h"
 #include "GV.h"
 #include "Keyboard.h"
-//#include "Event.h"
 #include "Stage.h"
 
 Position Cursor::mypos;

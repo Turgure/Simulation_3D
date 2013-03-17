@@ -15,13 +15,12 @@ public:
 	void update();
 	void draw();
 	void drawMap();
-	void drawBrightPoints();
+	void drawBrightenedPoints();
 	void lateUpdate();
 
 	static void brighten(const Position& pos, int color);
 	static bool isBrightened(const Position& pos);
-	static void eraseBrightPoint(const Position& pos);
-	static void eraseBrightPoints();
+	static void disbrighten();
 
 	static void setObjectAt(const Position& pos, BaseObject* obj);
 	static BaseObject* getObjectAt(const Position& pos);

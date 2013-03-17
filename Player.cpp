@@ -2,7 +2,7 @@
 #include "Object.h"
 #include "Keyboard.h"
 #include "Cursor.h"
-#include "ChipBrightManager.h"
+#include "ChipBrightnessManager.h"
 #include "Stage.h"
 
 Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility):mypos(x, y){
@@ -22,12 +22,12 @@ Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, 
 
 void Player::update(){
 	myvec = VGet(mypos.y*chipsize, Stage::getHeight(mypos)*chipheight, mypos.x*chipsize);
-	//Stage::setObjectAt(mypos, this);
+	Stage::setObjectAt(mypos, this);
 }
 
 void Player::draw(){
-	DrawSphere3D(VAdd(myvec, VGet(chipsize/2, chipsize/2, chipsize/2)), chipsize/2, 50, image, image, true);
-	//ChipBrightManager::DrawGraphOnMap(mypos, image);
+	DrawSphere3D(VAdd(myvec, VGet(chipsize/2, chipsize/2, chipsize/2)), chipsize/2 -5, 50, image, image, true);
+	
 	//show id on object
 	//DrawFormatString(mypos.getXByPx(), mypos.getYByPx(), GetColor(255,255,255), "%d", id);
 
@@ -39,10 +39,10 @@ void Player::draw(){
 
 	switch(state){
 	case MOVE:
-		ChipBrightManager::range(mypos, mobility, false);
+		ChipBrightnessManager::range(mypos, mobility, false);
 		break;
 	case ACTION:
-		ChipBrightManager::reachTo(mypos, ChipBrightManager::GetColorAttack(), 1, 3);
+		ChipBrightnessManager::reachTo(mypos, ChipBrightnessManager::getColorAttack(), 1, 3);
 		break;
 	default:
 		break;
@@ -50,13 +50,13 @@ void Player::draw(){
 }
 
 void Player::action(){
-//	DrawFormatString(0, 48, GetColor(255,255,255), "player %d's turn.", id);
+	DrawFormatString(0, 0, GetColor(255,255,255), "player %d's turn.", id);
 
 	if(!can_move && !can_act) state = END;
 
 	switch(state){
 	case SELECT:
-		Stage::eraseBrightPoints();
+		Stage::disbrighten();
 		if(mypos == Cursor::pos()){
 			if(Keyboard::pushed(KEY_INPUT_1) && can_move) state = MOVE;
 			if(Keyboard::pushed(KEY_INPUT_2) && can_act) state = ACTION;
@@ -82,7 +82,7 @@ void Player::action(){
 	case END:
 		can_move = false;
 		can_act = false;
-		Stage::eraseBrightPoints();
+		Stage::disbrighten();
 		break;
 	}
 }
