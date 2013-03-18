@@ -21,16 +21,16 @@ void ChipBrightnessManager::range(const Position& pos, int n, bool consider_resi
 	if(n <= 0) return;
 
 	Position topos;
-	int rest[4];
+	int rest;
 	for(int i = 0; i < 4; ++i){
 		topos = pos + dir[i*2];
-		rest[i] = consider_resistance ? n - Stage::getResistance(topos) : n - 1;
+		rest = consider_resistance ? n - Stage::getResistance(topos) : n - 1;
 
-		if(Stage::canMove(topos) && rest[i] >= 0){
+		if(Stage::canMove(topos) && rest >= 0){
 			Stage::brighten(topos, color_move);
 			//敵をすり抜けないようにする
 			if(Stage::getObjectAt(topos)) continue;
-			range(topos, rest[i], consider_resistance);
+			range(topos, rest, consider_resistance);
 		}
 	}
 }

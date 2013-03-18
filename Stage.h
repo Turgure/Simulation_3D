@@ -22,10 +22,10 @@ public:
 	static bool isBrightened(const Position& pos);
 	static void disbrighten();
 
-	static void setObjectAt(const Position& pos, BaseObject* obj);
-	static BaseObject* getObjectAt(const Position& pos);
 	static bool canMove(const Position& pos);
 	static int getResistance(const Position& pos);
+	static void setObjectAt(const Position& pos, BaseObject* obj);
+	static BaseObject* getObjectAt(const Position& pos);
 
 	static int getWidth(){ return width; }
 	static int getDepth(){ return depth; }

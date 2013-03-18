@@ -140,14 +140,6 @@ void Stage::disbrighten(){
 	}
 }
 
-void Stage::setObjectAt(const Position& pos, BaseObject* obj){
-	mapchip[pos.y][pos.x].object = obj;
-}
-
-BaseObject* Stage::getObjectAt(const Position& pos){
-	return mapchip[pos.y][pos.x].object;
-}
-
 bool Stage::canMove(const Position& pos){
 	if(pos.x >= 0 && pos.y >= 0 && pos.x < width && pos.y < depth){
 		return (mapchip[pos.y][pos.x].definition->id != 0);
@@ -158,4 +150,12 @@ bool Stage::canMove(const Position& pos){
 
 int Stage::getResistance(const Position& pos){
 	return mapchip[pos.y][pos.x].definition->resistance;
+}
+
+void Stage::setObjectAt(const Position& pos, BaseObject* obj){
+	mapchip[pos.y][pos.x].object = obj;
+}
+
+BaseObject* Stage::getObjectAt(const Position& pos){
+	return mapchip[pos.y][pos.x].object;
 }

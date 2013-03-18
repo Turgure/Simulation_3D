@@ -21,6 +21,43 @@ void BaseObject::Status::showStatus(int x, int y) const{
 	DrawFormatString(x, y+94, GetColor(255,255,255), "mob %d", mobility);
 }
 
+vector<int> BaseObject::MovingManager::trackMovement(const Position& pos, const Position& topos, int mob){
+	initialize();
+	return getShortestPath(pos, topos, mob);
+}
+
+void BaseObject::MovingManager::initialize(){
+	dir[NORTH] = Position( 0, -1);
+	dir[SOUTH] = Position( 0,  1);
+	dir[WEST]  = Position(-1,  0);
+	dir[EAST]  = Position( 1,  0);
+	Stage::resetCheckedAll();
+	shortest_path.resize(100);
+}
+
+vector<int> BaseObject::MovingManager::getShortestPath(const Position& pos, const Position& topos, int mob){
+	if(mob <= 0) return shortest_path;
+
+	Position checkpos;
+	for(int i = 0; i < DIR_NUM; ++i){
+		checkpos = pos + dir[i];
+
+		if(Stage::isBrightened(checkpos) && (mob-1) >= 0){
+			current_path.push_back(i);
+			if(checkpos == topos){
+				if(current_path.size() < shortest_path.size()){
+					shortest_path = current_path;
+				}
+			}
+			getShortestPath(checkpos, topos, mob-1);
+			current_path.pop_back();
+		}
+	}
+
+	return shortest_path;
+}
+
+
 void ObjectManager::create(vector<Player> &players, string filename, int x, int y){
 	vector<string> status;
 	FileStream::load(filename, status);
@@ -36,7 +73,7 @@ void ObjectManager::create(vector<Player> &players, string filename, int x, int 
 void ObjectManager::create(vector<Enemy> &enemies, string filename){
 	vector<vector<string>> status;
 	FileStream::load(filename, status);
-	
+
 	Position finalpos;
 
 	//int型に変換

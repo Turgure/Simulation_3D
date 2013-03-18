@@ -58,6 +58,18 @@ protected:
 		int mobility;
 	};
 
+	struct MovingManager{
+		vector<int> trackMovement(const Position& pos, const Position& topos, int mob);
+		void initialize();
+		vector<int> getShortestPath(const Position& pos, const Position& topos, int mob);
+
+		enum Direction{NORTH, SOUTH, WEST, EAST, DIR_NUM};
+		Position dir[4];
+		vector<int> path;
+		vector<int> current_path;
+		vector<int> shortest_path;
+	};
+
 public:
 	//0=>SELECT, 1=>MOVE, ACTION=>2, 3=>END, 4=>WAIT
 	State getState() const { return state; }
@@ -91,6 +103,8 @@ public:
 	Position pos;
 
 private:
+	MovingManager mv_manager;
+
 	VECTOR myvec;
 };
 

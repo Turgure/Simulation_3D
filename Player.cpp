@@ -31,7 +31,7 @@ void Player::update(){
 void Player::draw(){
 	//DrawSphere3D(VAdd(myvec, VGet(chipsize/2, chipsize/2, chipsize/2)), chipsize/2 -5, 50, image, image, true);
 	// ３Ｄモデルの描画
-	MV1DrawModel(image ) ;
+	MV1DrawModel(image);
 	//show id on object
 	//DrawFormatString(pos.getXByPx(), pos.getYByPx(), GetColor(255,255,255), "%d", id);
 
@@ -66,6 +66,7 @@ void Player::action(){
 			if(Keyboard::pushed(KEY_INPUT_2) && can_act) state = ACTION;
 			if(Keyboard::pushed(KEY_INPUT_3)) state = END;
 		}
+
 		break;
 
 	case MOVE:
@@ -73,6 +74,9 @@ void Player::action(){
 		if(Keyboard::pushed(KEY_INPUT_1)){
 			state = SELECT;
 			if(Stage::isBrightened(Cursor::pos) && !Stage::getObjectAt(Cursor::pos)){
+
+				mv_manager.path = mv_manager.trackMovement(pos, Cursor::pos, mobility);
+
 				pos = Cursor::pos;
 				can_move = false;
 			}
