@@ -8,7 +8,11 @@ Enemy::Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi, in
 	pos(x, y),
 	move_pos(),
 	act_pos(){
-		image = GetColor(255, 0, 0);
+		// ３Ｄモデルの読み込み
+		model = MV1LoadModel("data/image/3Dmodel/miku.pmd");
+		// ３Ｄモデルのスケールをx軸方向に3倍にする
+		MV1SetScale(model, VGet( 3.0f, 3.0f, 3.0f));
+
 		this->id = id;
 		this->hp = maxhp = hp;
 		this->mp = maxmp = mp;
@@ -28,14 +32,14 @@ Enemy::Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi, in
 
 void Enemy::update(){
 	myvec = VGet(pos.y*chipsize, Stage::getHeight(pos)*chipheight, pos.x*chipsize);
+	//3Dモデルの配置
+	MV1SetPosition(model, VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));
 	Stage::setObjectAt(pos, this);
 }
 
 void Enemy::draw(){
-	DrawSphere3D(VAdd(myvec, VGet(chipsize/2, chipsize/2, chipsize/2)), chipsize/2 -5, 50, image, image, true);
-	
-	//show id on object
-	//DrawFormatString(pos.getXByPx(), pos.getYByPx(), GetColor(255,255,255), "%d", id);
+	// ３Ｄモデルの描画
+	MV1DrawModel(model);
 
 	if(pos == Cursor::pos){
 		showStatus(200, 0);

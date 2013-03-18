@@ -46,7 +46,7 @@ protected:
 
 	protected:
 		int id;
-		int image;
+		int model;
 		string name;
 		int maxhp;
 		int maxmp;
@@ -59,6 +59,13 @@ protected:
 	};
 
 	struct MovingManager{
+		MovingManager(){
+			dir[NORTH] = Position( 0, -1);
+			dir[SOUTH] = Position( 0,  1);
+			dir[WEST]  = Position(-1,  0);
+			dir[EAST]  = Position( 1,  0);
+		}
+
 		vector<int> trackMovement(const Position& pos, const Position& topos, int mob);
 		void initialize();
 		vector<int> getShortestPath(const Position& pos, const Position& topos, int mob);

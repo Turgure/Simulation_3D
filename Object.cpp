@@ -27,11 +27,6 @@ vector<int> BaseObject::MovingManager::trackMovement(const Position& pos, const 
 }
 
 void BaseObject::MovingManager::initialize(){
-	dir[NORTH] = Position( 0, -1);
-	dir[SOUTH] = Position( 0,  1);
-	dir[WEST]  = Position(-1,  0);
-	dir[EAST]  = Position( 1,  0);
-	Stage::resetCheckedAll();
 	shortest_path.resize(100);
 }
 
