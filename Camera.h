@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include<DxLib.h>
 
 class Camera{
@@ -6,30 +6,30 @@ public:
 	Camera();
 	void update();
 
-	//ƒJƒƒ‰‚Ìƒ|ƒWƒVƒ‡ƒ“ƒZƒbƒg
+	//ã‚«ãƒ¡ãƒ©ã®ãƒã‚¸ã‚·ãƒ§ãƒ³ã‚»ãƒƒãƒˆ
 	void setX(int x);
 	void setY(int y);
 	void setZ(int z);
 	
-	//ƒJƒƒ‰‚Ì’‹“_‚ğƒZƒbƒg‚·‚é
+	//ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 	void setTargetX(int targetZ);
 	void setTargetY(int targetY);
 	void setTargetZ(int targetZ);
 
-	//ƒJƒƒ‰‚Ìƒ|ƒWƒVƒ‡ƒ“‚ğ•Ô‚·
+	//ã‚«ãƒ¡ãƒ©ã®ãƒã‚¸ã‚·ãƒ§ãƒ³ã‚’è¿”ã™
 	int getX(){return x;}
 	int getY(){return y;}
 	int getZ(){return  z;}
 
-		//ƒJƒƒ‰‚Ì’‹“_‚ğ•Ô‚·
+		//ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹ã‚’è¿”ã™
 	int getTargetX(){return targetX;}
 	int getTargetY(){return targetY;}
 	int getTargetZ(){return targetZ;}
 
 private:
-	int x, y, z;			//ƒJƒƒ‰‚ÌÀ•W(x,y,z)
-	int targetX, targetY, targetZ;			//ƒJƒƒ‰‚Ì’‹“_(targetX, targetY, targetZ)
+	int x, y, z;			//ã‚«ãƒ¡ãƒ©ã®åº§æ¨™(x,y,z)
+	int targetX, targetY, targetZ;			//ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹(targetX, targetY, targetZ)
 
-	VECTOR pos;		// ƒJƒƒ‰‚ÌÀ•W
-	VECTOR target;	// ƒJƒƒ‰‚Ì’‹“_
+	VECTOR pos;		// ã‚«ãƒ¡ãƒ©ã®åº§æ¨™
+	VECTOR target;	// ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹
 };

@@ -1,12 +1,12 @@
-#include "Camera.h"
+ï»¿#include "Camera.h"
 #include "Keyboard.h"
 Camera::Camera(){
 
-	// ƒJƒƒ‰‚ÌÀ•W‚ğƒZƒbƒg
+	// ã‚«ãƒ¡ãƒ©ã®åº§æ¨™ã‚’ã‚»ãƒƒãƒˆ
 	x = 470;
 	y = 290;
 	z = 330;
-	// ƒJƒƒ‰‚Ì’‹“_‚ğƒZƒbƒg
+	// ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹ã‚’ã‚»ãƒƒãƒˆ
 	targetX = 190;
 	targetY = -56;
 	targetZ = 70;
@@ -14,8 +14,8 @@ Camera::Camera(){
 
 void Camera::update(){
 
-	//ƒJƒƒ‰ƒeƒXƒg—p‚Å‚·
-	//ƒJƒƒ‰‚ÌˆÊ’u‚ğˆÚ“®
+	//ã‚«ãƒ¡ãƒ©ãƒ†ã‚¹ãƒˆç”¨ã§ã™
+	//ã‚«ãƒ¡ãƒ©ã®ä½ç½®ã‚’ç§»å‹•
 	if(Keyboard::pushing(KEY_INPUT_Z) ){
 		x += 3;
 	}
@@ -35,7 +35,7 @@ void Camera::update(){
 		z -= 3;
 	}
 
-	//ƒJƒƒ‰‚Ì’‹“_‚Ì‚İˆÚ“®
+	//ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹ã®ã¿ç§»å‹•
 	if(Keyboard::pushing(KEY_INPUT_V) ){
 		targetX += 3;
 	}
@@ -55,7 +55,7 @@ void Camera::update(){
 		targetZ -= 3;
 	}
 
-	//ƒJƒƒ‰‚ğ•½sˆÚ“®
+	//ã‚«ãƒ¡ãƒ©ã‚’å¹³è¡Œç§»å‹•
 	if(Keyboard::pushing(KEY_INPUT_Q) ){
 		x += 3;
 		targetX +=3;
@@ -85,10 +85,10 @@ void Camera::update(){
 	pos = VGet( x, y, z);
 	target = VGet(targetX,targetY,targetZ);
 
-	//	•½sˆÚ“®
+	//	å¹³è¡Œç§»å‹•
 	//target = VAdd(pos, target);
 
 
-	// ƒJƒƒ‰‚ÌˆÊ’u‚ÆŒü‚«‚ğƒZƒbƒg‚·‚é
+	// ã‚«ãƒ¡ãƒ©ã®ä½ç½®ã¨å‘ãã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 	SetCameraPositionAndTarget_UpVecY(pos, target);
 }
