@@ -21,17 +21,18 @@ void BaseObject::Status::showStatus(int x, int y) const{
 	DrawFormatString(x, y+94, GetColor(255,255,255), "mob %d", mobility);
 }
 
-vector<int> BaseObject::MovingManager::trackMovement(const Position& pos, const Position& topos, int mob){
+void BaseObject::MovingManager::trackMovement(const Position& pos, const Position& topos, int mob){
 	initialize();
-	return getShortestPath(pos, topos, mob);
+	calcShortestPath(pos, topos, mob);
+	path = shortest_path;
 }
 
 void BaseObject::MovingManager::initialize(){
 	shortest_path.resize(100);
 }
 
-vector<int> BaseObject::MovingManager::getShortestPath(const Position& pos, const Position& topos, int mob){
-	if(mob <= 0) return shortest_path;
+void BaseObject::MovingManager::calcShortestPath(const Position& pos, const Position& topos, int mob){
+	if(mob <= 0) return;
 
 	Position checkpos;
 	for(int i = 0; i < DIR_NUM; ++i){
@@ -44,12 +45,10 @@ vector<int> BaseObject::MovingManager::getShortestPath(const Position& pos, cons
 					shortest_path = current_path;
 				}
 			}
-			getShortestPath(checkpos, topos, mob-1);
+			calcShortestPath(checkpos, topos, mob-1);
 			current_path.pop_back();
 		}
 	}
-
-	return shortest_path;
 }
 
 

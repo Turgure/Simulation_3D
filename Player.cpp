@@ -25,7 +25,7 @@ Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, 
 }
 
 void Player::update(){
-	myvec = VGet(pos.y*chipsize, Stage::getHeight(pos)*chipheight, pos.x*chipsize);
+	myvec = VAdd(VGet(pos.y*chipsize, Stage::getHeight(pos)*chipheight, pos.x*chipsize), mv_mng.diff);
 	//3Dモデルの配置
 	MV1SetPosition(model, VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));
 	Stage::setObjectAt(pos, this);
@@ -35,8 +35,8 @@ void Player::draw(){
 	// ３Ｄモデルの描画
 	MV1DrawModel(model);
 
-	for(int i = 0; i < mv_manager.path.size(); ++i)
-		DrawFormatString(i*16, 100, GetColor(255,255,255), "%d", mv_manager.path[i]);
+	for(int i = 0; i < mv_mng.path.size(); ++i)
+		DrawFormatString(i*16, 100, GetColor(255,255,255), "%d", mv_mng.path[i]);
 
 	if(pos == Cursor::pos){
 		showStatus(200, 0);
@@ -78,9 +78,8 @@ void Player::action(){
 			state = SELECT;
 			if(Stage::isBrightened(Cursor::pos) && !Stage::getObjectAt(Cursor::pos)){
 
-				mv_manager.path = mv_manager.trackMovement(pos, Cursor::pos, mobility);
-
-				pos = Cursor::pos;
+				mv_mng.trackMovement(pos, Cursor::pos, mobility);
+				state = WAIT;
 				can_move = false;
 			}
 		}
@@ -94,6 +93,24 @@ void Player::action(){
 		can_move = false;
 		can_act = false;
 		Stage::disbrighten();
+		break;
+
+	case WAIT:
+		static int p;
+		mv_mng.current_direction = mv_mng.path[p];
+		Position topos = pos + mv_mng.dir[mv_mng.current_direction];
+		mv_mng.diff = VAdd(mv_mng.diff,
+			VGet(mv_mng.dir[mv_mng.current_direction].y*chipsize*mv_mng.moving_rate, 0.0f, mv_mng.dir[mv_mng.current_direction].x*chipsize*mv_mng.moving_rate));
+
+		if(abs(topos.x*chipsize-myvec.z) < 1.0 && abs(topos.y*chipsize-myvec.x) < 1.0){
+			pos = topos;
+			mv_mng.diff = VGet(0.0f, 0.0f, 0.0f);
+			++p;
+			if(topos == Cursor::pos){
+				p = 0;
+				state = SELECT;
+			}
+		}
 		break;
 	}
 }

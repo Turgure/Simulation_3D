@@ -64,17 +64,25 @@ protected:
 			dir[SOUTH] = Position( 0,  1);
 			dir[WEST]  = Position(-1,  0);
 			dir[EAST]  = Position( 1,  0);
+
+			moving_rate = 0.0333333;	//1/30
+			diff = VGet(0.0f,0.0f,0.0f);
 		}
-
-		vector<int> trackMovement(const Position& pos, const Position& topos, int mob);
+		void trackMovement(const Position& pos, const Position& topos, int mob);
 		void initialize();
-		vector<int> getShortestPath(const Position& pos, const Position& topos, int mob);
-
+		void calcShortestPath(const Position& pos, const Position& topos, int mob);
 		enum Direction{NORTH, SOUTH, WEST, EAST, DIR_NUM};
 		Position dir[4];
 		vector<int> path;
+		
+		void move();
+		int current_direction;
+		double moving_rate;
+		VECTOR diff;
+	private:
 		vector<int> current_path;
 		vector<int> shortest_path;
+
 	};
 
 public:
@@ -110,7 +118,7 @@ public:
 	Position pos;
 
 private:
-	MovingManager mv_manager;
+	MovingManager mv_mng;
 
 	VECTOR myvec;
 };
