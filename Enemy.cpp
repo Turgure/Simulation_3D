@@ -11,7 +11,7 @@ Enemy::Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi, in
 		// ３Ｄモデルの読み込み
 		model = MV1LoadModel("data/image/3Dmodel/miku.pmd");
 		// ３Ｄモデルのスケールをx軸方向に3倍にする
-		MV1SetScale(model, VGet( 3.0f, 3.0f, 3.0f));
+		MV1SetScale(model, VGet(3.0f, 3.0f, 3.0f));
 
 		this->id = id;
 		this->hp = maxhp = hp;
@@ -31,7 +31,7 @@ Enemy::Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi, in
 }
 
 void Enemy::update(){
-	myvec = VGet(pos.y*chipsize, Stage::getHeight(pos)*chipheight, pos.x*chipsize);
+	myvec = VAdd(VGet(pos.y*chipsize, Stage::getHeight(pos)*chipheight, pos.x*chipsize), mv_mng.diff);
 	//3Dモデルの配置
 	MV1SetPosition(model, VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));
 	Stage::setObjectAt(pos, this);
@@ -96,16 +96,28 @@ void Enemy::action(){
 		if(can_act){
 			break;
 		} else if(can_move){
-			if(Cursor::pos == pos){
-				can_move = false;
-				Stage::disbrighten();
-				state = SELECT;
-				break;
-			}
 			if(isCountOver(30)){
-				pos = Cursor::pos;
 				can_move = false;
-				moved = false;
+				mv_mng.trackMovement(pos, Cursor::pos, mobility);
+				state = MOVING;
+			}
+		}
+		break;
+
+	case MOVING:
+		static int p;
+		mv_mng.current_direction = mv_mng.path[p];
+		Position topos = pos + mv_mng.dir[mv_mng.current_direction];
+		mv_mng.diff = VAdd(mv_mng.diff,
+			VGet(mv_mng.dir[mv_mng.current_direction].y*chipsize*mv_mng.moving_rate, 0.0f, mv_mng.dir[mv_mng.current_direction].x*chipsize*mv_mng.moving_rate));
+
+		if(abs(topos.x*chipsize-myvec.z) < 1.0 && abs(topos.y*chipsize-myvec.x) < 1.0){
+			pos = topos;
+			mv_mng.diff = VGet(0.0f, 0.0f, 0.0f);
+			++p;
+			if(p == mv_mng.path.size()){
+				p = 0;
+				moved = true;
 				Stage::disbrighten();
 				state = SELECT;
 			}

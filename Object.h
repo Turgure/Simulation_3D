@@ -21,7 +21,7 @@ protected:
 	virtual void action(){};
 	virtual void endMyTurn(){};
 
-	enum State{SELECT, MOVE, ACTION, END, WAIT} state;
+	enum State{SELECT, MOVE, ACTION, END, WAIT, MOVING} state;
 	int ATBgauge;
 	bool can_move;
 	bool can_act;
@@ -65,7 +65,7 @@ protected:
 			dir[WEST]  = Position(-1,  0);
 			dir[EAST]  = Position( 1,  0);
 
-			moving_rate = 0.0333333;	//1/30
+			moving_rate = 0.05;	//1/20
 			diff = VGet(0.0f,0.0f,0.0f);
 		}
 		void trackMovement(const Position& pos, const Position& topos, int mob);
@@ -147,6 +147,7 @@ private:
 	int attack_range;
 	bool moved;
 	bool attacked;
+	MovingManager mv_mng;
 
 	VECTOR myvec;
 	Position move_pos;

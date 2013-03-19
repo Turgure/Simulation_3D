@@ -35,9 +35,6 @@ void Player::draw(){
 	// ３Ｄモデルの描画
 	MV1DrawModel(model);
 
-	for(int i = 0; i < mv_mng.path.size(); ++i)
-		DrawFormatString(i*16, 100, GetColor(255,255,255), "%d", mv_mng.path[i]);
-
 	if(pos == Cursor::pos){
 		showStatus(200, 0);
 	}
@@ -79,7 +76,7 @@ void Player::action(){
 			if(Stage::isBrightened(Cursor::pos) && !Stage::getObjectAt(Cursor::pos)){
 
 				mv_mng.trackMovement(pos, Cursor::pos, mobility);
-				state = WAIT;
+				state = MOVING;
 				can_move = false;
 			}
 		}
@@ -95,7 +92,7 @@ void Player::action(){
 		Stage::disbrighten();
 		break;
 
-	case WAIT:
+	case MOVING:
 		static int p;
 		mv_mng.current_direction = mv_mng.path[p];
 		Position topos = pos + mv_mng.dir[mv_mng.current_direction];
@@ -106,7 +103,7 @@ void Player::action(){
 			pos = topos;
 			mv_mng.diff = VGet(0.0f, 0.0f, 0.0f);
 			++p;
-			if(topos == Cursor::pos){
+			if(p == mv_mng.path.size()){
 				p = 0;
 				state = SELECT;
 			}
