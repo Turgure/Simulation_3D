@@ -24,20 +24,21 @@ void ChipBrightnessManager::range(const Position& pos, int n, bool consider_resi
 	int rest;
 	for(int i = 0; i < 4; ++i){
 		topos = pos + dir[i*2];
-		rest = consider_resistance ? n - Stage::getResistance(topos) : n - 1;
-
-		if(Stage::canMove(topos) && rest >= 0){
-			Stage::brighten(topos, color_move);
-			//敵をすり抜けないようにする
-			if(Stage::getObjectAt(topos)) continue;
-			range(topos, rest, consider_resistance);
+		if(Stage::canMove(topos)){
+			rest = consider_resistance ? n - Stage::getResistance(topos) : n - 1;
+			if(rest >= 0){
+				Stage::brighten(topos, color_move);
+				//敵をすり抜けないようにする
+				if(Stage::getObjectAt(topos)) continue;
+				range(topos, rest, consider_resistance);
+			}
 		}
 	}
 }
 
 void ChipBrightnessManager::reachAt(const Position& pos, int color, int n){
 	Position topos;
-	
+
 	for(int m = 0; m < n; ++m){
 		topos.set(pos.x -n+m, pos.y -m);
 		if(Stage::canMove(topos)){

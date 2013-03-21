@@ -43,7 +43,7 @@ void Player::draw(){
 
 	switch(state){
 	case MOVE:
-		ChipBrightnessManager::range(pos, mobility, false);
+		ChipBrightnessManager::range(pos, mobility, true);
 		break;
 	case ACTION:
 		ChipBrightnessManager::reachTo(pos, ChipBrightnessManager::getColorAttack(), 1, 3);

@@ -47,7 +47,7 @@ void Enemy::draw(){
 
 	switch(state){
 	case MOVE:
-		ChipBrightnessManager::range(pos, mobility, false);
+		ChipBrightnessManager::range(pos, mobility, true);
 		break;
 	case ACTION:
 		if(can_act)
@@ -152,7 +152,7 @@ bool Enemy::isCountOver(int time){
 }
 
 void Enemy::calcMove(vector<Player>& players){
-	ChipBrightnessManager::range(pos, mobility, false);
+	ChipBrightnessManager::range(pos, mobility, true);
 
 	Position finalpos(-1, -1);
 	int dist = INT_MAX, diff;
@@ -188,15 +188,13 @@ void Enemy::calcAttack(vector<Player>& players){
 	ChipBrightnessManager::reachTo(pos, ChipBrightnessManager::getColorAttack(), 1, attack_range);
 
 	Position finalpos(-1, -1);
-	int diff;
 	for(int y = 0; y < Stage::getDepth(); ++y){
 		for(int x = 0; x < Stage::getWidth(); ++x){
 			Position checkpos(x, y);
 			if(!Stage::isBrightened(checkpos)) continue;
 
 			for(auto& player : players){
-				diff = pos.getDist(checkpos, player.pos);
-				if(diff == 0){
+				if(checkpos == player.pos){
 					act_pos = finalpos = checkpos;
 					can_act = true;
 					Stage::disbrighten();
@@ -230,4 +228,6 @@ void Enemy::attack(vector<Player>& players){
 			}
 		}
 	}
+
+	Stage::disbrighten();
 }
