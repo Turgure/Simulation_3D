@@ -76,7 +76,8 @@ protected:
 		vector<int> path;
 		
 		void move();
-		int current_direction;
+		void setObjectDirection(int MHandle);
+		int current_dir;
 		double moving_rate;
 		VECTOR diff;
 	private:

@@ -6,10 +6,10 @@
 #include "Stage.h"
 
 Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility):pos(x, y){
-	// ３Ｄモデルの読み込み
 	model = MV1LoadModel("data/image/3Dmodel/boko.pmd");
-	// ３Ｄモデルのスケールをx軸方向に3倍にする
-	MV1SetScale(model, VGet(3.0f, 3.0f, 3.0f));
+	MV1SetScale(model, VGet(3.0f, 3.0f, 3.0f));	//拡大
+	MV1SetRotationXYZ(model, VGet(0.0f, 90 * DX_PI_F/180.0f, 0.0f));	//向き
+	mv_mng.current_dir = mv_mng.NORTH;
 
 	this->id = id;
 	this->hp = maxhp = hp;
@@ -93,18 +93,19 @@ void Player::action(){
 		break;
 
 	case MOVING:
-		static int p;
-		mv_mng.current_direction = mv_mng.path[p];
-		Position topos = pos + mv_mng.dir[mv_mng.current_direction];
+		static int order;
+		mv_mng.current_dir = mv_mng.path[order];
+		mv_mng.setObjectDirection(model);
+
+		Position topos = pos + mv_mng.dir[mv_mng.current_dir];
 		mv_mng.diff = VAdd(mv_mng.diff,
-			VGet(mv_mng.dir[mv_mng.current_direction].y*chipsize*mv_mng.moving_rate, 0.0f, mv_mng.dir[mv_mng.current_direction].x*chipsize*mv_mng.moving_rate));
+			VGet(mv_mng.dir[mv_mng.current_dir].y*chipsize*mv_mng.moving_rate, 0.0f, mv_mng.dir[mv_mng.current_dir].x*chipsize*mv_mng.moving_rate));
 
 		if(abs(topos.x*chipsize-myvec.z) < 1.0 && abs(topos.y*chipsize-myvec.x) < 1.0){
 			pos = topos;
 			mv_mng.diff = VGet(0.0f, 0.0f, 0.0f);
-			++p;
-			if(p == mv_mng.path.size()){
-				p = 0;
+			if(++order == mv_mng.path.size()){
+				order = 0;
 				state = SELECT;
 			}
 		}

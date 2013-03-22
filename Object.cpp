@@ -3,6 +3,7 @@
 #include "FileStream.h"
 #include "Stage.h"
 
+///BaseObject
 bool BaseObject::isMyTurn(){
 	if(ATBgauge <= 0){
 		ATBgauge = 0;
@@ -11,6 +12,8 @@ bool BaseObject::isMyTurn(){
 	else return false;
 }
 
+
+///BaseObjec::Status
 void BaseObject::Status::showStatus(int x, int y) const{
 	DrawFormatString(x, y+ 0, GetColor(255,255,255), "id  %d", id);
 	DrawFormatString(x, y+16, GetColor(255,255,255), "hp  %d/%d", hp, maxhp);
@@ -21,6 +24,8 @@ void BaseObject::Status::showStatus(int x, int y) const{
 	DrawFormatString(x, y+94, GetColor(255,255,255), "mob %d", mobility);
 }
 
+
+///BaseObject::MovingManager
 void BaseObject::MovingManager::trackMovement(const Position& pos, const Position& topos, int mob){
 	initialize();
 	calcShortestPath(pos, topos, mob);
@@ -52,6 +57,26 @@ void BaseObject::MovingManager::calcShortestPath(const Position& pos, const Posi
 }
 
 
+void BaseObject::MovingManager::setObjectDirection(int MHandle){
+	//Z軸の負の向きが始線。回転角は時計回り
+	switch(current_dir){
+	case NORTH:
+		MV1SetRotationXYZ(MHandle, VGet(0.0f, DX_PI_F/2, 0.0f));
+		break;
+	case SOUTH:
+		MV1SetRotationXYZ(MHandle, VGet(0.0f, -DX_PI_F/2, 0.0f));
+		break;
+	case WEST:
+		MV1SetRotationXYZ(MHandle, VGet(0.0f, 0.0f, 0.0f));
+		break;
+	case EAST:
+		MV1SetRotationXYZ(MHandle, VGet(0.0f, DX_PI_F, 0.0f));
+		break;
+	}
+}
+
+
+///ObjectManager
 void ObjectManager::create(vector<Player> &players, string filename, int x, int y){
 	vector<string> status;
 	FileStream::load(filename, status);
