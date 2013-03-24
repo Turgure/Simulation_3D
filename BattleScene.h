@@ -21,6 +21,7 @@ private:
 
 	Stage stage;
 	Cursor cursor;
+
 	vector<Player> players;
 	vector<Enemy> enemies;
 };

@@ -16,67 +16,67 @@ void Camera::update(){
 
 	//カメラテスト用です
 	//カメラの位置を移動
-	if(Keyboard::pushing(KEY_INPUT_Z) ){
+	if(Keyboard::pushing(KEY_INPUT_A) ){
 		x += 3;
 	}
-	if(Keyboard::pushing(KEY_INPUT_A) ){
+	if(Keyboard::pushing(KEY_INPUT_Q) ){
 		x -= 3;
 	}
-	if(Keyboard::pushing(KEY_INPUT_X) ){
+	if(Keyboard::pushing(KEY_INPUT_S) ){
 		y += 3;
 	}
-	if(Keyboard::pushing(KEY_INPUT_S) ){
+	if(Keyboard::pushing(KEY_INPUT_W) ){
 		y -= 3;
 	}
-	if(Keyboard::pushing(KEY_INPUT_C) ){
+	if(Keyboard::pushing(KEY_INPUT_D) ){
 		z += 3;
 	}
-	if(Keyboard::pushing(KEY_INPUT_D) ){
+	if(Keyboard::pushing(KEY_INPUT_E) ){
 		z -= 3;
 	}
 
 	//カメラの注視点のみ移動
-	if(Keyboard::pushing(KEY_INPUT_V) ){
+	if(Keyboard::pushing(KEY_INPUT_F) ){
 		targetX += 3;
 	}
-	if(Keyboard::pushing(KEY_INPUT_F) ){
+	if(Keyboard::pushing(KEY_INPUT_R) ){
 		targetX -= 3;
 	}
-	if(Keyboard::pushing(KEY_INPUT_B) ){
+	if(Keyboard::pushing(KEY_INPUT_G) ){
 		targetY += 3;
 	}
-	if(Keyboard::pushing(KEY_INPUT_G) ){
+	if(Keyboard::pushing(KEY_INPUT_T) ){
 		targetY -= 3;
 	}
-	if(Keyboard::pushing(KEY_INPUT_N) ){
+	if(Keyboard::pushing(KEY_INPUT_H) ){
 		targetZ += 3;
 	}
-	if(Keyboard::pushing(KEY_INPUT_H) ){
+	if(Keyboard::pushing(KEY_INPUT_Y) ){
 		targetZ -= 3;
 	}
 
 	//カメラを平行移動
-	if(Keyboard::pushing(KEY_INPUT_Q) ){
+	if(Keyboard::pushing(KEY_INPUT_1) ){
 		x += 3;
 		targetX +=3;
 	}
-	if(Keyboard::pushing(KEY_INPUT_W) ){
+	if(Keyboard::pushing(KEY_INPUT_2) ){
 		x -= 3;
 		targetX -= 3;
 	}
-	if(Keyboard::pushing(KEY_INPUT_E) ){
+	if(Keyboard::pushing(KEY_INPUT_3) ){
 		y += 3;
 		targetY += 3;
 	}
-	if(Keyboard::pushing(KEY_INPUT_R) ){
+	if(Keyboard::pushing(KEY_INPUT_4) ){
 		y -= 3;
 		targetY -= 3;
 	}
-	if(Keyboard::pushing(KEY_INPUT_T) ){
+	if(Keyboard::pushing(KEY_INPUT_5) ){
 		z += 3;
 		targetZ += 3;
 	}
-	if(Keyboard::pushing(KEY_INPUT_Y) ){
+	if(Keyboard::pushing(KEY_INPUT_6) ){
 		z -= 3;
 		targetZ -= 3;
 	}

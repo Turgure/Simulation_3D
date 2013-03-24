@@ -22,6 +22,10 @@ Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, 
 	ATBgauge = 100;
 	can_move = true;
 	can_act = true;
+
+	commandSelect.add(400,  0, "MOVE");
+	commandSelect.add(400, 20, "ACTION");
+	commandSelect.add(400, 40, "END");
 }
 
 void Player::update(){
@@ -29,6 +33,14 @@ void Player::update(){
 	//3Dモデルの配置
 	MV1SetPosition(model, VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));
 	Stage::setObjectAt(pos, this);
+
+	switch(state){
+	case SELECT:
+		commandSelect.update();
+		break;
+	default:
+		break;
+	}
 }
 
 void Player::draw(){
@@ -39,7 +51,9 @@ void Player::draw(){
 		showStatus(200, 0);
 	}
 
-	showCommand();
+	if(isMyTurn()){
+		showCommand();
+	}
 
 	switch(state){
 	case MOVE:
@@ -62,22 +76,36 @@ void Player::action(){
 	case SELECT:
 		Stage::disbrighten();
 		if(pos == Cursor::pos){
-			if(Keyboard::pushed(KEY_INPUT_1) && can_move) state = MOVE;
-			if(Keyboard::pushed(KEY_INPUT_2) && can_act) state = ACTION;
-			if(Keyboard::pushed(KEY_INPUT_3)) state = END;
+			if(Keyboard::pushed(KEY_INPUT_Z)){
+				if(commandSelect.getCommand() == "MOVE" && can_move){
+					state = MOVE;
+				}
+				if(commandSelect.getCommand() == "ACTION" && can_act){
+					state = ACTION;
+				}
+				if(commandSelect.getCommand() == "END"){
+					state = END;
+				}
+			}
+			if(Keyboard::pushed(KEY_INPUT_X)){
+				state = WAIT;
+			}
 		}
 
 		break;
 
 	case MOVE:
-		if(Keyboard::pushed(KEY_INPUT_3)) state = SELECT;
-		if(Keyboard::pushed(KEY_INPUT_1)){
+		if(Keyboard::pushed(KEY_INPUT_X)){
 			state = SELECT;
+			Cursor::pos = pos;
+		}
+		if(Keyboard::pushed(KEY_INPUT_Z)){
 			if(Stage::isBrightened(Cursor::pos) && !Stage::getObjectAt(Cursor::pos)){
-
-				mv_mng.trackMovement(pos, Cursor::pos, mobility);
 				state = MOVING;
-				can_move = false;
+				mv_mng.trackMovement(pos, Cursor::pos, mobility);
+			} else {
+				state = SELECT;
+				Cursor::pos = pos;
 			}
 		}
 		break;
@@ -90,6 +118,18 @@ void Player::action(){
 		can_move = false;
 		can_act = false;
 		Stage::disbrighten();
+		break;
+
+	case WAIT:
+		if(Keyboard::pushed(KEY_INPUT_Z)){
+			if(Cursor::pos == pos){
+				state = SELECT;
+			}
+		}
+		if(Keyboard::pushed(KEY_INPUT_X)){
+			state = SELECT;
+			Cursor::pos = pos;
+		}
 		break;
 
 	case MOVING:
@@ -106,6 +146,8 @@ void Player::action(){
 			mv_mng.diff = VGet(0.0f, 0.0f, 0.0f);
 			if(++order == mv_mng.path.size()){
 				order = 0;
+				can_move = false;
+				Stage::disbrighten();
 				state = SELECT;
 			}
 		}
@@ -115,6 +157,7 @@ void Player::action(){
 
 void Player::endMyTurn(){
 	state = SELECT;
+	commandSelect.setSelectNum(0);
 	ATBgauge += 20;
 	if(!can_move) ATBgauge += 40;
 	if(!can_act) ATBgauge += 60;
@@ -130,29 +173,17 @@ void Player::showCommand(){
 	switch(state){
 	case SELECT:
 		if(pos == Cursor::pos){
-			if(can_move){
-				DrawString(400, 0, "MOVE   : key 1", GetColor(255,255,255));
-			}
-			if(can_act){
-				DrawString(400, 16, "ACTION : key 2", GetColor(255,255,255));
-			}
-			DrawString(400, 32, "END    : key 3", GetColor(255,255,255));
+			commandSelect.draw();
 		}
 		break;
 	case MOVE:
 		DrawString(400,  0, "where?", GetColor(255,255,255));
-		DrawString(400, 16, "assign : key 1", GetColor(255,255,255));
-		DrawString(400, 32, "cancel : key 3", GetColor(255,255,255));
 		break;
 	case ACTION:
 		DrawString(400,  0, "to whom?", GetColor(255,255,255));
-		DrawString(400, 16, "assign : key 1", GetColor(255,255,255));
-		DrawString(400, 32, "cancel : key 3", GetColor(255,255,255));
 		break;
 	case END:
-		if(pos == Cursor::pos){
-			DrawString(400,  0, "end.", GetColor(255,255,255));
-		}
+		DrawString(400,  0, "end.", GetColor(255,255,255));
 		break;
 	}
 }
@@ -160,12 +191,16 @@ void Player::showCommand(){
 void Player::attack(vector<Enemy> &enemies){
 	if(state != ACTION) return;
 
-	if(Keyboard::pushed(KEY_INPUT_3)) state = SELECT;
-	if(Keyboard::pushed(KEY_INPUT_1)){
+	if(Keyboard::pushed(KEY_INPUT_X)){
 		state = SELECT;
+		Cursor::pos = pos;
+	}
+	if(Keyboard::pushed(KEY_INPUT_Z)){
 		for(auto& enemy : enemies){
 			if(Stage::isBrightened(Cursor::pos)){
 				if(enemy.pos == Cursor::pos){
+					state = SELECT;
+					Cursor::pos = pos;
 					can_act = false;
 
 					int diff = str - enemy.getDef();
@@ -175,7 +210,11 @@ void Player::attack(vector<Enemy> &enemies){
 					enemy.setHP(enemy.getHP() - diff);
 					break;
 				}
+			} else {
+				state = SELECT;
+				Cursor::pos = pos;
 			}
 		}
+		Stage::disbrighten();
 	}
 }

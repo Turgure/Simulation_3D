@@ -3,6 +3,7 @@
 #include <string>
 #include "GV.h"
 #include "Position.h"
+#include "CommandSelect.h"
 using namespace std;
 
 //オブジェクトの基底クラス
@@ -14,6 +15,7 @@ public:
 	virtual void stepATBgauge(){};
 	bool isMyTurn();
 
+	enum State{SELECT, MOVE, ACTION, END, WAIT, MOVING} state;
 
 protected:
 	virtual void update(){};
@@ -21,7 +23,6 @@ protected:
 	virtual void action(){};
 	virtual void endMyTurn(){};
 
-	enum State{SELECT, MOVE, ACTION, END, WAIT, MOVING} state;
 	int ATBgauge;
 	bool can_move;
 	bool can_act;
@@ -85,10 +86,6 @@ protected:
 		vector<int> shortest_path;
 
 	};
-
-public:
-	//0=>SELECT, 1=>MOVE, ACTION=>2, 3=>END, 4=>WAIT
-	State getState() const { return state; }
 };
 
 class Player;
@@ -116,6 +113,7 @@ public:
 	void attack(vector<Enemy>& enemies);
 
 	Status status;
+	CommandSelect commandSelect;
 	Position pos;
 
 private:

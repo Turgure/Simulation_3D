@@ -67,9 +67,17 @@ void BattleScene::update(){
 			if(!player.isMyTurn()) continue;
 			act_only_one = true;
 			
-			cursor.manipulate();	//プレイヤーターンのみカーソルを動かすようにする
-			player.action();
+			switch(player.state){//コマンド選択時以外動かす
+			case player.WAIT:
+			case player.MOVE:
+			case player.ACTION:
+			case player.END:
+				cursor.manipulate();
+				break;
+			}
+
 			player.attack(enemies);
+			player.action();
 			if(Keyboard::pushed(KEY_INPUT_9)){
 				player.endMyTurn();
 				has_come_turn = false;
@@ -83,14 +91,14 @@ void BattleScene::update(){
 		for(auto& enemy : enemies){
 			if(!enemy.isMyTurn()) continue;
 
-			if(enemy.getState() == 0){
+			if(enemy.state == enemy.SELECT){
 				enemy.calcMove(players);
 				enemy.calcAttack(players);
 			}
 			enemy.action();
 			enemy.attack(players);
 
-			if(enemy.getState() == 3){
+			if(enemy.state == enemy.END){
 				enemy.endMyTurn();
 				has_come_turn = false;
 			}
