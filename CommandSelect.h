@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include <vector>
+#include <string>
+using namespace std;
 
 class CommandSelect{
 private:
@@ -7,16 +9,16 @@ private:
 	
 public:
 	struct Contents{
-		Contents(int x, int y, char* words):x(x), y(y), words(words){};
+		Contents(int x, int y, string words):x(x), y(y), words(words){};
 		int x, y;
-		char* words;
+		string words;
 	};
-	std::vector<Contents> content;
+	vector<Contents> content;
 
 	CommandSelect():select_num(0){};
 	void update();
 	void draw();
-	void add(int x, int y, char* words);
+	void add(int x, int y, string words);
 	void setSelectNum(int select_num);
-	char* getCommand() const;
+	string getCommand() const;
 };

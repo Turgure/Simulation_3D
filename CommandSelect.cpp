@@ -13,14 +13,14 @@ void CommandSelect::update(){
 void CommandSelect::draw(){
 	for(unsigned int i = 0; i < content.size(); ++i){
 		if(i == select_num){
-			DrawFormatString(content[i].x, content[i].y, GetColor(255,255,255), "-> %s", content[i].words);
+			DrawFormatString(content[i].x, content[i].y, GetColor(255,255,255), "-> %s", content[i].words.c_str());
 		} else {
-			DrawFormatString(content[i].x, content[i].y, GetColor(255,255,255), "   %s", content[i].words);
+			DrawFormatString(content[i].x, content[i].y, GetColor(255,255,255), "   %s", content[i].words.c_str());
 		}
 	}
 }
 
-void CommandSelect::add(int x, int y, char* words){
+void CommandSelect::add(int x, int y, string words){
 	content.push_back( Contents(x, y, words) );
 }
 
@@ -28,6 +28,6 @@ void CommandSelect::setSelectNum(int select_num){
 	this->select_num = select_num;
 }
 
-char* CommandSelect::getCommand() const{
+string CommandSelect::getCommand() const{
 	return content[select_num].words;
 }
