@@ -20,5 +20,5 @@ public:
 	void draw();
 	void add(int x, int y, string words);
 	void setSelectNum(int select_num);
-	string getCommand() const;
+	bool commandIs(string words) const;
 };

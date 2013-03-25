@@ -77,13 +77,13 @@ void Player::action(){
 		Stage::disbrighten();
 		if(pos == Cursor::pos){
 			if(Keyboard::pushed(KEY_INPUT_Z)){
-				if(commandSelect.getCommand() == "MOVE" && can_move){
+				if(commandSelect.commandIs("MOVE") && can_move){
 					state = MOVE;
 				}
-				if(commandSelect.getCommand() == "ACTION" && can_act){
+				if(commandSelect.commandIs("ACTION") && can_act){
 					state = ACTION;
 				}
-				if(commandSelect.getCommand() == "END"){
+				if(commandSelect.commandIs("END")){
 					state = END;
 				}
 			}

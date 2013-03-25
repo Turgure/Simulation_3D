@@ -28,6 +28,6 @@ void CommandSelect::setSelectNum(int select_num){
 	this->select_num = select_num;
 }
 
-string CommandSelect::getCommand() const{
-	return content[select_num].words;
+bool CommandSelect::commandIs(string words) const{
+	return (content[select_num].words == words);
 }
