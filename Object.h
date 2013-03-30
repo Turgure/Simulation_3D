@@ -3,7 +3,7 @@
 #include <string>
 #include "GV.h"
 #include "Position.h"
-#include "CommandSelect.h"
+#include "Command.h"
 using namespace std;
 
 //オブジェクトの基底クラス
@@ -113,7 +113,7 @@ public:
 	void attack(vector<Enemy>& enemies);
 
 	Status status;
-	CommandSelect commandSelect;
+	CommandSelect command;
 	Position pos;
 
 private:

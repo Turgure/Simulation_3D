@@ -69,11 +69,11 @@
     <ClCompile Include="ChipBrightnessManager.cpp">
       <Filter>ソース ファイル\Map</Filter>
     </ClCompile>
-    <ClCompile Include="CommandSelect.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,7 +113,7 @@
     <ClInclude Include="Stage.h">
       <Filter>ヘッダー ファイル\Map</Filter>
     </ClInclude>
-    <ClInclude Include="CommandSelect.h">
+    <ClInclude Include="Command.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

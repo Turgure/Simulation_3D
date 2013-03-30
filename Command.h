@@ -1,0 +1,47 @@
+﻿#pragma once
+#include <vector>
+#include <string>
+using namespace std;
+
+class CommandSelect{
+public:
+	struct Contents{
+		Contents(string words, string description):words(words), description(description){};
+		string words;
+		string description;
+	};
+
+
+	CommandSelect();
+	void loadCommands();
+	void initCommands();
+
+	void update();
+	void draw(int x, int y);
+	
+	bool commandIs(string words) const;
+	void setSelectNum(int select_num);
+
+	void step();
+	void back();
+	void clear();
+	int setNext();
+
+private:
+	void add(string words, string description);
+
+	int select_num;
+	vector<int> prev;
+	int current;
+	int next;
+	
+	vector<vector<string>> commands[256];
+	vector<Contents> content[256];
+	enum State{
+		MV_ACT_END,
+		ATTACK,
+		SWORDPLAY,
+		WHITE_MAGIC,
+		BLACK_MAGIC
+	};
+};

@@ -71,7 +71,7 @@
     <ClCompile Include="BattleScene.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ChipBrightnessManager.cpp" />
-    <ClCompile Include="CommandSelect.cpp" />
+    <ClCompile Include="Command.cpp" />
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FileStream.cpp" />
@@ -87,7 +87,7 @@
     <ClInclude Include="BattleScene.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ChipBrightnessManager.h" />
-    <ClInclude Include="CommandSelect.h" />
+    <ClInclude Include="Command.h" />
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="FileStream.h" />
     <ClInclude Include="GV.h" />

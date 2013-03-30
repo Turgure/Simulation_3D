@@ -22,10 +22,6 @@ Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, 
 	ATBgauge = 100;
 	can_move = true;
 	can_act = true;
-
-	commandSelect.add(400,  0, "MOVE");
-	commandSelect.add(400, 20, "ACTION");
-	commandSelect.add(400, 40, "END");
 }
 
 void Player::update(){
@@ -34,12 +30,14 @@ void Player::update(){
 	MV1SetPosition(model, VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));
 	Stage::setObjectAt(pos, this);
 
-	switch(state){
-	case SELECT:
-		commandSelect.update();
-		break;
-	default:
-		break;
+	if(isMyTurn()){
+		switch(state){
+		case SELECT:
+			command.update();
+			break;
+		default:
+			break;
+		}
 	}
 }
 
@@ -77,14 +75,15 @@ void Player::action(){
 		Stage::disbrighten();
 		if(pos == Cursor::pos){
 			if(Keyboard::pushed(KEY_INPUT_Z)){
-				if(commandSelect.commandIs("MOVE") && can_move){
+				command.step();
+				if(command.commandIs("MOVE") && can_move){
 					state = MOVE;
 				}
-				if(commandSelect.commandIs("ACTION") && can_act){
+				if(command.commandIs("ACTION") && can_act){
 					state = ACTION;
 				}
-				if(commandSelect.commandIs("END")){
-					state = END;
+				if(command.commandIs("END")){
+					state =END;
 				}
 			}
 			if(Keyboard::pushed(KEY_INPUT_X)){
@@ -96,10 +95,12 @@ void Player::action(){
 
 	case MOVE:
 		if(Keyboard::pushed(KEY_INPUT_X)){
+			command.back();
 			state = SELECT;
 			Cursor::pos = pos;
 		}
 		if(Keyboard::pushed(KEY_INPUT_Z)){
+			command.clear();
 			if(Stage::isBrightened(Cursor::pos) && !Stage::getObjectAt(Cursor::pos)){
 				state = MOVING;
 				mv_mng.trackMovement(pos, Cursor::pos, mobility);
@@ -156,8 +157,8 @@ void Player::action(){
 }
 
 void Player::endMyTurn(){
+	command.setSelectNum(0);
 	state = SELECT;
-	commandSelect.setSelectNum(0);
 	ATBgauge += 20;
 	if(!can_move) ATBgauge += 40;
 	if(!can_act) ATBgauge += 60;
@@ -173,7 +174,7 @@ void Player::showCommand(){
 	switch(state){
 	case SELECT:
 		if(pos == Cursor::pos){
-			commandSelect.draw();
+			command.draw(400, 0);
 		}
 		break;
 	case MOVE:
@@ -192,6 +193,7 @@ void Player::attack(vector<Enemy> &enemies){
 	if(state != ACTION) return;
 
 	if(Keyboard::pushed(KEY_INPUT_X)){
+		command.back();
 		state = SELECT;
 		Cursor::pos = pos;
 	}
@@ -199,6 +201,7 @@ void Player::attack(vector<Enemy> &enemies){
 		for(auto& enemy : enemies){
 			if(Stage::isBrightened(Cursor::pos)){
 				if(enemy.pos == Cursor::pos){
+					command.clear();
 					state = SELECT;
 					Cursor::pos = pos;
 					can_act = false;
@@ -211,6 +214,7 @@ void Player::attack(vector<Enemy> &enemies){
 					break;
 				}
 			} else {
+				command.back();
 				state = SELECT;
 				Cursor::pos = pos;
 			}
