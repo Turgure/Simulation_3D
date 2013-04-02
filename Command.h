@@ -6,7 +6,7 @@ using namespace std;
 class CommandSelect{
 public:
 	struct Contents{
-		Contents(string words, string description):words(words), description(description){};
+		Contents(const string& words, const string& description):words(words), description(description){};
 		string words;
 		string description;
 	};
@@ -19,7 +19,7 @@ public:
 	void update();
 	void draw(int x, int y);
 	
-	bool commandIs(string words) const;
+	bool commandIs(const string& words) const;
 	void setSelectNum(int select_num);
 
 	void step();
@@ -28,8 +28,6 @@ public:
 	int setNext();
 
 private:
-	void add(string words, string description);
-
 	int select_num;
 	vector<int> prev;
 	int current;

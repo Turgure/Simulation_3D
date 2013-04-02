@@ -94,8 +94,8 @@ class Enemy;
 //生成等を行う
 class ObjectManager{
 public:
-	static void create(vector<Player> &players, string filename, int x, int y);
-	static void create(vector<Enemy> &enemies, string filename);
+	static void create(vector<Player> &players, const string& filename, int x, int y);
+	static void create(vector<Enemy> &enemies, const string& filename);
 };
 
 //プレイヤークラス
@@ -134,8 +134,8 @@ public:
 	virtual void stepATBgauge() override;
 
 	bool isCountOver(int time);
-	void calcMove(vector<Player>& players);
-	void calcAttack(vector<Player>& players);
+	void calcMove(const vector<Player>& players);
+	void calcAttack(const vector<Player>& players);
 	void attack(vector<Player>& players);
 
 	Status status;

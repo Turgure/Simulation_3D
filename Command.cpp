@@ -48,7 +48,7 @@ void CommandSelect::initCommands(){
 	}
 }
 
-bool CommandSelect::commandIs(string words) const{
+bool CommandSelect::commandIs(const string& words) const{
 	return (content[current][select_num+1].words == words);
 }
 
@@ -73,10 +73,6 @@ void CommandSelect::clear(){
 
 int CommandSelect::setNext(){
 	if(commandIs("MOVE")) return MV_ACT_END;
-	if(commandIs("ATTACK")) return MV_ACT_END;
+	if(commandIs("ACTION")) return MV_ACT_END;
 	if(commandIs("END")) return MV_ACT_END;
-}
-
-void CommandSelect::add(string words, string description){
-	content[current].push_back( Contents(words, description) );
 }

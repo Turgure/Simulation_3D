@@ -152,7 +152,7 @@ bool Enemy::isCountOver(int time){
 	else return false;
 }
 
-void Enemy::calcMove(vector<Player>& players){
+void Enemy::calcMove(const vector<Player>& players){
 	ChipBrightnessManager::range(pos, mobility, true);
 
 	Position finalpos(-1, -1);
@@ -183,7 +183,7 @@ void Enemy::calcMove(vector<Player>& players){
 	Stage::disbrighten();
 }
 
-void Enemy::calcAttack(vector<Player>& players){
+void Enemy::calcAttack(const vector<Player>& players){
 	if(attacked) return;
 
 	ChipBrightnessManager::reachTo(pos, ChipBrightnessManager::getColorAttack(), 1, attack_range);

@@ -2,7 +2,7 @@
 #include <DxLib.h>
 #include "FileStream.h"
 
-void FileStream::load(string filename, vector<string>& data){
+void FileStream::load(const string& filename, vector<string>& data){
 	string str;
 	int p;
 
@@ -26,7 +26,7 @@ void FileStream::load(string filename, vector<string>& data){
 	}
 }
 
-void FileStream::load(string filename, vector<vector<string>>& data){
+void FileStream::load(const string& filename, vector<vector<string>>& data){
 	string str;
 	int p;
 	vector<string> inner;

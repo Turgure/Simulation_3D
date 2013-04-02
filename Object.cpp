@@ -77,7 +77,7 @@ void BaseObject::MovingManager::setObjectDirection(int MHandle){
 
 
 ///ObjectManager
-void ObjectManager::create(vector<Player> &players, string filename, int x, int y){
+void ObjectManager::create(vector<Player> &players, const string& filename, int x, int y){
 	vector<string> status;
 	FileStream::load(filename, status);
 
@@ -89,7 +89,7 @@ void ObjectManager::create(vector<Player> &players, string filename, int x, int 
 	players.push_back( Player(x, y, d[0], d[1], d[2], d[3], d[4], d[5], d[6]) );
 }
 
-void ObjectManager::create(vector<Enemy> &enemies, string filename){
+void ObjectManager::create(vector<Enemy> &enemies, const string& filename){
 	vector<vector<string>> status;
 	FileStream::load(filename, status);
 
