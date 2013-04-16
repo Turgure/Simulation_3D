@@ -1,15 +1,15 @@
 ﻿#include "Camera.h"
 #include "Keyboard.h"
-Camera::Camera(){
 
+Camera::Camera(){
 	// カメラの座標をセット
-	x = 470;
-	y = 290;
-	z = 330;
+	pos.x = 470;
+	pos.y = 290;
+	pos.z = 330;
 	// カメラの注視点をセット
-	targetX = 190;
-	targetY = -56;
-	targetZ = 70;
+	target.x = 190;
+	target.y = -56;
+	target.z = 70;
 }
 
 void Camera::update(){
@@ -17,73 +17,73 @@ void Camera::update(){
 	//カメラテスト用です
 	//カメラの位置を移動
 	if(Keyboard::pushing(KEY_INPUT_A) ){
-		x += 3;
+		pos.x += 3;
 	}
 	if(Keyboard::pushing(KEY_INPUT_Q) ){
-		x -= 3;
+		pos.x -= 3;
 	}
 	if(Keyboard::pushing(KEY_INPUT_S) ){
-		y += 3;
+		pos.y += 3;
 	}
 	if(Keyboard::pushing(KEY_INPUT_W) ){
-		y -= 3;
+		pos.y -= 3;
 	}
 	if(Keyboard::pushing(KEY_INPUT_D) ){
-		z += 3;
+		pos.z += 3;
 	}
 	if(Keyboard::pushing(KEY_INPUT_E) ){
-		z -= 3;
+		pos.z -= 3;
 	}
 
 	//カメラの注視点のみ移動
 	if(Keyboard::pushing(KEY_INPUT_F) ){
-		targetX += 3;
+		target.x += 3;
 	}
 	if(Keyboard::pushing(KEY_INPUT_R) ){
-		targetX -= 3;
+		target.x -= 3;
 	}
 	if(Keyboard::pushing(KEY_INPUT_G) ){
-		targetY += 3;
+		target.y += 3;
 	}
 	if(Keyboard::pushing(KEY_INPUT_T) ){
-		targetY -= 3;
+		target.y -= 3;
 	}
 	if(Keyboard::pushing(KEY_INPUT_H) ){
-		targetZ += 3;
+		target.z += 3;
 	}
 	if(Keyboard::pushing(KEY_INPUT_Y) ){
-		targetZ -= 3;
+		target.z -= 3;
 	}
 
 	//カメラを平行移動
 	if(Keyboard::pushing(KEY_INPUT_1) ){
-		x += 3;
-		targetX +=3;
+		pos.x += 3;
+		target.x +=3;
 	}
 	if(Keyboard::pushing(KEY_INPUT_2) ){
-		x -= 3;
-		targetX -= 3;
+		pos.x -= 3;
+		target.x -= 3;
 	}
 	if(Keyboard::pushing(KEY_INPUT_3) ){
-		y += 3;
-		targetY += 3;
+		pos.y += 3;
+		target.y += 3;
 	}
 	if(Keyboard::pushing(KEY_INPUT_4) ){
-		y -= 3;
-		targetY -= 3;
+		pos.y -= 3;
+		target.y -= 3;
 	}
 	if(Keyboard::pushing(KEY_INPUT_5) ){
-		z += 3;
-		targetZ += 3;
+		pos.z += 3;
+		target.z += 3;
 	}
 	if(Keyboard::pushing(KEY_INPUT_6) ){
-		z -= 3;
-		targetZ -= 3;
+		pos.z -= 3;
+		target.z -= 3;
 	}
-	DrawFormatString(0, 60, GetColor(255,255,255), " x:%d y:%d z:%d", x, y, z);
-	DrawFormatString(0, 80, GetColor(255,255,255), " a:%d b:%d c:%d", targetX, targetY, targetZ);
-	pos = VGet( x, y, z);
-	target = VGet(targetX,targetY,targetZ);
+	DrawFormatString(0, 60, GetColor(255,255,255), " x:%.0f y:%.0f z:%.0f", pos.x, pos.y, pos.z);
+	DrawFormatString(0, 80, GetColor(255,255,255), " a:%.0f b:%.0f c:%.0f", target.x, target.y, target.z);
+	pos = VGet( pos.x, pos.y, pos.z);
+	target = VGet(target.x,target.y,target.z);
 
 	//	平行移動
 	//target = VAdd(pos, target);
