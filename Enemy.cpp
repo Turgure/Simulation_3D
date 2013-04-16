@@ -8,7 +8,7 @@ Enemy::Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi, in
 	pos(x, y),
 	move_pos(),
 	act_pos(){
-		model = MV1LoadModel("data/image/3Dmodel/miku.pmd");
+		model = MV1LoadModel("data/image/3Dmodel/chara/miku.pmd");
 		MV1SetScale(model, VGet(3.0f, 3.0f, 3.0f));	//拡大
 		MV1SetRotationXYZ(model, VGet(0.0f, -90 * DX_PI_F/180.0f, 0.0f));	//向き
 		mv_mng.current_dir = mv_mng.SOUTH;
