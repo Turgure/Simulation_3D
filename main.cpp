@@ -1,6 +1,7 @@
 #include <DxLib.h>
 #include "Keyboard.h"
 #include "BattleScene.h"
+#include "StartScene.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow){
 	// ウインドウモードに変更
@@ -9,7 +10,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	Keyboard::initialize();
 	
-	SceneManager::run(new BattleScene);
+	SceneManager::run(new StartScene);
 
 	DxLib_End();
 	return 0;

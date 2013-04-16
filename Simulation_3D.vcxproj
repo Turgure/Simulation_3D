@@ -81,6 +81,7 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="StartScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseScene.h" />
@@ -96,6 +97,7 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="Stage.h" />
+    <ClInclude Include="StartScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
