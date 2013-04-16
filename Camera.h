@@ -7,14 +7,14 @@ public:
 	void update();
 
 	//カメラのポジションセット
-	void setX(int x){ pos.x = x; }
-	void setY(int y){ pos.y = y; }
-	void setZ(int z){ pos.z = z; }
+	void setX(float x){ pos.x = x; }
+	void setY(float y){ pos.y = y; }
+	void setZ(float z){ pos.z = z; }
 	
 	//カメラの注視点をセットする
-	void setTargetX(int x){ target.x = x; }
-	void setTargetY(int y){ target.y = y; }
-	void setTargetZ(int z){ target.z = z; }
+	void setTargetX(float x){ target.x = x; }
+	void setTargetY(float y){ target.y = y; }
+	void setTargetZ(float z){ target.z = z; }
 
 	//カメラのポジションを返す
 	float getX(){ return pos.x; }

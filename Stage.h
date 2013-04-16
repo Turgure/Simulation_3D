@@ -47,7 +47,7 @@ private:
 	void drawChip(int x, int y, int color, bool fillFlag);
 
 	struct MapchipDefinition{
-		MapchipDefinition(int id){ this-> id = id; }
+		MapchipDefinition(int id):id(id){};
 		int id;
 		int image;
 		int resistance;

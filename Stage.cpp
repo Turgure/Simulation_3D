@@ -28,17 +28,20 @@ void Stage::initID(){
 	for(auto& chip : mapchipDefinition){
 		switch(chip.id){
 		case 0://chip which can't move 
-			chip.image = GetColor(255, 128, 0);
+			chip.image = MV1LoadModel("data/image/3Dmodel/grass.x");
+			//chip.image = GetColor(255, 128, 0);
 			chip.resistance = INT_MAX;
 			break;
 
 		case 1://movable（id=1 => 草原, id=2 => 岩…　などにする）
-			chip.image = GetColor(128, 255, 0);
+			chip.image = MV1LoadModel("data/image/3Dmodel/grass.x");
+			//chip.image = GetColor(128, 255, 0);
 			chip.resistance = 1;
 			break;
 
 		case 2://沼地的な
-			chip.image = GetColor(128, 0, 128);
+			chip.image = MV1LoadModel("data/image/3Dmodel/grass.x");
+			//chip.image = GetColor(128, 0, 128);
 			chip.resistance = 2;
 			break;
 
@@ -60,7 +63,6 @@ void Stage::initMap(){
 		for(int w = 0; w < width; ++w){
 			mapchip[d][w].definition = &mapchipDefinition[stoi(mapdata[d+1][w])];
 			mapchip[d][w].height = stoi(mapdata[d+depth+1][w]);
-
 		}
 	}
 }
@@ -89,16 +91,10 @@ void Stage::drawChip(int x, int y, int color, bool fillFlag){
 }
 
 void Stage::drawMap(){
-	VECTOR v1, v2, v3, v4;
-
 	for(int d = 0; d < depth; ++d){
 		for(int w = 0; w < width; ++w){
-			v1 = VGet(d*chipsize           , mapchip[d][w].height*chipheight , w*chipsize);
-			v2 = VGet(d*chipsize + chipsize, mapchip[d][w].height*chipheight , w*chipsize);
-			v3 = VGet(d*chipsize           , mapchip[d][w].height*chipheight , w*chipsize + chipsize);
-			v4 = VGet(d*chipsize + chipsize, mapchip[d][w].height*chipheight , w*chipsize + chipsize);
-
-			drawSquare(v1, v2, v3, v4, mapchip[d][w].definition->image, false);
+			MV1SetPosition(mapchip[d][w].definition->image, VAdd(VGet(d*chipsize, mapchip[d][w].height*chipheight, w*chipsize), VGet(chipsize/2, -chipheight/2, chipsize/2)));
+			MV1DrawModel(mapchip[d][w].definition->image);
 		}
 	}
 }
