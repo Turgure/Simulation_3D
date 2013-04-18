@@ -33,12 +33,15 @@ void Player::update(){
 	if(isMyTurn()){
 		switch(state){
 		case SELECT:
+		case ACTION:
 			command.update();
 			break;
 		default:
 			break;
 		}
 	}
+
+	DrawFormatString(pos.x*50, pos.y*20, GetColor(255,255,255), "%d", state);
 }
 
 void Player::draw(){
@@ -57,7 +60,7 @@ void Player::draw(){
 	case MOVE:
 		ChipBrightnessManager::range(pos, mobility, true);
 		break;
-	case ACTION:
+	case ATTACK:
 		ChipBrightnessManager::reachTo(pos, ChipBrightnessManager::getColorAttack(), 1, 3);
 		break;
 	default:
@@ -74,8 +77,11 @@ void Player::action(){
 	case SELECT:
 		Stage::disbrighten();
 		if(pos == Cursor::pos){
+			if(Keyboard::pushed(KEY_INPUT_X)){
+				state = WAIT;
+			}
+
 			if(Keyboard::pushed(KEY_INPUT_Z)){
-				command.step();
 				if(command.commandIs("MOVE") && can_move){
 					state = MOVE;
 				}
@@ -83,14 +89,11 @@ void Player::action(){
 					state = ACTION;
 				}
 				if(command.commandIs("END")){
-					state =END;
+					state = END;
 				}
-			}
-			if(Keyboard::pushed(KEY_INPUT_X)){
-				state = WAIT;
+				command.step();
 			}
 		}
-
 		break;
 
 	case MOVE:
@@ -112,6 +115,18 @@ void Player::action(){
 		break;
 
 	case ACTION:
+		if(Keyboard::pushed(KEY_INPUT_X)){
+			command.back();
+			state = SELECT;
+		}
+		if(Keyboard::pushed(KEY_INPUT_Z)){
+			if(command.commandIs("たたかう")){
+				state = ATTACK;
+			}
+		}
+		break;
+
+	case ATTACK:
 		//attack(enemies);
 		break;
 
@@ -173,14 +188,13 @@ void Player::stepATBgauge(){
 void Player::showCommand(){
 	switch(state){
 	case SELECT:
-		if(pos == Cursor::pos){
-			command.draw(400, 0);
-		}
+	case ACTION:
+		command.draw(400, 0);
 		break;
 	case MOVE:
 		DrawString(400,  0, "where?", GetColor(255,255,255));
 		break;
-	case ACTION:
+	case ATTACK:
 		DrawString(400,  0, "to whom?", GetColor(255,255,255));
 		break;
 	case END:
@@ -190,11 +204,11 @@ void Player::showCommand(){
 }
 
 void Player::attack(vector<Enemy> &enemies){
-	if(state != ACTION) return;
+	if(state != ATTACK) return;
 
 	if(Keyboard::pushed(KEY_INPUT_X)){
 		command.back();
-		state = SELECT;
+		state = ACTION;
 		Cursor::pos = pos;
 	}
 	if(Keyboard::pushed(KEY_INPUT_Z)){
@@ -215,7 +229,7 @@ void Player::attack(vector<Enemy> &enemies){
 				}
 			} else {
 				command.back();
-				state = SELECT;
+				state = ACTION;
 				Cursor::pos = pos;
 			}
 		}

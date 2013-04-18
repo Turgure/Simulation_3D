@@ -12,11 +12,11 @@ Camera::Camera(){
 	target.z = 70;
 
 	//ChangeLightTypePoint(VGet( pos.x, pos.y, pos.z ),	10000, 1, 0, 0 ) ;
+	//ライトの方向指定
 	SetLightDirection( VGet(-0.5, -0.7, -0.5) );
 }
 
 void Camera::update(){
-
 	//カメラテスト用です
 	//カメラの位置を移動
 	if(Keyboard::pushing(KEY_INPUT_A) ){

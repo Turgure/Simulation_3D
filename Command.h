@@ -28,7 +28,7 @@ public:
 	int setNext();
 
 private:
-	int select_num;
+	vector<int> select_num;
 	vector<int> prev;
 	int current;
 	int next;
@@ -42,4 +42,6 @@ private:
 		WHITE_MAGIC,
 		BLACK_MAGIC
 	};
+
+	bool has_backed;
 };
