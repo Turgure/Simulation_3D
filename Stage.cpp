@@ -93,8 +93,10 @@ void Stage::drawChip(int x, int y, int color, bool fillFlag){
 void Stage::drawMap(){
 	for(int d = 0; d < depth; ++d){
 		for(int w = 0; w < width; ++w){
-			MV1SetPosition(mapchip[d][w].definition->image, VAdd(VGet(d*chipsize, mapchip[d][w].height*chipheight, w*chipsize), VGet(chipsize/2, -chipheight/2, chipsize/2)));
+			for(int h = 0; h <=  mapchip[d][w].height; ++h){
+			MV1SetPosition(mapchip[d][w].definition->image, VAdd(VGet(d*chipsize, h*chipheight, w*chipsize), VGet(chipsize/2, -chipheight/2, chipsize/2)));
 			MV1DrawModel(mapchip[d][w].definition->image);
+			}
 		}
 	}
 }

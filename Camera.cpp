@@ -80,8 +80,8 @@ void Camera::update(){
 		pos.z -= 3;
 		target.z -= 3;
 	}
-	DrawFormatString(0, 60, GetColor(255,255,255), " x:%.0f y:%.0f z:%.0f", pos.x, pos.y, pos.z);
-	DrawFormatString(0, 80, GetColor(255,255,255), " a:%.0f b:%.0f c:%.0f", target.x, target.y, target.z);
+	DrawFormatString(0, 360, GetColor(255,255,255), " CamPos x:%.0f y:%.0f z:%.0f", pos.x, pos.y, pos.z);
+	DrawFormatString(0, 380, GetColor(255,255,255), " Target   x:%.0f y:%.0f z:%.0f", target.x, target.y, target.z);
 	pos = VGet( pos.x, pos.y, pos.z);
 	target = VGet(target.x,target.y,target.z);
 
