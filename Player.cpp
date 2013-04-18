@@ -40,8 +40,6 @@ void Player::update(){
 			break;
 		}
 	}
-
-	DrawFormatString(pos.x*50, pos.y*20, GetColor(255,255,255), "%d", state);
 }
 
 void Player::draw(){
