@@ -15,7 +15,7 @@ public:
 	virtual void stepATBgauge(){};
 	bool isMyTurn();
 
-	enum State{SELECT, MOVE, ACTION, END, WAIT, MOVING} state;
+	enum State{SELECT, MOVE, ACTION, ATTACK, END, WAIT, MOVING} state;
 
 protected:
 	virtual void update(){};

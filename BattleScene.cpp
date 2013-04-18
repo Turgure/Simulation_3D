@@ -70,7 +70,7 @@ void BattleScene::update(){
 			switch(player.state){//コマンド選択時以外動かす
 			case player.WAIT:
 			case player.MOVE:
-			case player.ACTION:
+			case player.ATTACK:
 			case player.END:
 				cursor.manipulate();
 				break;
