@@ -10,6 +10,8 @@ Camera::Camera(){
 	target.x = 190;
 	target.y = -56;
 	target.z = 70;
+
+	SetLightDirection( VGet(-0.5, -0.7, -0.5) );
 }
 
 void Camera::update(){
