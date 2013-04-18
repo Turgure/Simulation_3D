@@ -2,7 +2,7 @@
 #include "Stage.h"
 #include "GV.h"
 #include "FileStream.h"
-//#include "Cursor.h"
+#include "Cursor.h"
 
 int Stage::width;
 int Stage::depth;
@@ -107,6 +107,11 @@ void Stage::drawBrightenedPoints(){
 			if(mapchip[d][w].is_brighting){
 				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 192);
 				drawChip(w, d, mapchip[d][w].bright_color, true);
+				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+			}
+			if(w == Cursor::pos.x && d == Cursor::pos.y){
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 192);
+				drawChip(w, d, GetColor(255,0,0), true);
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			}
 		}

@@ -7,7 +7,8 @@
 Position Cursor::pos;
 
 Cursor::Cursor(){
-	image = GetColor(0, 255, 0);
+	//image = GetColor(0, 255, 0);
+	image = MV1LoadModel("data/image/3Dmodel/cursor/cursor.x");
 }
 
 void Cursor::update(){
@@ -37,5 +38,8 @@ void Cursor::manipulate(){
 
 void Cursor::draw(){
 	//球の描画（カーソル）
-	DrawSphere3D(VAdd(myvec, VGet(chipsize/2, chipsize/2, chipsize/2)), chipsize/2, 50, image, image, true);
+	//DrawSphere3D(VAdd(myvec, VGet(chipsize/2, chipsize/2, chipsize/2)), chipsize/2, 50, image, image, true);
+	MV1SetPosition(image, VAdd(myvec, VGet(chipsize/2, chipsize/2+30, chipsize/2)));
+	MV1DrawModel(image);
+
 }

@@ -11,6 +11,7 @@ Camera::Camera(){
 	target.y = -56;
 	target.z = 70;
 
+	//ChangeLightTypePoint(VGet( pos.x, pos.y, pos.z ),	10000, 1, 0, 0 ) ;
 	SetLightDirection( VGet(-0.5, -0.7, -0.5) );
 }
 
