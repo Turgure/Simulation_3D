@@ -12,6 +12,17 @@ bool BaseObject::isMyTurn(){
 	else return false;
 }
 
+void BaseObject::lateUpdate(){
+	state_changed = false;
+}
+
+bool BaseObject::changeState(State& mystate, State next){
+	if(state_changed) return false;
+
+	mystate = next;
+	state_changed = true;
+	return true;
+}
 
 ///BaseObjec::Status
 void BaseObject::Status::showStatus(int x, int y) const{

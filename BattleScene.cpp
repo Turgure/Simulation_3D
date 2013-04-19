@@ -150,4 +150,10 @@ void BattleScene::draw(){
 
 void BattleScene::lateUpdate(){
 	stage.lateUpdate();
+	for(auto& player : players){
+		player.lateUpdate();
+	}
+	for(auto& enemy : enemies){
+		enemy.lateUpdate();
+	}
 }

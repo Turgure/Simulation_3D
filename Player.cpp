@@ -69,57 +69,68 @@ void Player::draw(){
 void Player::action(){
 	DrawFormatString(0, 0, GetColor(255,255,255), "player %d's turn.", id);
 
-	if(!can_move && !can_act) state = END;
+	if(!can_move && !can_act) changeState(state, END);
 
 	switch(state){
 	case SELECT:
 		Stage::disbrighten();
 		if(pos == Cursor::pos){
 			if(Keyboard::pushed(KEY_INPUT_X)){
-				state = WAIT;
+				if(changeState(state, WAIT)){
+					command.clear();
+				}
 			}
 
 			if(Keyboard::pushed(KEY_INPUT_Z)){
 				if(command.commandIs("MOVE") && can_move){
-					state = MOVE;
+					if(changeState(state, MOVE)){
+						command.step();
+					}
 				}
 				if(command.commandIs("ACTION") && can_act){
-					state = ACTION;
+					if(changeState(state, ACTION)){
+						command.step();
+					}
 				}
 				if(command.commandIs("END")){
-					state = END;
+					if(changeState(state, END)){
+						command.clear();
+					}
 				}
-				command.step();
 			}
 		}
 		break;
 
 	case MOVE:
 		if(Keyboard::pushed(KEY_INPUT_X)){
-			command.back();
-			state = SELECT;
 			Cursor::pos = pos;
+			if(changeState(state, SELECT)){
+				command.clear();
+			}
 		}
 		if(Keyboard::pushed(KEY_INPUT_Z)){
 			command.clear();
 			if(Stage::isBrightened(Cursor::pos) && !Stage::getObjectAt(Cursor::pos)){
-				state = MOVING;
+				changeState(state, MOVING);
 				mv_mng.trackMovement(pos, Cursor::pos, mobility);
 			} else {
-				state = SELECT;
 				Cursor::pos = pos;
+				changeState(state, SELECT);
 			}
 		}
 		break;
 
 	case ACTION:
 		if(Keyboard::pushed(KEY_INPUT_X)){
-			command.back();
-			state = SELECT;
+			if(changeState(state, SELECT)){
+				command.back();
+			}
 		}
 		if(Keyboard::pushed(KEY_INPUT_Z)){
 			if(command.commandIs("たたかう")){
-				state = ATTACK;
+				if(changeState(state, ATTACK)){
+					command.step();
+				}
 			}
 		}
 		break;
@@ -137,11 +148,11 @@ void Player::action(){
 	case WAIT:
 		if(Keyboard::pushed(KEY_INPUT_Z)){
 			if(Cursor::pos == pos){
-				state = SELECT;
+				changeState(state, SELECT);
 			}
 		}
 		if(Keyboard::pushed(KEY_INPUT_X)){
-			state = SELECT;
+			changeState(state, SELECT);
 			Cursor::pos = pos;
 		}
 		break;
@@ -162,7 +173,7 @@ void Player::action(){
 				order = 0;
 				can_move = false;
 				Stage::disbrighten();
-				state = SELECT;
+				changeState(state, SELECT);
 			}
 		}
 		break;
@@ -205,30 +216,33 @@ void Player::attack(vector<Enemy> &enemies){
 	if(state != ATTACK) return;
 
 	if(Keyboard::pushed(KEY_INPUT_X)){
-		command.back();
-		state = ACTION;
 		Cursor::pos = pos;
+		if(changeState(state, ACTION)){
+			command.back();
+		}
 	}
 	if(Keyboard::pushed(KEY_INPUT_Z)){
 		for(auto& enemy : enemies){
 			if(Stage::isBrightened(Cursor::pos)){
 				if(enemy.pos == Cursor::pos){
-					command.clear();
-					state = SELECT;
 					Cursor::pos = pos;
 					can_act = false;
+					if(changeState(state, SELECT)){
+						command.clear();
+					}
 
 					int diff = str - enemy.getDef();
-					if(diff <= 0){
-						break;
+					if(diff > 0){
+						enemy.setHP(enemy.getHP() - diff);
 					}
-					enemy.setHP(enemy.getHP() - diff);
 					break;
 				}
 			} else {
-				command.back();
-				state = ACTION;
 				Cursor::pos = pos;
+				if(changeState(state, ACTION)){
+					command.back();
+				}
+				break;
 			}
 		}
 		Stage::disbrighten();

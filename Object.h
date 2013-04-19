@@ -12,6 +12,7 @@ public:
 	BaseObject(){};
 	virtual ~BaseObject(){};
 
+	void lateUpdate();
 	virtual void stepATBgauge(){};
 	bool isMyTurn();
 
@@ -23,9 +24,13 @@ protected:
 	virtual void action(){};
 	virtual void endMyTurn(){};
 
+
 	int ATBgauge;
 	bool can_move;
 	bool can_act;
+
+	bool changeState(State& mystate, State next);
+	bool state_changed;
 
 	struct Status{
 		void showStatus(int x, int y) const;

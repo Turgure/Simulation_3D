@@ -10,8 +10,6 @@ CommandSelect::CommandSelect(){
 	select_num.push_back(0);
 	current = MV_ACT_END;
 	next = MV_ACT_END;
-
-	has_backed = false;
 }
 
 void CommandSelect::update(){
@@ -44,8 +42,8 @@ void CommandSelect::loadCommands(){
 }
 
 void CommandSelect::initCommands(){
-	for(int i = 0; i < 256; ++i){
-		for(int j = 0; j < commands[i].size(); ++j){
+	for(unsigned int i = 0; i < 256; ++i){
+		for(unsigned int j = 0; j < commands[i].size(); ++j){
 			content[i].push_back( Contents(commands[i][j][0], commands[i][j][1]) );
 		}
 	}
@@ -67,13 +65,6 @@ void CommandSelect::step(){
 }
 
 void CommandSelect::back(){
-	if(has_backed){
-		has_backed = false;
-		return;
-	} else {
-		has_backed = true;
-	}
-
 	select_num.pop_back();
 
 	next = current;
@@ -82,7 +73,10 @@ void CommandSelect::back(){
 }
 
 void CommandSelect::clear(){
+	select_num.clear();
+	select_num.push_back(0);
 	prev.clear();
+	current = MV_ACT_END;
 }
 
 int CommandSelect::setNext(){
@@ -92,4 +86,5 @@ int CommandSelect::setNext(){
 
 	if(commandIs("たたかう")) return MV_ACT_END;
 	if(commandIs("とくぎ")) return MV_ACT_END;
+	else return -1;
 }

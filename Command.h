@@ -42,6 +42,4 @@ private:
 		WHITE_MAGIC,
 		BLACK_MAGIC
 	};
-
-	bool has_backed;
 };
