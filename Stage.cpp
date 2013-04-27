@@ -76,18 +76,18 @@ void Stage::draw(){
 	drawBrightenedPoints();
 }
 
-void Stage::drawSquare(VECTOR v1, VECTOR v2, VECTOR v3, VECTOR v4,int color, bool fillFlag){
-	DrawTriangle3D(v1, v2, v3, color, fillFlag);
-	DrawTriangle3D(v2, v3, v4, color, fillFlag);
+void Stage::drawSquare(VECTOR v1, VECTOR v2, VECTOR v3, VECTOR v4,int color){
+	DrawTriangle3D(v1, v2, v3, color, true);
+	DrawTriangle3D(v2, v3, v4, color, true);
 }
 
-void Stage::drawChip(int x, int y, int color, bool fillFlag){
+void Stage::drawChip(int x, int y, int color){
 	drawSquare(
-		VGet(y    *chipsize, mapchip[y][x].height*chipheight , x     *chipsize),
-		VGet((y+1)*chipsize, mapchip[y][x].height*chipheight , x     *chipsize),
-		VGet(y    *chipsize, mapchip[y][x].height*chipheight , (x+1) *chipsize),
-		VGet((y+1)*chipsize, mapchip[y][x].height*chipheight , (x+1) *chipsize),
-		color, fillFlag);
+		VGet(y    *chipsize, mapchip[y][x].height*chipheight, x    *chipsize),
+		VGet((y+1)*chipsize, mapchip[y][x].height*chipheight, x    *chipsize),
+		VGet(y    *chipsize, mapchip[y][x].height*chipheight, (x+1)*chipsize),
+		VGet((y+1)*chipsize, mapchip[y][x].height*chipheight, (x+1)*chipsize),
+		color);
 }
 
 void Stage::drawMap(){
@@ -106,12 +106,12 @@ void Stage::drawBrightenedPoints(){
 		for(int w = 0; w < width; ++w){
 			if(mapchip[d][w].is_brighting){
 				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 192);
-				drawChip(w, d, mapchip[d][w].bright_color, true);
+				drawChip(w, d, mapchip[d][w].bright_color);
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			}
 			if(w == Cursor::pos.x && d == Cursor::pos.y){
 				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 192);
-				drawChip(w, d, GetColor(255,0,0), true);
+				drawChip(w, d, GetColor(255,0,0));
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			}
 		}
@@ -126,23 +126,6 @@ void Stage::lateUpdate(){
 	}
 }
 
-void Stage::brighten(const Position& pos, int color){
-	mapchip[pos.y][pos.x].is_brighting = true;
-	mapchip[pos.y][pos.x].bright_color = color;
-}
-
-bool Stage::isBrightened(const Position& pos){
-	return mapchip[pos.y][pos.x].is_brighting;
-}
-
-void Stage::disbrighten(){
-	for(int d = 0; d < depth; ++d){
-		for(int w = 0; w < width; ++w){
-			mapchip[d][w].is_brighting = false;
-		}
-	}
-}
-
 bool Stage::canMove(const Position& pos){
 	if(pos.x >= 0 && pos.y >= 0 && pos.x < width && pos.y < depth){
 		return (mapchip[pos.y][pos.x].definition->id != 0);
@@ -151,14 +134,15 @@ bool Stage::canMove(const Position& pos){
 	}
 }
 
-int Stage::getResistance(const Position& pos){
-	return mapchip[pos.y][pos.x].definition->resistance;
+void Stage::brighten(const Position& pos, int color){
+	mapchip[pos.y][pos.x].is_brighting = true;
+	mapchip[pos.y][pos.x].bright_color = color;
 }
 
-void Stage::setObjectAt(const Position& pos, BaseObject* obj){
-	mapchip[pos.y][pos.x].object = obj;
-}
-
-BaseObject* Stage::getObjectAt(const Position& pos){
-	return mapchip[pos.y][pos.x].object;
+void Stage::disbrighten(){
+	for(int d = 0; d < depth; ++d){
+		for(int w = 0; w < width; ++w){
+			mapchip[d][w].is_brighting = false;
+		}
+	}
 }

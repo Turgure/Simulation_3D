@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <vector>
+#include <DxLib.h>
 #include "Position.h"
 #include "Camera.h"
 using namespace std;
@@ -11,27 +12,30 @@ public:
 	void initialize();
 	void initID();
 	void initMap();
-
 	void update();
 	void draw();
 	void drawMap();
 	void drawBrightenedPoints();
 	void lateUpdate();
-
-	static void brighten(const Position& pos, int color);
-	static bool isBrightened(const Position& pos);
-	static void disbrighten();
+	
+	static void drawSquare(VECTOR v1, VECTOR v2, VECTOR v3, VECTOR v4, int color);
+	static void drawChip(int x, int y, int color);
 
 	static bool canMove(const Position& pos);
-	static int getResistance(const Position& pos);
-	static void setObjectAt(const Position& pos, BaseObject* obj);
-	static BaseObject* getObjectAt(const Position& pos);
+
+	static void brighten(const Position& pos, int color);
+	static void disbrighten();
+	static bool isBrightened(const Position& pos){ return mapchip[pos.y][pos.x].is_brighting; }
 
 	static int getWidth(){ return width; }
 	static int getDepth(){ return depth; }
 	static int getHeight(const Position& pos){ return mapchip[pos.y][pos.x].height; }
 	static int getLeftupPositionX(){ return leftup_positionX; }
 	static int getLeftupPositionY(){ return leftup_positionY; }
+	static int getResistance(const Position& pos){ return mapchip[pos.y][pos.x].definition->resistance; }
+
+	static void setObjectAt(const Position& pos, BaseObject* obj){ mapchip[pos.y][pos.x].object = obj; }
+	static BaseObject* getObjectAt(const Position& pos){ return mapchip[pos.y][pos.x].object; }
 
 private:
 	int current_map;
@@ -40,11 +44,6 @@ private:
 	static int depth;
 	static int leftup_positionX;
 	static int leftup_positionY;
-	
-	Camera camera;
-	
-	void drawSquare(VECTOR v1, VECTOR v2, VECTOR v3, VECTOR v4, int color , bool fillFlag);
-	void drawChip(int x, int y, int color, bool fillFlag);
 
 	struct MapchipDefinition{
 		MapchipDefinition(int id):id(id){};
@@ -67,4 +66,6 @@ private:
 
 	vector<MapchipDefinition> mapchipDefinition;
 	static Mapchip mapchip[100][100];	//予め100x100のメモリを確保
+	
+	Camera camera;
 };
