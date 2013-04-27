@@ -47,7 +47,7 @@ void Enemy::draw(){
 
 	switch(state){
 	case MOVE:
-		ChipBrightnessManager::range(pos, mobility, true);
+		ChipBrightnessManager::range(pos, mobility, true, this);
 		break;
 	case ACTION:
 		if(can_act)
@@ -153,7 +153,7 @@ bool Enemy::isCountOver(int time){
 }
 
 void Enemy::calcMove(const vector<Player>& players){
-	ChipBrightnessManager::range(pos, mobility, true);
+	ChipBrightnessManager::range(pos, mobility, true, this);
 
 	Position finalpos(-1, -1);
 	int dist = INT_MAX, diff;

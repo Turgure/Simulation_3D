@@ -1,6 +1,7 @@
 ﻿#include <DxLib.h>
 #include "ChipBrightnessManager.h"
 #include "GV.h"
+#include "Object.h"
 #include "Stage.h"
 
 Position ChipBrightnessManager::dir[8] = {
@@ -17,20 +18,35 @@ int ChipBrightnessManager::color_move = GetColor(102,255,255);
 int ChipBrightnessManager::color_attack = GetColor(255,102,255);
 int ChipBrightnessManager::color_support = GetColor(102,255,102);
 
-void ChipBrightnessManager::range(const Position& pos, int n, bool consider_resistance){
+void ChipBrightnessManager::range(const Position& pos, int n, bool is_resistance, BaseObject* obj){
 	if(n <= 0) return;
+
 
 	Position topos;
 	int rest;
 	for(int i = 0; i < 4; ++i){
 		topos = pos + dir[i*2];
 		if(Stage::canMove(topos)){
-			rest = consider_resistance ? n - Stage::getResistance(topos) : n - 1;
+			rest = is_resistance ? n - Stage::getResistance(topos) : n - 1;
 			if(rest >= 0){
 				Stage::brighten(topos, color_move);
 				//敵をすり抜けないようにする
-				if(Stage::getObjectAt(topos)) continue;
-				range(topos, rest, consider_resistance);
+				BaseObject* me_player = dynamic_cast<Player*>(obj);
+				BaseObject* me_enemy = dynamic_cast<Enemy*>(obj);
+				BaseObject* you_player = dynamic_cast<Player*>(Stage::getObjectAt(topos));
+				BaseObject* you_enemy = dynamic_cast<Enemy*>(Stage::getObjectAt(topos));
+
+				if(me_player != NULL){
+					if(me_player == you_player || you_enemy == NULL){
+						range(topos, rest, is_resistance, obj);
+					}
+				} else if(me_enemy != NULL){
+					if(me_enemy == you_enemy || you_player == NULL){
+						range(topos, rest, is_resistance, obj);
+					}
+				} else {
+					continue;
+				}
 			}
 		}
 	}

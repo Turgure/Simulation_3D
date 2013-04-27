@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Position.h"
 
+class BaseObject;
 class ChipBrightnessManager{
 public:
 	static int getColorAttack(){ return color_attack; }
@@ -8,7 +9,7 @@ public:
 	
 	///移動用
 	//(x, y)中心でnマス範囲
-	static void range(const Position& pos, int n, bool consider_resistance);
+	static void range(const Position& pos, int n, bool is_resistance, BaseObject* obj);
 	///行動用
 	//(x, y)中心でnマス先のマス
 	static void reachAt(const Position& pos, int color, int n);
