@@ -21,7 +21,6 @@ int ChipBrightnessManager::color_support = GetColor(102,255,102);
 void ChipBrightnessManager::range(const Position& pos, int n, bool is_resistance, BaseObject* obj){
 	if(n <= 0) return;
 
-
 	Position topos;
 	int rest;
 	for(int i = 0; i < 4; ++i){

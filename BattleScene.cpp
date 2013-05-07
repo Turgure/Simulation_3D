@@ -18,6 +18,8 @@ void BattleScene::initialize(){
 	ObjectManager::create(players, "data/chara/player2.csv", 6, 7);
 
 	ObjectManager::create(enemies, "data/stage/stage2/enemy.csv");
+
+	simulate();
 }
 
 void BattleScene::update(){
@@ -66,7 +68,7 @@ void BattleScene::update(){
 		for(auto& player : players){
 			if(!player.isMyTurn()) continue;
 			act_only_one = true;
-			
+
 			switch(player.state){//コマンド選択時以外動かす
 			case player.WAIT:
 			case player.MOVE:
@@ -78,10 +80,11 @@ void BattleScene::update(){
 
 			player.attack(enemies);
 			player.action();
-			if(Keyboard::pushed(KEY_INPUT_9)){
+			if(player.state == player.END){
 				player.endMyTurn();
 				has_come_turn = false;
 				act_only_one = false;
+				simulate();
 			}
 			break;
 		}
@@ -101,6 +104,7 @@ void BattleScene::update(){
 			if(enemy.state == enemy.END){
 				enemy.endMyTurn();
 				has_come_turn = false;
+				simulate();
 			}
 			break;
 		}
@@ -133,7 +137,6 @@ void BattleScene::update(){
 
 void BattleScene::draw(){
 	if(!has_come_turn) DrawString(0, 16, "waiting...", GetColor(255,255,255));
-	DrawString(0, 32, "turn end : key 9", GetColor(255,255,255));
 
 	stage.draw();
 	cursor.draw();
@@ -143,6 +146,10 @@ void BattleScene::draw(){
 	}
 	for(auto& enemy : enemies){
 		enemy.draw();
+	}
+	
+	for(unsigned int i = 0; i < order.size(); ++i){
+		DrawFormatString(0, 64+16*i, GetColor(255,255,255), "%2d: %s", i, order[i].c_str());
 	}
 
 	lateUpdate();
@@ -155,5 +162,37 @@ void BattleScene::lateUpdate(){
 	}
 	for(auto& enemy : enemies){
 		enemy.lateUpdate();
+	}
+}
+
+void BattleScene::simulate(){
+	vector<Player> splayers = players;
+	vector<Enemy> senemies = enemies;
+	order.clear();
+
+	while(order.size() < 20){
+		for(auto& player : splayers){
+			//sub ATBgauge
+			player.stepATBgauge();
+
+			//check
+			if(player.isMyTurn()){
+				order.push_back(player.getName());
+				if(order.size() >= 20) return;
+				player.resetATBgauge();
+			}
+		}
+
+		for(auto& enemy : senemies){
+			//sub ATBgauge
+			enemy.stepATBgauge();
+
+			//check
+			if(enemy.isMyTurn()){
+				order.push_back(enemy.getName());
+				if(order.size() >= 20) return;
+				enemy.resetATBgauge();
+			}
+		}
 	}
 }

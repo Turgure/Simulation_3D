@@ -1,2 +1,4 @@
-//id, hp, mp, str, def, agi, mobility
-2, 10, 10, 3, 2, 7, 4
+//name
+Player3
+//hp, mp, str, def, agi, mobility
+10, 10, 3, 2, 7, 4

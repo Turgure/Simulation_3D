@@ -5,13 +5,13 @@
 #include "ChipBrightnessManager.h"
 #include "Stage.h"
 
-Player::Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility):pos(x, y){
+Player::Player(int x, int y, string name, int hp, int mp, int str, int def, int agi, int mobility):pos(x, y){
 	model = MV1LoadModel("data/image/3Dmodel/chara/boko.pmd");
 	MV1SetScale(model, VGet(3.0f, 3.0f, 3.0f));	//拡大
 	MV1SetRotationXYZ(model, VGet(0.0f, 90 * DX_PI_F/180.0f, 0.0f));	//向き
 	mv_mng.current_dir = mv_mng.NORTH;
 
-	this->id = id;
+	this->name = name;
 	this->hp = maxhp = hp;
 	this->mp = maxmp = mp;
 	this->str = str;
@@ -67,7 +67,7 @@ void Player::draw(){
 }
 
 void Player::action(){
-	DrawFormatString(0, 0, GetColor(255,255,255), "player %d's turn.", id);
+	DrawFormatString(0, 0, GetColor(255,255,255), "%s's turn.", name.c_str());
 
 	if(!can_move && !can_act) changeState(state, END);
 
@@ -192,6 +192,10 @@ void Player::endMyTurn(){
 
 void Player::stepATBgauge(){
 	ATBgauge -= agi;
+}
+
+void Player::resetATBgauge(){
+	ATBgauge = 100;
 }
 
 void Player::showCommand(){

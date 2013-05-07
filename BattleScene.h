@@ -19,9 +19,12 @@ private:
 	bool has_come_turn;
 	bool act_only_one;
 
+	void simulate();
+
 	Stage stage;
 	Cursor cursor;
-
 	vector<Player> players;
 	vector<Enemy> enemies;
+
+	vector<string> order;
 };

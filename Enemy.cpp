@@ -4,7 +4,7 @@
 #include "ChipBrightnessManager.h"
 #include "Stage.h"
 
-Enemy::Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility):
+Enemy::Enemy(int x, int y, string name, int hp, int mp, int str, int def, int agi, int mobility):
 	pos(x, y),
 	move_pos(),
 	act_pos(){
@@ -13,7 +13,7 @@ Enemy::Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi, in
 		MV1SetRotationXYZ(model, VGet(0.0f, -90 * DX_PI_F/180.0f, 0.0f));	//向き
 		mv_mng.current_dir = mv_mng.SOUTH;
 
-		this->id = id;
+		this->name = name;
 		this->hp = maxhp = hp;
 		this->mp = maxmp = mp;
 		this->str = str;
@@ -59,7 +59,7 @@ void Enemy::draw(){
 }
 
 void Enemy::action(){
-	DrawFormatString(0, 0, GetColor(255,255,255), "enemy %d's turn.", id);
+	DrawFormatString(0, 0, GetColor(255,255,255), "%s's turn.", name.c_str());
 
 	switch(state){
 	case SELECT:
@@ -142,6 +142,10 @@ void Enemy::endMyTurn(){
 
 void Enemy::stepATBgauge(){
 	ATBgauge -= agi;
+}
+
+void Enemy::resetATBgauge(){
+	ATBgauge = 100;
 }
 
 bool Enemy::isCountOver(int time){

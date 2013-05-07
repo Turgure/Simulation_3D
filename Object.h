@@ -23,6 +23,7 @@ protected:
 	virtual void draw(){};
 	virtual void action(){};
 	virtual void endMyTurn(){};
+	virtual void resetATBgauge(){};
 
 
 	int ATBgauge;
@@ -34,7 +35,8 @@ protected:
 
 	struct Status{
 		void showStatus(int x, int y) const;
-
+		
+		string getName(){ return name; }
 		void setHP(int hp){ this->hp = hp; }
 		int getHP() const { return hp; }
 		int getMaxHP() const { return maxhp; }
@@ -51,7 +53,6 @@ protected:
 		int getMob() const { return mobility; }
 
 	protected:
-		int id;
 		int model;
 		string name;
 		int maxhp;
@@ -106,12 +107,13 @@ public:
 //プレイヤークラス
 class Player : public BaseObject, public BaseObject::Status{
 public:
-	Player(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility);
+	Player(int x, int y, string name, int hp, int mp, int str, int def, int agi, int mobility);
 	virtual void update() override;
 	virtual void draw() override;
 	virtual void action() override;
 	virtual void endMyTurn() override;
 	virtual void stepATBgauge() override;
+	virtual void resetATBgauge() override;
 
 	void showCommand();
 
@@ -131,12 +133,13 @@ private:
 //エネミークラス
 class Enemy : public BaseObject, public BaseObject::Status{
 public:
-	Enemy(int x, int y, int id, int hp, int mp, int str, int def, int agi, int mobility);
+	Enemy(int x, int y, string name, int hp, int mp, int str, int def, int agi, int mobility);
 	virtual void update() override;
 	virtual void draw() override;
 	virtual void action() override;
 	virtual void endMyTurn() override;
 	virtual void stepATBgauge() override;
+	virtual void resetATBgauge() override;
 
 	bool isCountOver(int time);
 	void calcMove(const vector<Player>& players);
