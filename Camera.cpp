@@ -1,15 +1,22 @@
 ﻿#include "Camera.h"
 #include "Keyboard.h"
+#include "Cursor.h"
+#include "GV.h"
+#include "Stage.h"
 
 Camera::Camera(){
 	// カメラの座標をセット
-	pos.x = 470;
-	pos.y = 290;
-	pos.z = 330;
+	
+	pos.x = -90;
+	pos.y = 270;
+	pos.z = -90;
+	
 	// カメラの注視点をセット
-	target.x = 190;
-	target.y = -56;
-	target.z = 70;
+	
+	target.x = 128;
+	target.y = 0;
+	target.z = 128;
+	
 
 	//ChangeLightTypePoint(VGet( pos.x, pos.y, pos.z ),	10000, 1, 0, 0 ) ;
 	//ライトの方向指定
@@ -18,26 +25,27 @@ Camera::Camera(){
 
 void Camera::update(){
 	//カメラテスト用です
+
+	
 	//カメラの位置を移動
 	if(Keyboard::pushing(KEY_INPUT_A) ){
-		pos.x += 3;
+		pos.x = -90;
+		pos.z = -90;
 	}
 	if(Keyboard::pushing(KEY_INPUT_Q) ){
-		pos.x -= 3;
+		pos.x = 378;
+		pos.z = -90;
 	}
+	
 	if(Keyboard::pushing(KEY_INPUT_S) ){
-		pos.y += 3;
+		pos.x = -90;
+		pos.z = 378;
 	}
 	if(Keyboard::pushing(KEY_INPUT_W) ){
-		pos.y -= 3;
+		pos.x = 378;
+		pos.z = 378;
 	}
-	if(Keyboard::pushing(KEY_INPUT_D) ){
-		pos.z += 3;
-	}
-	if(Keyboard::pushing(KEY_INPUT_E) ){
-		pos.z -= 3;
-	}
-
+	/*
 	//カメラの注視点のみ移動
 	if(Keyboard::pushing(KEY_INPUT_F) ){
 		target.x += 3;
@@ -83,10 +91,14 @@ void Camera::update(){
 		pos.z -= 3;
 		target.z -= 3;
 	}
+	*/
+	//カメラの位置を移動
+	//target = VGet(Cursor::pos.y*chipsize, Stage::getHeight(Cursor::pos)*chipheight, Cursor::pos.x*chipsize);
+	
 	DrawFormatString(0, 360, GetColor(255,255,255), " CamPos x:%.0f y:%.0f z:%.0f", pos.x, pos.y, pos.z);
 	DrawFormatString(0, 380, GetColor(255,255,255), " Target   x:%.0f y:%.0f z:%.0f", target.x, target.y, target.z);
-	pos = VGet( pos.x, pos.y, pos.z);
-	target = VGet(target.x,target.y,target.z);
+	//pos = VGet( pos.x, pos.y, pos.z);
+	//target = VGet(target.x,target.y,target.z);
 
 	//	平行移動
 	//target = VAdd(pos, target);
