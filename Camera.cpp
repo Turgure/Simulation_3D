@@ -1,23 +1,19 @@
 ﻿#include "Camera.h"
-#include "Keyboard.h"
-#include "Cursor.h"
 #include "GV.h"
+#include "Keyboard.h"
 #include "Stage.h"
-
-static const int difffromcameratotarget = 100;
+#include "Cursor.h"
 
 Camera::Camera(){
 	// カメラの座標をセット
-	
-		pos.x = Stage::getWidth()*chipsize+90;
-		pos.y = 270;
-		pos.z = Stage::getDepth()*chipsize+90;
-		target.x = Stage::getWidth()*chipsize/2;
-		target.y = 0;
-		target.z = Stage::getDepth()*chipsize/2;
+	pos.x = Stage::getWidth()*chipsize + 90;
+	pos.y = 270;
+	pos.z = Stage::getDepth()*chipsize + 90;
+	target.x = Stage::getWidth()*chipsize/2;
+	target.y = 0;
+	target.z = Stage::getDepth()*chipsize/2;
 
 	viewfrom = ZERO_ZERO;
-	
 
 	//ChangeLightTypePoint(VGet( pos.x, pos.y, pos.z ),	10000, 1, 0, 0 ) ;
 	//ライトの方向指定
@@ -27,7 +23,6 @@ Camera::Camera(){
 void Camera::update(){
 	//カメラテスト用です
 
-	
 	//カメラの位置を移動
 	if(Keyboard::pushing(KEY_INPUT_A) ){
 		pos.x = -90;
@@ -43,7 +38,7 @@ void Camera::update(){
 		target.z = Stage::getDepth()*chipsize/2;
 		viewfrom = ZERO_MAX;
 	}
-	
+
 	if(Keyboard::pushing(KEY_INPUT_S) ){
 		pos.x = -90;
 		pos.z = Stage::getDepth()*chipsize+90;
@@ -63,8 +58,8 @@ void Camera::update(){
 	switch(viewfrom){
 	case MAX_MAX:
 		if(Cursor::pos.y*chipsize-target.x > difffromcameratotarget){
-		target.x += chipsize;
-		pos.x += chipsize;
+			target.x += chipsize;
+			pos.x += chipsize;
 		}else if(target.x-Cursor::pos.y*chipsize > difffromcameratotarget){
 			target.x -= chipsize;
 			pos.x -= chipsize;
@@ -112,8 +107,8 @@ void Camera::update(){
 		break;
 	case ZERO_ZERO:
 		if(Cursor::pos.y*chipsize-target.x > difffromcameratotarget){
-		target.x += chipsize;
-		pos.x += chipsize;
+			target.x += chipsize;
+			pos.x += chipsize;
 		}else if(target.x-Cursor::pos.y*chipsize > difffromcameratotarget){
 			target.x -= chipsize;
 			pos.x -= chipsize;
@@ -130,7 +125,7 @@ void Camera::update(){
 	*/
 
 	//target = VGet(Cursor::pos.y*chipsize, Stage::getHeight(Cursor::pos)*chipheight, Cursor::pos.x*chipsize);
-	
+
 	DrawFormatString(0, 360, GetColor(255,255,255), " CamPos x:%.0f y:%.0f z:%.0f", pos.x, pos.y, pos.z);
 	DrawFormatString(0, 380, GetColor(255,255,255), " Target   x:%.0f y:%.0f z:%.0f", target.x, target.y, target.z);
 	DrawFormatString(0, 400, GetColor(255,255,255), " Cursor   x:%d y:%d z:%d", Cursor::pos.x, Cursor::pos.y, Stage::getHeight(Cursor::pos));
@@ -139,7 +134,6 @@ void Camera::update(){
 
 	//	平行移動
 	//target = VAdd(pos, target);
-
 
 	// カメラの位置と向きをセットする
 	SetCameraPositionAndTarget_UpVecY(pos, target);

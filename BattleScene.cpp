@@ -3,8 +3,6 @@
 #include "BattleScene.h"
 #include "HomeScene.h"
 #include "Keyboard.h"
-#include "Cursor.h"
-#include "Camera.h"
 
 BattleScene::BattleScene(){
 	has_come_turn = false;
@@ -27,6 +25,7 @@ void BattleScene::update(){
 	stage.update();
 	cursor.update();
 	camera.update();
+
 	for(auto& player : players){
 		player.update();
 	}
