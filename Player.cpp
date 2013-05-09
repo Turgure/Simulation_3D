@@ -65,8 +65,10 @@ void Player::draw(){
 		break;
 	}
 }
-
 void Player::action(){
+	static double diffX = chipsize/2;
+	static double posY;
+
 	DrawFormatString(0, 0, GetColor(255,255,255), "%s's turn.", name.c_str());
 
 	if(!can_move && !can_act) changeState(state, END);
@@ -163,11 +165,48 @@ void Player::action(){
 		mv_mng.setObjectDirection(model);
 
 		Position topos = pos + mv_mng.dir[mv_mng.current_dir];
+
 		mv_mng.diff = VAdd(mv_mng.diff,
 			VGet(mv_mng.dir[mv_mng.current_dir].y*chipsize*mv_mng.moving_rate, 0.0f, mv_mng.dir[mv_mng.current_dir].x*chipsize*mv_mng.moving_rate));
 
+		//高さが違うとき
+		if(Stage::getHeight(topos) != Stage::getHeight(pos)){
+			static int diffY = abs(Stage::getHeight(topos) - Stage::getHeight(pos)) * chipheight;
+			static double jump_height = 1 * chipheight;
+
+			static double q = diffY + jump_height;
+			static double p = ( -(chipsize/2)*(2*q-diffY) + chipsize*sqrt(q*(q-diffY)) ) / diffY;
+			static double a = q / pow((chipsize/2 - p), 2);
+
+			diffX += mv_mng.dir[mv_mng.current_dir].x*chipsize*mv_mng.moving_rate;
+
+			posY = -a*pow(diffX-p, 2) + q;
+
+			switch(mv_mng.current_dir){
+			case mv_mng.NORTH:
+			case mv_mng.SOUTH:
+				//mv_mng.diff = VAdd(mv_mng.diff,
+				//VGet(0.0f, , 0.0f));
+				break;
+			case mv_mng.EAST:
+			case mv_mng.WEST:
+
+				myvec.y = posY;
+
+				DrawFormatString(0, pos.y*20+32, GetColor(255,255,255), "q     = %f", q);
+				DrawFormatString(0, pos.y*20+48, GetColor(255,255,255), "p     = %f", p);
+				DrawFormatString(0, pos.y*20+64, GetColor(255,255,255), "a     = %f", a);
+
+				break;
+			default:
+				printfDx("jump direction error.");
+				break;
+			}
+		}
+
 		if(abs(topos.x*chipsize-myvec.z) < 1.0 && abs(topos.y*chipsize-myvec.x) < 1.0){
 			pos = topos;
+			diffX = chipsize/2;
 			mv_mng.diff = VGet(0.0f, 0.0f, 0.0f);
 			if(++order == mv_mng.path.size()){
 				order = 0;
@@ -178,6 +217,9 @@ void Player::action(){
 		}
 		break;
 	}
+
+	DrawFormatString(0, pos.y*20   , GetColor(255,255,255), "diffX = %f", diffX);
+	DrawFormatString(0, pos.y*20+16, GetColor(255,255,255), "posY  = %f", posY);
 }
 
 void Player::endMyTurn(){
