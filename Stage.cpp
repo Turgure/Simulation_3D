@@ -53,7 +53,7 @@ void Stage::initID(){
 
 void Stage::initMap(){
 	vector<vector<string>> mapdata;
-	FileStream::load("data/stage/stage1/map.csv", mapdata);
+	FileStream::load("data/stage/stage2/map.csv", mapdata);
 
 	auto& header = mapdata[0];
 	width = stoi(header[0]);
@@ -68,7 +68,6 @@ void Stage::initMap(){
 }
 
 void Stage::update(){
-	camera.update();
 }
 
 void Stage::draw(){

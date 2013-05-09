@@ -1,12 +1,6 @@
 ﻿#pragma once
 #include<DxLib.h>
 
-enum CameraPos{
-	DOWNRIGHT,
-	DOWNLEFT,
-	UPRIGHT,
-	UPLEFT
-};
 
 
 class Camera{
@@ -36,7 +30,12 @@ public:
 
 
 private:
-	CameraPos viewfrom;	//カメラの位置(右下,左下,右上,左上)
+	enum CameraPos{
+	ZERO_ZERO,
+	ZERO_MAX,
+	MAX_ZERO,
+	MAX_MAX
+	} viewfrom;	//カメラの位置(右下,左下,右上,左上)
 	VECTOR pos;		// カメラの座標
 	VECTOR target;	// カメラの注視点
 };

@@ -3,6 +3,8 @@
 #include "Keyboard.h"
 #include "Stage.h"
 
+
+
 Position Cursor::pos;
 
 Cursor::Cursor(){

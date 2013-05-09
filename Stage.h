@@ -65,6 +65,5 @@ private:
 
 	vector<MapchipDefinition> mapchipDefinition;
 	static Mapchip mapchip[100][100];	//予め100x100のメモリを確保
-	
-	Camera camera;
+
 };

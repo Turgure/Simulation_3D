@@ -4,19 +4,19 @@
 #include "GV.h"
 #include "Stage.h"
 
+static const int difffromcameratotarget = 100;
+
 Camera::Camera(){
 	// カメラの座標をセット
 	
-	pos.x = -90;
-	pos.y = 270;
-	pos.z = -90;
-	
-	// カメラの注視点をセット
-	target.x = 128;
-	target.y = 0;
-	target.z = 128;
+		pos.x = Stage::getWidth()*chipsize+90;
+		pos.y = 270;
+		pos.z = Stage::getDepth()*chipsize+90;
+		target.x = Stage::getWidth()*chipsize/2;
+		target.y = 0;
+		target.z = Stage::getDepth()*chipsize/2;
 
-	viewfrom = DOWNRIGHT;
+	viewfrom = ZERO_ZERO;
 	
 
 	//ChangeLightTypePoint(VGet( pos.x, pos.y, pos.z ),	10000, 1, 0, 0 ) ;
@@ -34,14 +34,14 @@ void Camera::update(){
 		pos.z = -90;
 		target.x = Stage::getWidth()*chipsize/2;
 		target.z = Stage::getDepth()*chipsize/2;
-		viewfrom = DOWNRIGHT;
+		viewfrom = ZERO_ZERO;
 	}
 	if(Keyboard::pushing(KEY_INPUT_Q) ){
 		pos.x = Stage::getWidth()*chipsize+90;
 		pos.z = -90;
 		target.x = Stage::getWidth()*chipsize/2;
 		target.z = Stage::getDepth()*chipsize/2;
-		viewfrom = UPRIGHT;
+		viewfrom = ZERO_MAX;
 	}
 	
 	if(Keyboard::pushing(KEY_INPUT_S) ){
@@ -49,65 +49,18 @@ void Camera::update(){
 		pos.z = Stage::getDepth()*chipsize+90;
 		target.x = Stage::getWidth()*chipheight/2;
 		target.z = Stage::getDepth()*chipheight/2;
-		viewfrom = DOWNLEFT;
+		viewfrom = MAX_ZERO;
 	}
 	if(Keyboard::pushing(KEY_INPUT_W) ){
 		pos.x = Stage::getWidth()*chipsize+90;
 		pos.z = Stage::getDepth()*chipsize+90;
 		target.x = Stage::getWidth()*chipsize/2;
 		target.z = Stage::getDepth()*chipsize/2;
-		viewfrom = UPLEFT;
+		viewfrom = MAX_MAX;
 	}
-	/*
-	//カメラの注視点のみ移動
-	if(Keyboard::pushing(KEY_INPUT_F) ){
-		target.x += 3;
-	}
-	if(Keyboard::pushing(KEY_INPUT_R) ){
-		target.x -= 3;
-	}
-	if(Keyboard::pushing(KEY_INPUT_G) ){
-		target.y += 3;
-	}
-	if(Keyboard::pushing(KEY_INPUT_T) ){
-		target.y -= 3;
-	}
-	if(Keyboard::pushing(KEY_INPUT_H) ){
-		target.z += 3;
-	}
-	if(Keyboard::pushing(KEY_INPUT_Y) ){
-		target.z -= 3;
-	}
-
-	//カメラを平行移動
-	if(Keyboard::pushing(KEY_INPUT_1) ){
-		pos.x += 3;
-		target.x +=3;
-	}
-	if(Keyboard::pushing(KEY_INPUT_2) ){
-		pos.x -= 3;
-		target.x -= 3;
-	}
-	if(Keyboard::pushing(KEY_INPUT_3) ){
-		pos.y += 3;
-		target.y += 3;
-	}
-	if(Keyboard::pushing(KEY_INPUT_4) ){
-		pos.y -= 3;
-		target.y -= 3;
-	}
-	if(Keyboard::pushing(KEY_INPUT_5) ){
-		pos.z += 3;
-		target.z += 3;
-	}
-	if(Keyboard::pushing(KEY_INPUT_6) ){
-		pos.z -= 3;
-		target.z -= 3;
-	}
-	*/
 	//カメラの位置を移動
 	switch(viewfrom){
-	case DOWNRIGHT:
+	case MAX_MAX:
 		if(Cursor::pos.y*chipsize-target.x > difffromcameratotarget){
 		target.x += chipsize;
 		pos.x += chipsize;
@@ -123,7 +76,7 @@ void Camera::update(){
 			pos.z -= chipsize;
 		}
 		break;
-	case DOWNLEFT:
+	case MAX_ZERO:
 		if(Cursor::pos.y*chipsize-target.x > difffromcameratotarget){
 			target.x += chipsize;
 			pos.x += chipsize;
@@ -140,7 +93,7 @@ void Camera::update(){
 		}
 		DrawFormatString(0, 420, GetColor(255,255,255), "x:%.0f",(Stage::getWidth()-Cursor::pos.x)*chipsize-target.z );
 		break;
-	case UPRIGHT:
+	case ZERO_MAX:
 		if(Cursor::pos.y*chipsize-target.x > difffromcameratotarget){
 			target.x += chipsize;
 			pos.x += chipsize;
@@ -156,7 +109,7 @@ void Camera::update(){
 			pos.z -= chipsize;
 		}
 		break;
-	case UPLEFT:
+	case ZERO_ZERO:
 		if(Cursor::pos.y*chipsize-target.x > difffromcameratotarget){
 		target.x += chipsize;
 		pos.x += chipsize;
