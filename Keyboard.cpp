@@ -25,7 +25,15 @@ int Keyboard::update(){
 }
 
 bool Keyboard::pushed(int keyID){
-	return (prevkey[keyID] == 0 && key[keyID] > 0);
+	return (prevkey[keyID] == 0 && key[keyID] == 1);
+}
+
+bool Keyboard::pushed(int keyID, int skipTo){
+	if(prevkey[keyID] == 0 && key[keyID] == 1){
+		key[keyID] = skipTo;
+		return true;
+	}
+	return false;
 }
 
 bool Keyboard::pushing(int keyID){
@@ -44,6 +52,6 @@ bool Keyboard::pushingPer(int keyID, int frame){
 	return (key[keyID] % frame == 0);
 }
 
-int Keyboard::get(int keyID){
+int Keyboard::getFrame(int keyID){
 	return key[keyID];
 }
