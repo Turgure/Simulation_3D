@@ -1,12 +1,14 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 #include "Keyboard.h"
 
 int Keyboard::key[256];
 int Keyboard::prevkey[256];
 
 void Keyboard::initialize(){
-	for(int i = 0; i < 256; i++) key[i] = 0;
-	for(int i = 0; i < 256; i++) prevkey[i] = 0;
+	for(int i = 0; i < 256; i++){
+		key[i] = 0;
+		prevkey[i] = 0;
+	}
 }
 
 int Keyboard::update(){
@@ -15,8 +17,8 @@ int Keyboard::update(){
 	for(int i = 0; i < 256; i++){
 		prevkey[i] = key[i];
 
-		if(tmpKey[i] != 0){//i”Ô‚ÌƒL[‚ª‰Ÿ‚³‚ê‚½‚ç
-			key[i]++;
+		if(tmpKey[i] != 0){//iç•ªã®ã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸã‚‰
+			++key[i];
 		} else {
 			key[i] = 0;
 		}
@@ -24,13 +26,9 @@ int Keyboard::update(){
 	return 0;
 }
 
-bool Keyboard::pushed(int keyID){
-	return (prevkey[keyID] == 0 && key[keyID] == 1);
-}
-
-bool Keyboard::pushed(int keyID, int skipTo){
+bool Keyboard::pushed(int keyID, bool judge_once){
 	if(prevkey[keyID] == 0 && key[keyID] == 1){
-		key[keyID] = skipTo;
+		if(judge_once) key[keyID] = INT_MIN;
 		return true;
 	}
 	return false;
@@ -41,7 +39,7 @@ bool Keyboard::pushing(int keyID){
 }
 
 bool Keyboard::released(int keyID){
-	return (prevkey[keyID] > 0 && key[keyID] == 0);
+	return (prevkey[keyID] == 1 && key[keyID] == 0);
 }
 
 bool Keyboard::pushingUntil(int keyID, int frame){

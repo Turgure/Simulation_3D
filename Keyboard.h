@@ -5,8 +5,7 @@ public:
 	static void initialize();
 	static int update();
 
-	static bool pushed(int keyID);
-	static bool pushed(int keyID, int skipTo);
+	static bool pushed(int keyID, bool judge_once = true);
 	static bool pushing(int keyID);
 	static bool released(int keyID);
 	
