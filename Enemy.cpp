@@ -22,6 +22,7 @@ Enemy::Enemy(int x, int y, string name, int hp, int mp, int str, int def, int ag
 		this->mobility = mobility;
 		state = SELECT;
 		ATBgauge = 100;
+		can_move = false;
 		can_act = false;
 		moved = false;
 		attacked = false;
@@ -64,7 +65,7 @@ void Enemy::action(){
 	case SELECT:
 		if(can_act)
 			state = ACTION;
-		else if(!moved)
+		else if(can_move)
 			state = MOVE;
 		else
 			state = END;
@@ -72,20 +73,19 @@ void Enemy::action(){
 
 	case MOVE:
 		//calcMove(player.pos);
-		Cursor::pos = move_pos;
+		if(can_move) Cursor::pos = move_pos;
 		state = WAIT;
 		break;
 
 	case ACTION:
 		//calcAttack(players);
-		if(can_act)
-			Cursor::pos = act_pos;
+		if(can_act) Cursor::pos = act_pos;
 		state = WAIT;
 		//attack(players);
 		break;
 
 	case END:
-		moved = false;
+		can_move = false;
 		can_act = false;
 		Stage::disbrighten();
 		break;
@@ -94,7 +94,7 @@ void Enemy::action(){
 		//if(isCountOver(30))
 		if(can_act){
 			break;
-		} else if(!moved){
+		} else if(can_move){
 			if(isCountOver(30)){
 				mv_mng.trackMovement(pos, Cursor::pos, mobility);
 				state = MOVING;
@@ -116,6 +116,7 @@ void Enemy::action(){
 			mv_mng.diff = VGet(0.0f, 0.0f, 0.0f);
 			if(++order == mv_mng.path.size()){
 				order = 0;
+				can_move = false;
 				moved = true;
 				Stage::disbrighten();
 				state = SELECT;
@@ -131,6 +132,7 @@ void Enemy::endMyTurn(){
 	wait_time = 0;
 	//if(moved) ATBgauge += 20;
 	//if(attacked) ATBgauge += 60;
+	can_move = false;
 	can_act = false;
 	moved = false;
 	attacked = false;
@@ -154,6 +156,8 @@ bool Enemy::isCountOver(int time){
 }
 
 void Enemy::calcMove(const vector<Player>& players){
+	if(moved) return;
+
 	ChipBrightnessManager::range(pos, mobility, true, this);
 
 	Position finalpos(-1, -1);
@@ -168,12 +172,14 @@ void Enemy::calcMove(const vector<Player>& players){
 				//最適な間合い（？）
 				if(diff == attack_range){
 					move_pos = finalpos = checkpos;
+					can_move = true;
 					Stage::disbrighten();
 					return;
 				}
 
 				if(diff <= dist){
 					finalpos = checkpos;
+					can_move = true;
 					dist = diff;
 
 				}
