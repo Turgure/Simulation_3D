@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <list>
 #include <vector>
 #include "BaseScene.h"
 #include "Stage.h"
@@ -29,5 +30,5 @@ private:
 	vector<Player> players;
 	vector<Enemy> enemies;
 
-	vector<string> order;
+	list<string> order;
 };

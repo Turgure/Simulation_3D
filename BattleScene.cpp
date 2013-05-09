@@ -150,8 +150,10 @@ void BattleScene::draw(){
 		enemy.draw();
 	}
 
-	for(unsigned int i = 0; i < order.size(); ++i){
-		DrawFormatString(0, 64+16*i, GetColor(255,255,255), "%2d: %s", i, order[i].c_str());
+	int i = 0;
+	for(auto& or : order){
+		DrawFormatString(0, 64+16*i, GetColor(255,255,255), "%2d: %s", i, or.c_str());
+		++i;
 	}
 
 	lateUpdate();
