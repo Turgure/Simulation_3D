@@ -24,6 +24,7 @@ bool BaseObject::changeState(State& mystate, State next){
 	return true;
 }
 
+
 ///BaseObjec::Status
 void BaseObject::Status::showStatus(int x, int y) const{
 	DrawFormatString(x, y   , GetColor(255,255,255), "name  %s", name.c_str());
@@ -66,7 +67,6 @@ void BaseObject::MovingManager::calcShortestPath(const Position& pos, const Posi
 		}
 	}
 }
-
 
 void BaseObject::MovingManager::setObjectDirection(int MHandle){
 	//Z軸の負の向きが始線。回転角は時計回り

@@ -51,7 +51,7 @@ public:
 		x += diffX;
 		y += diffY;
 	}
-	int getDist(const Position& pos, const Position& topos) const{
-		return (abs(pos.x - topos.x) + abs(pos.y - topos.y));
+	int getDist(const Position& topos) const{
+		return (abs(x - topos.x) + abs(y - topos.y));
 	}
 };

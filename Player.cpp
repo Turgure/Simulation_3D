@@ -252,3 +252,18 @@ void Player::attack(vector<Enemy> &enemies){
 		Stage::disbrighten();
 	}
 }
+
+bool Player::assignDirection(){
+	if(Keyboard::pushed(KEY_INPUT_UP)){
+		MV1SetRotationXYZ(model, VGet(0.0f, DX_PI_F/2, 0.0f));
+	} else if(Keyboard::pushed(KEY_INPUT_DOWN)){
+		MV1SetRotationXYZ(model, VGet(0.0f, -DX_PI_F/2, 0.0f));
+	} else if(Keyboard::pushed(KEY_INPUT_LEFT)){
+		MV1SetRotationXYZ(model, VGet(0.0f, 0.0f, 0.0f));
+	} else if(Keyboard::pushed(KEY_INPUT_RIGHT)){
+		MV1SetRotationXYZ(model, VGet(0.0f, DX_PI_F, 0.0f));
+	}
+
+	if(Keyboard::pushed(KEY_INPUT_Z)) return true;
+	else return false;
+}

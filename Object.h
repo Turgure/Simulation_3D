@@ -25,7 +25,6 @@ protected:
 	virtual void endMyTurn(){};
 	virtual void resetATBgauge(){};
 
-
 	int ATBgauge;
 	bool can_move;
 	bool can_act;
@@ -115,9 +114,10 @@ public:
 	virtual void stepATBgauge() override;
 	virtual void resetATBgauge() override;
 
-	void showCommand();
 
+	void showCommand();
 	void attack(vector<Enemy>& enemies);
+	bool assignDirection();
 
 	Status status;
 	CommandSelect command;
@@ -141,15 +141,17 @@ public:
 	virtual void stepATBgauge() override;
 	virtual void resetATBgauge() override;
 
-	bool isCountOver(int time);
 	void calcMove(const vector<Player>& players);
 	void calcAttack(const vector<Player>& players);
 	void attack(vector<Player>& players);
+	void assignDirection(const vector<Player>& players);
 
 	Status status;
 	Position pos;
 
 private:
+	bool isCountOver(int time);
+
 	int wait_time;
 	int attack_range;
 	bool moved;

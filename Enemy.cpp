@@ -22,7 +22,6 @@ Enemy::Enemy(int x, int y, string name, int hp, int mp, int str, int def, int ag
 		this->mobility = mobility;
 		state = SELECT;
 		ATBgauge = 100;
-		can_move = true;
 		can_act = false;
 		moved = false;
 		attacked = false;
@@ -65,7 +64,7 @@ void Enemy::action(){
 	case SELECT:
 		if(can_act)
 			state = ACTION;
-		else if(can_move)
+		else if(!moved)
 			state = MOVE;
 		else
 			state = END;
@@ -86,7 +85,7 @@ void Enemy::action(){
 		break;
 
 	case END:
-		can_move = false;
+		moved = false;
 		can_act = false;
 		Stage::disbrighten();
 		break;
@@ -95,9 +94,8 @@ void Enemy::action(){
 		//if(isCountOver(30))
 		if(can_act){
 			break;
-		} else if(can_move){
+		} else if(!moved){
 			if(isCountOver(30)){
-				can_move = false;
 				mv_mng.trackMovement(pos, Cursor::pos, mobility);
 				state = MOVING;
 			}
@@ -133,7 +131,6 @@ void Enemy::endMyTurn(){
 	wait_time = 0;
 	//if(moved) ATBgauge += 20;
 	//if(attacked) ATBgauge += 60;
-	can_move = true;
 	can_act = false;
 	moved = false;
 	attacked = false;
@@ -167,7 +164,7 @@ void Enemy::calcMove(const vector<Player>& players){
 			if(!Stage::isBrightened(checkpos) || Stage::getObjectAt(checkpos)) continue;
 
 			for(auto& player : players){
-				diff = pos.getDist(checkpos, player.pos);
+				diff = checkpos.getDist(player.pos);
 				//最適な間合い（？）
 				if(diff == attack_range){
 					move_pos = finalpos = checkpos;
@@ -235,4 +232,37 @@ void Enemy::attack(vector<Player>& players){
 	}
 
 	Stage::disbrighten();
+}
+
+void Enemy::assignDirection(const vector<Player>& players){
+	Position finalpos(-1, -1);
+	for(int y = 0; y < Stage::getDepth(); ++y){
+		for(int x = 0; x < Stage::getWidth(); ++x){
+			Position checkpos(x, y);
+
+			for(auto& player : players){
+				if(checkpos == player.pos){
+					//距離がより短い || 代入1回目
+					if(pos.getDist(checkpos) < pos.getDist(finalpos) || finalpos.x < 0){
+						finalpos = checkpos;
+					}
+				}
+			}
+		}
+	}
+
+	Position dirpos = pos - finalpos;
+	if(abs(dirpos.y) >= abs(dirpos.x) && dirpos.y > 0){
+		//north
+		MV1SetRotationXYZ(model, VGet(0.0f, DX_PI_F/2, 0.0f));
+	} else if(abs(dirpos.y) >= abs(dirpos.x) && dirpos.y < 0){
+		//south
+		MV1SetRotationXYZ(model, VGet(0.0f, -DX_PI_F/2, 0.0f));
+	} else if(abs(dirpos.y) <= abs(dirpos.x) && dirpos.x > 0){
+		//west
+		MV1SetRotationXYZ(model, VGet(0.0f, 0.0f, 0.0f));
+	} else if(abs(dirpos.y) <= abs(dirpos.x) && dirpos.x > 0){
+		//east
+		MV1SetRotationXYZ(model, VGet(0.0f, DX_PI_F, 0.0f));
+	}
 }

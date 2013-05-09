@@ -22,7 +22,6 @@ public:
 	static void drawChip(int x, int y, int color);
 
 	static bool canMove(const Position& pos);
-
 	static void brighten(const Position& pos, int color);
 	static void disbrighten();
 	static bool isBrightened(const Position& pos){ return mapchip[pos.y][pos.x].is_brighting; }

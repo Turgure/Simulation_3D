@@ -73,7 +73,6 @@ void BattleScene::update(){
 			case player.WAIT:
 			case player.MOVE:
 			case player.ATTACK:
-			case player.END:
 				cursor.manipulate();
 				break;
 			}
@@ -81,10 +80,12 @@ void BattleScene::update(){
 			player.attack(enemies);
 			player.action();
 			if(player.state == player.END){
-				player.endMyTurn();
-				has_come_turn = false;
-				act_only_one = false;
-				simulate();
+				if(player.assignDirection()){
+					player.endMyTurn();
+					has_come_turn = false;
+					act_only_one = false;
+					simulate();
+				}
 			}
 			break;
 		}
@@ -103,6 +104,7 @@ void BattleScene::update(){
 
 			if(enemy.state == enemy.END){
 				enemy.endMyTurn();
+				enemy.assignDirection(players);
 				has_come_turn = false;
 				simulate();
 			}
@@ -147,7 +149,7 @@ void BattleScene::draw(){
 	for(auto& enemy : enemies){
 		enemy.draw();
 	}
-	
+
 	for(unsigned int i = 0; i < order.size(); ++i){
 		DrawFormatString(0, 64+16*i, GetColor(255,255,255), "%2d: %s", i, order[i].c_str());
 	}
