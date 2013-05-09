@@ -1,6 +1,14 @@
 ﻿#pragma once
 #include<DxLib.h>
 
+enum CameraPos{
+	DOWNRIGHT,
+	DOWNLEFT,
+	UPRIGHT,
+	UPLEFT
+};
+
+
 class Camera{
 public:
 	Camera();
@@ -26,7 +34,9 @@ public:
 	float getTargetY(){ return target.y; }
 	float getTargetZ(){ return target.z; }
 
+
 private:
+	CameraPos viewfrom;	//カメラの位置(右下,左下,右上,左上)
 	VECTOR pos;		// カメラの座標
 	VECTOR target;	// カメラの注視点
 };
