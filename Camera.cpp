@@ -9,9 +9,9 @@ Camera::Camera(){
 	pos.x = Stage::getWidth()*chipsize + 90;
 	pos.y = 270;
 	pos.z = Stage::getDepth()*chipsize + 90;
-	target.x = Stage::getWidth()*chipsize/2;
+	target.x = Stage::getWidth()*chipsize-128;
 	target.y = 0;
-	target.z = Stage::getDepth()*chipsize/2;
+	target.z = Stage::getDepth()*chipsize-128;
 
 	viewfrom = ZERO_ZERO;
 
@@ -22,7 +22,8 @@ Camera::Camera(){
 
 void Camera::update(){
 	//カメラテスト用です
-
+	target.x = Cursor::pos.y*chipsize;
+	target.z = Cursor::pos.x*chipsize;
 	//カメラの位置を移動
 	if(Keyboard::pushing(KEY_INPUT_A) ){
 		pos.x = -90;
@@ -54,58 +55,23 @@ void Camera::update(){
 		viewfrom = MAX_MAX;
 	}
 	//カメラの位置を移動
-	/*
 	switch(viewfrom){
 	case MAX_MAX:
-		if(Cursor::pos.y*chipsize-target.x > difffromcameratotarget){
-			target.x += chipsize;
-			pos.x += chipsize;
-		}else if(target.x-Cursor::pos.y*chipsize > difffromcameratotarget){
-			target.x -= chipsize;
-			pos.x -= chipsize;
-		}
-		if(Cursor::pos.x*chipsize-target.z > difffromcameratotarget){
-			target.z += chipsize;
-			pos.z += chipsize;
-		}else if(target.z-Cursor::pos.x*chipsize > difffromcameratotarget){
-			target.z -= chipsize;
-			pos.z -= chipsize;
-		}
+		pos.x = target.x +220;
+		pos.z = target.z + 220;
 		break;
 	case MAX_ZERO:
-		if(Cursor::pos.y*chipsize-target.x > difffromcameratotarget){
-			target.x += chipsize;
-			pos.x += chipsize;
-		}else if(target.x-Cursor::pos.y*chipsize > difffromcameratotarget){
-			target.x -= chipsize;
-			pos.x -= chipsize;
-		}
-		if((Stage::getWidth()-Cursor::pos.x)*chipsize-target.z > difffromcameratotarget){
-			target.z += chipsize;
-			pos.z += chipsize;
-		}else if(target.z-(Stage::getDepth()-Cursor::pos.x)*chipsize > difffromcameratotarget){
-			target.z -= chipsize;
-			pos.z -= chipsize;
-		}
-		DrawFormatString(0, 420, GetColor(255,255,255), "x:%.0f",(Stage::getWidth()-Cursor::pos.x)*chipsize-target.z );
+		pos.x = target.x + 220;
+		pos.z = target.z -220;
 		break;
 	case ZERO_MAX:
-		if(Cursor::pos.y*chipsize-target.x > difffromcameratotarget){
-			target.x += chipsize;
-			pos.x += chipsize;
-		}else if(target.x-Cursor::pos.y*chipsize > difffromcameratotarget){
-			target.x -= chipsize;
-			pos.x -= chipsize;
-		}
-		if(Cursor::pos.x*chipsize-target.z > difffromcameratotarget){
-			target.z += chipsize;
-			pos.z += chipsize;
-		}else if(target.z-Cursor::pos.x*chipsize > difffromcameratotarget){
-			target.z -= chipsize;
-			pos.z -= chipsize;
-		}
+		pos.x = target.x -220;
+		pos.z = target.z +220;
 		break;
 	case ZERO_ZERO:
+		pos.x = target.x-220;
+		pos.z = target.z-220;
+		/*
 		if(Cursor::pos.y*chipsize-target.x > difffromcameratotarget){
 			target.x += chipsize;
 			pos.x += chipsize;
@@ -120,9 +86,9 @@ void Camera::update(){
 			target.z -= chipsize;
 			pos.z -= chipsize;
 		}
+		*/
 		break;
 	}
-	*/
 
 	//target = VGet(Cursor::pos.y*chipsize, Stage::getHeight(Cursor::pos)*chipheight, Cursor::pos.x*chipsize);
 
