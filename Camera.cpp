@@ -59,6 +59,7 @@ void Camera::update(){
 		viewfrom = MAX_MAX;
 	}
 	//カメラの位置を移動
+	/*
 	switch(viewfrom){
 	case MAX_MAX:
 		if(Cursor::pos.y*chipsize-target.x > difffromcameratotarget){
@@ -126,6 +127,7 @@ void Camera::update(){
 		}
 		break;
 	}
+	*/
 
 	//target = VGet(Cursor::pos.y*chipsize, Stage::getHeight(Cursor::pos)*chipheight, Cursor::pos.x*chipsize);
 	
