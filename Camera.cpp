@@ -6,13 +6,14 @@
 
 Camera::Camera(){
 	// カメラの座標をセット
+	/*
 	pos.x = Stage::getWidth()*chipsize + 90;
-	pos.y = 270;
 	pos.z = Stage::getDepth()*chipsize + 90;
 	target.x = Stage::getWidth()*chipsize-128;
-	target.y = 0;
 	target.z = Stage::getDepth()*chipsize-128;
-
+	*/
+	pos.y = 270;
+	target.y = 0;
 	viewfrom = ZERO_ZERO;
 
 	//ChangeLightTypePoint(VGet( pos.x, pos.y, pos.z ),	10000, 1, 0, 0 ) ;
@@ -26,32 +27,16 @@ void Camera::update(){
 	target.z = Cursor::pos.x*chipsize;
 	//カメラの位置を移動
 	if(Keyboard::pushing(KEY_INPUT_A) ){
-		pos.x = -90;
-		pos.z = -90;
-		target.x = Stage::getWidth()*chipsize/2;
-		target.z = Stage::getDepth()*chipsize/2;
 		viewfrom = ZERO_ZERO;
 	}
 	if(Keyboard::pushing(KEY_INPUT_Q) ){
-		pos.x = Stage::getWidth()*chipsize+90;
-		pos.z = -90;
-		target.x = Stage::getWidth()*chipsize/2;
-		target.z = Stage::getDepth()*chipsize/2;
 		viewfrom = ZERO_MAX;
 	}
 
 	if(Keyboard::pushing(KEY_INPUT_S) ){
-		pos.x = -90;
-		pos.z = Stage::getDepth()*chipsize+90;
-		target.x = Stage::getWidth()*chipheight/2;
-		target.z = Stage::getDepth()*chipheight/2;
 		viewfrom = MAX_ZERO;
 	}
 	if(Keyboard::pushing(KEY_INPUT_W) ){
-		pos.x = Stage::getWidth()*chipsize+90;
-		pos.z = Stage::getDepth()*chipsize+90;
-		target.x = Stage::getWidth()*chipsize/2;
-		target.z = Stage::getDepth()*chipsize/2;
 		viewfrom = MAX_MAX;
 	}
 	//カメラの位置を移動

@@ -2,7 +2,7 @@
 #include "GV.h"
 #include "Keyboard.h"
 #include "Stage.h"
-
+#include "Camera.h"
 
 
 Position Cursor::pos;
@@ -17,6 +17,12 @@ void Cursor::update(){
 }
 
 void Cursor::manipulate(){
+	switch(Camera::viewfrom){
+	case Camera::MAX_MAX:		break;
+	case Camera::MAX_ZERO:	break;
+	case Camera::ZERO_MAX:	break;
+	case Camera::ZERO_ZERO:	break;
+	}
 	if(Keyboard::pushed(KEY_INPUT_LEFT, false) ||
 		(Keyboard::pushingUntil(KEY_INPUT_LEFT, 30) && Keyboard::pushingPer(KEY_INPUT_LEFT, 6))){
 			if(pos.x > 0){
