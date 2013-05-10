@@ -30,6 +30,7 @@ void Camera::update(){
 		if(cameramovingtime == moveframe){
 			cameramovingtime = 0;
 			cameramoving = FALSE;
+			rotation = NON;
 		}
 		return;
 	}
@@ -61,10 +62,12 @@ void Camera::update(){
 		pos.z = target.z + 220;
 		if(Keyboard::pushed(KEY_INPUT_R,true) ){
 			viewfrom = ZERO_MAX;
+			rotation = RIGHT;
 			cameramoving = TRUE;
 		}
 		if(Keyboard::pushed(KEY_INPUT_L,true) ){
 			viewfrom = MAX_ZERO;
+			rotation = LEFT;
 			cameramoving = TRUE;
 		}
 		break;
@@ -73,10 +76,12 @@ void Camera::update(){
 		pos.z = target.z -220;
 		if(Keyboard::pushed(KEY_INPUT_R,true) ){
 			viewfrom = MAX_MAX;
+			rotation = RIGHT;
 			cameramoving = TRUE;
 		}
 		if(Keyboard::pushed(KEY_INPUT_L,true) ){
 			viewfrom = ZERO_ZERO;
+			rotation = LEFT;
 			cameramoving = TRUE;
 		}
 		break;
@@ -85,10 +90,12 @@ void Camera::update(){
 		pos.z = target.z +220;
 		if(Keyboard::pushed(KEY_INPUT_R,true) ){
 			viewfrom = ZERO_ZERO;
+			rotation = RIGHT;
 			cameramoving = TRUE;
 		}
 		if(Keyboard::pushed(KEY_INPUT_L,true) ){
 			viewfrom = MAX_MAX;
+			rotation = LEFT;
 			cameramoving = TRUE;
 		}
 		break;
@@ -97,10 +104,12 @@ void Camera::update(){
 		pos.z = target.z-220;
 		if(Keyboard::pushed(KEY_INPUT_R,true) ){
 			viewfrom = MAX_ZERO;
+			rotation = RIGHT;
 			cameramoving = TRUE;
 		}
 		if(Keyboard::pushed(KEY_INPUT_L,true) ){
 			viewfrom = ZERO_MAX;
+			rotation = LEFT;
 			cameramoving = TRUE;
 		}
 		//直後のコメントアウト消さないでくれると助かります(tannpo)
