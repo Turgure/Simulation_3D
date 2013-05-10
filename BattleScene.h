@@ -4,8 +4,8 @@
 #include "BaseScene.h"
 #include "Stage.h"
 #include "Cursor.h"
-#include "Object.h"
 #include "Camera.h"
+#include "Object.h"
 
 using namespace std;
 
