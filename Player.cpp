@@ -65,7 +65,6 @@ void Player::draw(){
 		break;
 	}
 }
-
 void Player::action(){
 	DrawFormatString(0, 0, GetColor(255,255,255), "%s's turn.", name.c_str());
 
@@ -159,15 +158,37 @@ void Player::action(){
 
 	case MOVING:
 		static int order;
+		static Position topos;
 		mv_mng.current_dir = mv_mng.path[order];
+		topos = pos + mv_mng.dir[mv_mng.current_dir];
 		mv_mng.setObjectDirection(model);
 
-		Position topos = pos + mv_mng.dir[mv_mng.current_dir];
 		mv_mng.diff = VAdd(mv_mng.diff,
 			VGet(mv_mng.dir[mv_mng.current_dir].y*chipsize*mv_mng.moving_rate, 0.0f, mv_mng.dir[mv_mng.current_dir].x*chipsize*mv_mng.moving_rate));
 
+		//高さが違うとき
+		if(Stage::getHeight(topos) != Stage::getHeight(pos)){
+			mv_mng.initJumpmotion(pos, topos);
+			mv_mng.jump_path -= mv_mng.jump_dist*mv_mng.moving_rate;
+
+			switch(mv_mng.jump){
+			case mv_mng.UP:
+				if(mv_mng.jump_path < mv_mng.jump_height){
+					mv_mng.jump_dist *= -1;
+				}
+				break;
+			case mv_mng.DOWN:
+				if(mv_mng.jump_path < mv_mng.jump_height + mv_mng.step){
+					mv_mng.jump_dist *= -1;
+				}
+				break;
+			}
+			mv_mng.diff = VAdd(mv_mng.diff, VGet(0.0f, mv_mng.jump_dist*mv_mng.moving_rate, 0.0f));
+		}
+
 		if(abs(topos.x*chipsize-myvec.z) < 1.0 && abs(topos.y*chipsize-myvec.x) < 1.0){
 			pos = topos;
+			mv_mng.jump_path = NULL;
 			mv_mng.diff = VGet(0.0f, 0.0f, 0.0f);
 			if(++order == mv_mng.path.size()){
 				order = 0;

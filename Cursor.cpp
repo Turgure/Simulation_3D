@@ -4,7 +4,6 @@
 #include "Stage.h"
 #include "Camera.h"
 
-
 Position Cursor::pos;
 
 Cursor::Cursor(){

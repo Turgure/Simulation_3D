@@ -154,6 +154,7 @@ void BattleScene::draw(){
 		enemy.draw();
 	}
 
+	//行動順を表示
 	int i = 0;
 	for(auto& or : order){
 		DrawFormatString(0, 64+16*i, GetColor(255,255,255), "%2d: %s", i, or.c_str());
