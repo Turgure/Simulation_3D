@@ -64,23 +64,23 @@ void Enemy::action(){
 	switch(state){
 	case SELECT:
 		if(can_act)
-			state = ACTION;
+			changeState(state, ACTION);
 		else if(can_move)
-			state = MOVE;
+			changeState(state, MOVE);
 		else
-			state = END;
+			changeState(state, END);
 		break;
 
 	case MOVE:
 		//calcMove(player.pos);
 		if(can_move) Cursor::pos = move_pos;
-		state = WAIT;
+		changeState(state, WAIT);
 		break;
 
 	case ACTION:
 		//calcAttack(players);
 		if(can_act) Cursor::pos = act_pos;
-		state = WAIT;
+		changeState(state, WAIT);
 		//attack(players);
 		break;
 
@@ -97,7 +97,7 @@ void Enemy::action(){
 		} else if(can_move){
 			if(isCountOver(30)){
 				mv_mng.trackMovement(pos, Cursor::pos, mobility);
-				state = MOVING;
+				changeState(state, MOVING);
 			}
 		}
 		break;
@@ -149,7 +149,7 @@ void Enemy::action(){
 }
 
 void Enemy::endMyTurn(){
-	state = SELECT;
+	changeState(state, SELECT);
 	ATBgauge =  100;
 	wait_time = 0;
 	//if(moved) ATBgauge += 20;
@@ -245,7 +245,7 @@ void Enemy::attack(vector<Player>& players){
 
 	can_act = false;
 	attacked = true;
-	state = SELECT;
+	changeState(state, SELECT);
 
 	if(Stage::isBrightened(Cursor::pos)){
 		for(auto& player : players){
