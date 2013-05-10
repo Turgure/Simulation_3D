@@ -86,6 +86,16 @@ void BaseObject::MovingManager::setObjectDirection(int MHandle){
 	}
 }
 
+void BaseObject::MovingManager::initJumpmotion(const Position& pos, const Position& topos){
+	if(jump_path != NULL) return;
+
+	step = (Stage::getHeight(topos) - Stage::getHeight(pos)) * chipheight;
+	jump = step > 0 ? UP : DOWN;
+	step = abs(step);
+	jump_dist = step + jump_height*2;
+	jump_path = jump_dist;
+}
+
 
 ///ObjectManager
 void ObjectManager::create(vector<Player> &players, const string& filename, int x, int y){
