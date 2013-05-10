@@ -18,35 +18,113 @@ void Cursor::update(){
 
 void Cursor::manipulate(){
 	switch(Camera::viewfrom){
-	case Camera::MAX_MAX:		break;
-	case Camera::MAX_ZERO:	break;
-	case Camera::ZERO_MAX:	break;
-	case Camera::ZERO_ZERO:	break;
-	}
-	if(Keyboard::pushed(KEY_INPUT_LEFT, false) ||
+	case MAX_MAX:		
+		if(Keyboard::pushed(KEY_INPUT_LEFT, false) ||
 		(Keyboard::pushingUntil(KEY_INPUT_LEFT, 30) && Keyboard::pushingPer(KEY_INPUT_LEFT, 6))){
 			if(pos.x > 0){
 				pos.Move(-1,  0);
 			}
-	}
-	if(Keyboard::pushed(KEY_INPUT_RIGHT, false) ||
-		(Keyboard::pushingUntil(KEY_INPUT_RIGHT, 30) && Keyboard::pushingPer(KEY_INPUT_RIGHT, 6))){
+		}
+		if(Keyboard::pushed(KEY_INPUT_RIGHT, false) ||
+			(Keyboard::pushingUntil(KEY_INPUT_RIGHT, 30) && Keyboard::pushingPer(KEY_INPUT_RIGHT, 6))){
 			if(pos.x < Stage::getWidth()-1){
 				pos.Move(1,  0);
 			}
-	}
-	if(Keyboard::pushed(KEY_INPUT_UP, false) ||
-		(Keyboard::pushingUntil(KEY_INPUT_UP, 30) && Keyboard::pushingPer(KEY_INPUT_UP, 6))){
+		}
+		if(Keyboard::pushed(KEY_INPUT_UP, false) ||
+			(Keyboard::pushingUntil(KEY_INPUT_UP, 30) && Keyboard::pushingPer(KEY_INPUT_UP, 6))){
 			if(pos.y > 0){
 				pos.Move(0, -1);
 			}
-	}
-	if(Keyboard::pushed(KEY_INPUT_DOWN, false) ||
-		(Keyboard::pushingUntil(KEY_INPUT_DOWN, 30) && Keyboard::pushingPer(KEY_INPUT_DOWN, 6))){
+		}
+		if(Keyboard::pushed(KEY_INPUT_DOWN, false) ||
+			(Keyboard::pushingUntil(KEY_INPUT_DOWN, 30) && Keyboard::pushingPer(KEY_INPUT_DOWN, 6))){
+				if(pos.y < Stage::getDepth()-1){
+					pos.Move(0,  1);
+				}
+		}
+		break;
+	case MAX_ZERO:	
+		if(Keyboard::pushed(KEY_INPUT_LEFT, false) ||
+		(Keyboard::pushingUntil(KEY_INPUT_LEFT, 30) && Keyboard::pushingPer(KEY_INPUT_LEFT, 6))){
+			if(pos.y > 0){
+				pos.Move(0, -1);
+			}
+		}
+		if(Keyboard::pushed(KEY_INPUT_RIGHT, false) ||
+			(Keyboard::pushingUntil(KEY_INPUT_RIGHT, 30) && Keyboard::pushingPer(KEY_INPUT_RIGHT, 6))){
 			if(pos.y < Stage::getDepth()-1){
 				pos.Move(0,  1);
 			}
+		}
+		if(Keyboard::pushed(KEY_INPUT_UP, false) ||
+			(Keyboard::pushingUntil(KEY_INPUT_UP, 30) && Keyboard::pushingPer(KEY_INPUT_UP, 6))){
+			if(pos.x < Stage::getWidth()-1){
+				pos.Move(1,  0);
+			}
+		}
+		if(Keyboard::pushed(KEY_INPUT_DOWN, false) ||
+			(Keyboard::pushingUntil(KEY_INPUT_DOWN, 30) && Keyboard::pushingPer(KEY_INPUT_DOWN, 6))){
+			if(pos.x > 0){
+				pos.Move(-1,  0);
+			}
+		}
+		break;
+	case ZERO_MAX:	
+		if(Keyboard::pushed(KEY_INPUT_LEFT, false) ||
+		(Keyboard::pushingUntil(KEY_INPUT_LEFT, 30) && Keyboard::pushingPer(KEY_INPUT_LEFT, 6))){
+			if(pos.y < Stage::getDepth()-1){
+				pos.Move(0,  1);
+			}
+		}
+		if(Keyboard::pushed(KEY_INPUT_RIGHT, false) ||
+			(Keyboard::pushingUntil(KEY_INPUT_RIGHT, 30) && Keyboard::pushingPer(KEY_INPUT_RIGHT, 6))){
+			if(pos.y > 0){
+				pos.Move(0, -1);
+			}
+		}
+		if(Keyboard::pushed(KEY_INPUT_UP, false) ||
+			(Keyboard::pushingUntil(KEY_INPUT_UP, 30) && Keyboard::pushingPer(KEY_INPUT_UP, 6))){
+			if(pos.x > 0){
+				pos.Move(-1,  0);
+			}
+		}
+		if(Keyboard::pushed(KEY_INPUT_DOWN, false) ||
+			(Keyboard::pushingUntil(KEY_INPUT_DOWN, 30) && Keyboard::pushingPer(KEY_INPUT_DOWN, 6))){
+			if(pos.x < Stage::getWidth()-1){
+				pos.Move(1,  0);
+			}
+		}
+		break;
+	case ZERO_ZERO:
+		if(Keyboard::pushed(KEY_INPUT_LEFT, false) ||
+		(Keyboard::pushingUntil(KEY_INPUT_LEFT, 30) && Keyboard::pushingPer(KEY_INPUT_LEFT, 6))){
+						if(pos.x < Stage::getWidth()-1){
+				pos.Move(1,  0);
+			}
+		}
+		if(Keyboard::pushed(KEY_INPUT_RIGHT, false) ||
+			(Keyboard::pushingUntil(KEY_INPUT_RIGHT, 30) && Keyboard::pushingPer(KEY_INPUT_RIGHT, 6))){
+			if(pos.x > 0){
+				pos.Move(-1,  0);
+			}
+		}
+		if(Keyboard::pushed(KEY_INPUT_UP, false) ||
+			(Keyboard::pushingUntil(KEY_INPUT_UP, 30) && Keyboard::pushingPer(KEY_INPUT_UP, 6))){
+			if(pos.y < Stage::getDepth()-1){
+				pos.Move(0,  1);
+			}
+		}
+		if(Keyboard::pushed(KEY_INPUT_DOWN, false) ||
+			(Keyboard::pushingUntil(KEY_INPUT_DOWN, 30) && Keyboard::pushingPer(KEY_INPUT_DOWN, 6))){
+			if(pos.y > 0){
+				pos.Move(0, -1);
+			}
+		}
+		break;
 	}
+
+	
 }
 
 void Cursor::draw(){

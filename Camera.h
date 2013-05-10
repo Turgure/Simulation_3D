@@ -1,19 +1,20 @@
 ﻿#pragma once
 #include <DxLib.h>
 
+enum CameraPos{
+		ZERO_ZERO,
+		ZERO_MAX,
+		MAX_ZERO,
+		MAX_MAX
+};//カメラの位置(右下,左下,右上,左上)
+
 class Camera{
 public:
 	Camera();
 	void update();
 
 	//カメラの状態を得る
-	enum CameraPos{
-		ZERO_ZERO,
-		ZERO_MAX,
-		MAX_ZERO,
-		MAX_MAX
-	};
-	static CameraPos viewfrom;	//カメラの位置(右下,左下,右上,左上)
+	static CameraPos viewfrom;	
 	//カメラのポジションセット
 	void setX(float x){ pos.x = x; }
 	void setY(float y){ pos.y = y; }

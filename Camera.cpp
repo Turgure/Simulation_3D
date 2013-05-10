@@ -4,6 +4,8 @@
 #include "Stage.h"
 #include "Cursor.h"
 
+CameraPos Camera::viewfrom;
+
 Camera::Camera(){
 	// カメラの座標をセット
 	/*
