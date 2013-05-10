@@ -25,119 +25,111 @@ void BattleScene::initialize(){
 void BattleScene::update(){
 	
 	camera.update();
-	if(camera.getCameraMoving()==FALSE){
-		stage.update();
-		cursor.update();
+	if(camera.getCameraMoving()){
+		return;
+	}
 
+	stage.update();
+	cursor.update();
+	for(auto& player : players){
+		player.update();
+	}
+	for(auto& enemy : enemies){
+		enemy.update();
+	}
+	//calculate ATBgauge
+	while(!has_come_turn){
 		for(auto& player : players){
-			player.update();
-		}
-		for(auto& enemy : enemies){
-			enemy.update();
-		}
-
-		//calculate ATBgauge
-		while(!has_come_turn){
-			for(auto& player : players){
-				//sub ATBgauge
+			//sub ATBgauge
 				player.stepATBgauge();
-
-				//check
-				if(player.isMyTurn()){
-					has_come_turn = true;
-					cursor.pos = player.pos;
-					break;
-				}
-			}
-			//敵との重複を避ける
-			if(has_come_turn) break;
-
-			for(auto& enemy : enemies){
-				//sub ATBgauge
-				enemy.stepATBgauge();
-
-				//check
-				if(enemy.isMyTurn()){
-					has_come_turn = true;
-					cursor.pos = enemy.pos;
-					break;
-				}
-			}
-			break;
-		}
-
-		//action
-		while(has_come_turn){
-			for(auto& player : players){
-				if(!player.isMyTurn()) continue;
-				act_only_one = true;
-	
-				switch(player.state){//コマンド選択時以外動かす
-				case player.WAIT:
-				case player.MOVE:
-				case player.ATTACK:
-					cursor.manipulate();
-					break;
-				}
-				
-				player.attack(enemies);
-				player.action();
-				if(player.state == player.END){
-					if(player.assignDirection()){
-						player.endMyTurn();
-						has_come_turn = false;
-						act_only_one = false;
-						simulate();
-					}
-				}
+			//check
+			if(player.isMyTurn()){
+				has_come_turn = true;
+				cursor.pos = player.pos;
 				break;
 			}
-			//敵との重複を避ける
-			if(act_only_one) break;
-	
-			for(auto& enemy : enemies){
-				if(!enemy.isMyTurn()) continue;
+		}
+		//敵との重複を避ける
+		if(has_come_turn) break;
+		for(auto& enemy : enemies){
+			//sub ATBgauge
+			enemy.stepATBgauge();
+			//check
+			if(enemy.isMyTurn()){
+				has_come_turn = true;
+				cursor.pos = enemy.pos;
+				break;
+			}
+		}
+		break;
+	}
+	//action
+	while(has_come_turn){
+		for(auto& player : players){
+			if(!player.isMyTurn()) continue;
+			act_only_one = true;
 
-				if(enemy.state == enemy.SELECT){
-					enemy.calcMove(players);
-					enemy.calcAttack(players);
-				}
-				enemy.action();
-				enemy.attack(players);
-
-				if(enemy.state == enemy.END){
-					enemy.endMyTurn();
-					enemy.assignDirection(players);
+			switch(player.state){//コマンド選択時以外動かす
+			case player.WAIT:
+			case player.MOVE:
+			case player.ATTACK:
+				cursor.manipulate();
+				break;
+			}
+			
+			player.attack(enemies);
+			player.action();
+			if(player.state == player.END){
+				if(player.assignDirection()){
+					player.endMyTurn();
 					has_come_turn = false;
+					act_only_one = false;
 					simulate();
 				}
-				break;
 			}
 			break;
 		}
+		//敵との重複を避ける
+		if(act_only_one) break;
 
-		//delete
-		auto player = players.begin();
-		while(player != players.end()){
-			if(player->getHP() <= 0){
-				player = players.erase(player);
-			} else {
-				++player;
+		for(auto& enemy : enemies){
+			if(!enemy.isMyTurn()) continue;
+			if(enemy.state == enemy.SELECT){
+				enemy.calcMove(players);
+				enemy.calcAttack(players);
 			}
-		}
-		auto enemy = enemies.begin();
-		while(enemy != enemies.end()){
-			if(enemy->getHP() <= 0){
-				enemy = enemies.erase(enemy);
-			} else {
-				++enemy;
+			enemy.action();
+			enemy.attack(players);
+			if(enemy.state == enemy.END){
+				enemy.endMyTurn();
+				enemy.assignDirection(players);
+				has_come_turn = false;
+				simulate();
 			}
+			break;
 		}
-
-		//change scene
-		if(players.empty() || enemies.empty()){
-			changeScene(new HomeScene);
+		break;
+	}
+	//delete
+	auto player = players.begin();
+	while(player != players.end()){
+		if(player->getHP() <= 0){
+			player = players.erase(player);
+		} else {
+			++player;
 		}
+	}
+	auto enemy = enemies.begin();
+	while(enemy != enemies.end()){
+		if(enemy->getHP() <= 0){
+			enemy = enemies.erase(enemy);
+		} else {
+			++enemy;
+		}
+	}
+	//change scene
+	if(players.empty() || enemies.empty()){
+		changeScene(new HomeScene);
 	}
 }
 
