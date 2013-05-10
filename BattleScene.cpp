@@ -151,9 +151,9 @@ void BattleScene::draw(){
 	}
 
 	//行動順を表示
-	//for(unsigned int i = 0; i < order.size(); ++i){
-	//	DrawFormatString(0, 64+16*i, GetColor(255,255,255), "%2d: %s", i, order[i].c_str());
-	//}
+	for(unsigned int i = 0; i < order.size(); ++i){
+		DrawFormatString(0, 64+16*i, GetColor(255,255,255), "%2d: %s", i, order[i].c_str());
+	}
 
 	lateUpdate();
 }
