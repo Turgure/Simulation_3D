@@ -68,6 +68,13 @@ void Player::draw(){
 void Player::action(){
 	static double diffX = chipsize/2;
 	static double posY;
+	static int diffY;
+	static double jump_height = 0;
+
+	static double q;
+	static double p;
+	static double a;
+
 
 	DrawFormatString(0, 0, GetColor(255,255,255), "%s's turn.", name.c_str());
 
@@ -171,16 +178,14 @@ void Player::action(){
 
 		//高さが違うとき
 		if(Stage::getHeight(topos) != Stage::getHeight(pos)){
-			static int diffY = abs(Stage::getHeight(topos) - Stage::getHeight(pos)) * chipheight;
-			static double jump_height = 1 * chipheight;
-
-			static double q = diffY + jump_height;
-			static double p = ( -(chipsize/2)*(2*q-diffY) + chipsize*sqrt(q*(q-diffY)) ) / diffY;
-			static double a = q / pow((chipsize/2 - p), 2);
+			diffY = abs(Stage::getHeight(topos) - Stage::getHeight(pos)) * chipheight;
 
 			diffX += mv_mng.dir[mv_mng.current_dir].x*chipsize*mv_mng.moving_rate;
-
 			posY = -a*pow(diffX-p, 2) + q;
+			q = diffY + jump_height;
+			p = ( -(chipsize/2)*(2*q-diffY) + chipsize*sqrt(q*(q-diffY)) ) / diffY;
+			a = q / pow((chipsize/2 - p), 2);
+
 
 			switch(mv_mng.current_dir){
 			case mv_mng.NORTH:
@@ -190,12 +195,12 @@ void Player::action(){
 				break;
 			case mv_mng.EAST:
 			case mv_mng.WEST:
+				if(diffX > 0){
+					mv_mng.diff = VAdd(mv_mng.diff, VGet(0.0f, posY, 0.0f));
+				} else {
+					mv_mng.diff = VSub(mv_mng.diff, VGet(0.0f, posY, 0.0f));
+				}
 
-				myvec.y = posY;
-
-				DrawFormatString(0, pos.y*20+32, GetColor(255,255,255), "q     = %f", q);
-				DrawFormatString(0, pos.y*20+48, GetColor(255,255,255), "p     = %f", p);
-				DrawFormatString(0, pos.y*20+64, GetColor(255,255,255), "a     = %f", a);
 
 				break;
 			default:
@@ -205,8 +210,11 @@ void Player::action(){
 		}
 
 		if(abs(topos.x*chipsize-myvec.z) < 1.0 && abs(topos.y*chipsize-myvec.x) < 1.0){
+
 			pos = topos;
 			diffX = chipsize/2;
+
+
 			mv_mng.diff = VGet(0.0f, 0.0f, 0.0f);
 			if(++order == mv_mng.path.size()){
 				order = 0;
@@ -218,8 +226,14 @@ void Player::action(){
 		break;
 	}
 
-	DrawFormatString(0, pos.y*20   , GetColor(255,255,255), "diffX = %f", diffX);
-	DrawFormatString(0, pos.y*20+16, GetColor(255,255,255), "posY  = %f", posY);
+	DrawFormatString(0,  32, GetColor(255,255,255), "diffX   = %f", diffX);
+	DrawFormatString(0,  48, GetColor(255,255,255), "diffY   = %d", diffY);
+	DrawFormatString(0,  64, GetColor(255,255,255), "posY    = %f", posY);
+	DrawFormatString(0,  80, GetColor(255,255,255), "myvec.z = %f", myvec.z);
+	DrawFormatString(0,  96, GetColor(255,255,255), "myvec.y = %f", myvec.y);
+	DrawFormatString(0, 112, GetColor(255,255,255), "q       = %f", q);
+	DrawFormatString(0, 128, GetColor(255,255,255), "p       = %f", p);
+	DrawFormatString(0, 144, GetColor(255,255,255), "a       = %f", a);
 }
 
 void Player::endMyTurn(){

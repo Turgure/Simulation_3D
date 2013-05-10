@@ -71,7 +71,8 @@ protected:
 			dir[WEST]  = Position(-1,  0);
 			dir[EAST]  = Position( 1,  0);
 
-			moving_rate = 0.05;	//1/20
+			move_frame = 20;
+			moving_rate = 1.0/move_frame;	//0.05
 			diff = VGet(0.0f,0.0f,0.0f);
 		}
 		void trackMovement(const Position& pos, const Position& topos, int mob);
@@ -84,6 +85,7 @@ protected:
 		void move();
 		void setObjectDirection(int MHandle);
 		int current_dir;
+		int move_frame;
 		double moving_rate;
 		VECTOR diff;
 	private:
