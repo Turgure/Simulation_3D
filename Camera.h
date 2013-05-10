@@ -14,7 +14,11 @@ public:
 	void update();
 
 	//カメラの状態を得る
-	static CameraPos viewfrom;	
+	static CameraPos viewfrom;
+
+	//カメラが移動回転中かどうかを調べる
+	bool getCameraMoving(){return cameramoving;}
+
 	//カメラのポジションセット
 	void setX(float x){ pos.x = x; }
 	void setY(float y){ pos.y = y; }
@@ -32,6 +36,7 @@ public:
 	float getTargetZ(){ return target.z; }
 
 private:
+	bool cameramoving;		//カメラが移動回転中かどうか
 	VECTOR pos;		// カメラの座標
 	VECTOR target;	// カメラの注視点
 
