@@ -123,8 +123,6 @@ void Cursor::manipulate(){
 		}
 		break;
 	}
-
-	
 }
 
 void Cursor::draw(){
