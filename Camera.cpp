@@ -18,28 +18,42 @@ Camera::Camera(){
 	target.y = 0;
 	viewfrom = MAX_MAX;
 	cameramoving = FALSE;
+	cameramovingtime = 0;
 	//ChangeLightTypePoint(VGet( pos.x, pos.y, pos.z ),	10000, 1, 0, 0 ) ;
 	//ライトの方向指定
 	SetLightDirection( VGet(-0.5, -0.7, -0.5) );
 }
 
 void Camera::update(){
+	if(getCameraMoving()){
+		cameramovingtime++;
+		if(cameramovingtime == moveframe){
+			cameramovingtime = 0;
+			cameramoving = FALSE;
+		}
+		return;
+	}
 	target.x = Cursor::pos.y*chipsize;
 	target.z = Cursor::pos.x*chipsize;
 	//カメラの位置を移動する
 	if(Keyboard::pushing(KEY_INPUT_A) ){
 		viewfrom = ZERO_ZERO;
+		cameramoving = TRUE;
 	}
 	if(Keyboard::pushing(KEY_INPUT_Q) ){
 		viewfrom = ZERO_MAX;
+		cameramoving = TRUE;
 	}
 
 	if(Keyboard::pushing(KEY_INPUT_S) ){
 		viewfrom = MAX_ZERO;
+		cameramoving = TRUE;
 	}
 	if(Keyboard::pushing(KEY_INPUT_W) ){
 		viewfrom = MAX_MAX;
+		cameramoving = TRUE;
 	}
+
 	//カメラの位置を移動後
 	switch(viewfrom){
 	case MAX_MAX:
@@ -47,9 +61,11 @@ void Camera::update(){
 		pos.z = target.z + 220;
 		if(Keyboard::pushed(KEY_INPUT_R,true) ){
 			viewfrom = ZERO_MAX;
+			cameramoving = TRUE;
 		}
 		if(Keyboard::pushed(KEY_INPUT_L,true) ){
 			viewfrom = MAX_ZERO;
+			cameramoving = TRUE;
 		}
 		break;
 	case MAX_ZERO:
@@ -57,9 +73,11 @@ void Camera::update(){
 		pos.z = target.z -220;
 		if(Keyboard::pushed(KEY_INPUT_R,true) ){
 			viewfrom = MAX_MAX;
+			cameramoving = TRUE;
 		}
 		if(Keyboard::pushed(KEY_INPUT_L,true) ){
 			viewfrom = ZERO_ZERO;
+			cameramoving = TRUE;
 		}
 		break;
 	case ZERO_MAX:
@@ -67,9 +85,11 @@ void Camera::update(){
 		pos.z = target.z +220;
 		if(Keyboard::pushed(KEY_INPUT_R,true) ){
 			viewfrom = ZERO_ZERO;
+			cameramoving = TRUE;
 		}
 		if(Keyboard::pushed(KEY_INPUT_L,true) ){
 			viewfrom = MAX_MAX;
+			cameramoving = TRUE;
 		}
 		break;
 	case ZERO_ZERO:
@@ -77,9 +97,11 @@ void Camera::update(){
 		pos.z = target.z-220;
 		if(Keyboard::pushed(KEY_INPUT_R,true) ){
 			viewfrom = MAX_ZERO;
+			cameramoving = TRUE;
 		}
 		if(Keyboard::pushed(KEY_INPUT_L,true) ){
 			viewfrom = ZERO_MAX;
+			cameramoving = TRUE;
 		}
 		//直後のコメントアウト消さないでくれると助かります(tannpo)
 		/*

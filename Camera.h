@@ -37,6 +37,7 @@ public:
 
 private:
 	bool cameramoving;		//カメラが移動回転中かどうか
+	int cameramovingtime;
 	VECTOR pos;		// カメラの座標
 	VECTOR target;	// カメラの注視点
 
