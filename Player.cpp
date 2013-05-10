@@ -66,16 +66,6 @@ void Player::draw(){
 	}
 }
 void Player::action(){
-	static double diffX = chipsize/2;
-	static double posY;
-	static int diffY;
-	static double jump_height = 0;
-
-	static double q;
-	static double p;
-	static double a;
-
-
 	DrawFormatString(0, 0, GetColor(255,255,255), "%s's turn.", name.c_str());
 
 	if(!can_move && !can_act) changeState(state, END);
@@ -178,30 +168,32 @@ void Player::action(){
 
 		//高さが違うとき
 		if(Stage::getHeight(topos) != Stage::getHeight(pos)){
-			diffY = abs(Stage::getHeight(topos) - Stage::getHeight(pos)) * chipheight;
-
-			diffX += mv_mng.dir[mv_mng.current_dir].x*chipsize*mv_mng.moving_rate;
-			posY = -a*pow(diffX-p, 2) + q;
-			q = diffY + jump_height;
-			p = ( -(chipsize/2)*(2*q-diffY) + chipsize*sqrt(q*(q-diffY)) ) / diffY;
-			a = q / pow((chipsize/2 - p), 2);
-
+			mv_mng.step = (Stage::getHeight(topos) - Stage::getHeight(pos)) * chipheight;
+			mv_mng.jump = mv_mng.step > 0 ? mv_mng.UP : mv_mng.DOWN;
+			mv_mng.step = abs(mv_mng.step);
+			mv_mng.jump_length = mv_mng.step + mv_mng.jump_height*2;
+			if(mv_mng.jump_dist == NULL) mv_mng.jump_dist = mv_mng.jump_length;
+			mv_mng.jump_dist -= mv_mng.jump_length*mv_mng.moving_rate;
 
 			switch(mv_mng.current_dir){
 			case mv_mng.NORTH:
 			case mv_mng.SOUTH:
-				//mv_mng.diff = VAdd(mv_mng.diff,
-				//VGet(0.0f, , 0.0f));
 				break;
 			case mv_mng.EAST:
 			case mv_mng.WEST:
-				if(diffX > 0){
-					mv_mng.diff = VAdd(mv_mng.diff, VGet(0.0f, posY, 0.0f));
-				} else {
-					mv_mng.diff = VSub(mv_mng.diff, VGet(0.0f, posY, 0.0f));
+				switch(mv_mng.jump){
+				case mv_mng.UP:
+					if(mv_mng.jump_dist < mv_mng.jump_height){
+						mv_mng.jump_length *= -1;
+					}
+					break;
+				case mv_mng.DOWN:
+					if(mv_mng.jump_dist < mv_mng.jump_height + mv_mng.step){
+						mv_mng.jump_length *= -1;
+					}
+					break;
 				}
-
-
+				mv_mng.diff = VAdd(mv_mng.diff, VGet(0.0f, mv_mng.jump_length*mv_mng.moving_rate, 0.0f));
 				break;
 			default:
 				printfDx("jump direction error.");
@@ -210,11 +202,8 @@ void Player::action(){
 		}
 
 		if(abs(topos.x*chipsize-myvec.z) < 1.0 && abs(topos.y*chipsize-myvec.x) < 1.0){
-
 			pos = topos;
-			diffX = chipsize/2;
-
-
+			mv_mng.jump_dist = NULL;
 			mv_mng.diff = VGet(0.0f, 0.0f, 0.0f);
 			if(++order == mv_mng.path.size()){
 				order = 0;
@@ -225,15 +214,6 @@ void Player::action(){
 		}
 		break;
 	}
-
-	DrawFormatString(0,  32, GetColor(255,255,255), "diffX   = %f", diffX);
-	DrawFormatString(0,  48, GetColor(255,255,255), "diffY   = %d", diffY);
-	DrawFormatString(0,  64, GetColor(255,255,255), "posY    = %f", posY);
-	DrawFormatString(0,  80, GetColor(255,255,255), "myvec.z = %f", myvec.z);
-	DrawFormatString(0,  96, GetColor(255,255,255), "myvec.y = %f", myvec.y);
-	DrawFormatString(0, 112, GetColor(255,255,255), "q       = %f", q);
-	DrawFormatString(0, 128, GetColor(255,255,255), "p       = %f", p);
-	DrawFormatString(0, 144, GetColor(255,255,255), "a       = %f", a);
 }
 
 void Player::endMyTurn(){
