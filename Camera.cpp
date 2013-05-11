@@ -17,44 +17,44 @@ Camera::Camera(){
 	pos.y = 270;
 	target.y = 0;
 	viewfrom = MAX_MAX;
-	cameramoving = false;
-	cameramovingtime = 0;
+	is_turning = false;
+	turning_time = 0;
 	//ChangeLightTypePoint(VGet( pos.x, pos.y, pos.z ),	10000, 1, 0, 0 ) ;
 	//ライトの方向指定
 	SetLightDirection( VGet(-0.5, -0.7, -0.5) );
 }
 
 void Camera::update(){
-	if(getCameraMoving()){
-		cameramovingtime++;
-		if(cameramovingtime == moveframe){
-			cameramovingtime = 0;
-			cameramoving = false;
+	if(isTurning()){
+		turning_time++;
+		if(turning_time == moveframe){
+			turning_time = 0;
+			is_turning = false;
 		}
 		return;
 	}
 	target.x = Cursor::pos.y * chipsize;
 	target.z = Cursor::pos.x * chipsize;
-	/*
+	
 	//カメラの位置を移動する
 	if(Keyboard::pushing(KEY_INPUT_A) ){
 		viewfrom = ZERO_ZERO;
-		cameramoving = true;
+		is_turning = true;
 	}
 	if(Keyboard::pushing(KEY_INPUT_Q) ){
 		viewfrom = ZERO_MAX;
-		cameramoving = true;
+		is_turning = true;
 	}
 
 	if(Keyboard::pushing(KEY_INPUT_S) ){
 		viewfrom = MAX_ZERO;
-		cameramoving = true;
+		is_turning = true;
 	}
 	if(Keyboard::pushing(KEY_INPUT_W) ){
 		viewfrom = MAX_MAX;
-		cameramoving = true;
+		is_turning = true;
 	}
-	*/
+	
 
 	//カメラの位置を移動後
 	switch(viewfrom){
@@ -97,12 +97,12 @@ void Camera::update(){
 	if(Keyboard::pushed(KEY_INPUT_R) ){
 		++viewfrom;
 		if(viewfrom >= DIR_NUM) viewfrom = MAX_MAX;
-		cameramoving = true;
+		is_turning = true;
 	}
 	if(Keyboard::pushed(KEY_INPUT_L) ){
 		viewfrom += DIR_NUM-1;
 		viewfrom %= DIR_NUM;
-		cameramoving = true;
+		is_turning = true;
 	}
 
 	//target = VGet(Cursor::pos.y*chipsize, Stage::getHeight(Cursor::pos)*chipheight, Cursor::pos.x*chipsize);
