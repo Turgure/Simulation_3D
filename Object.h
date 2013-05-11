@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <vector>
 #include <string>
+#include <DxLib.h>
 #include "GV.h"
 #include "Position.h"
 #include "Command.h"

@@ -1,9 +1,8 @@
-﻿#include <DxLib.h>
-#include "Object.h"
+﻿#include "Object.h"
 #include "Keyboard.h"
+#include "Stage.h"
 #include "Cursor.h"
 #include "ChipBrightnessManager.h"
-#include "Stage.h"
 
 Player::Player(int x, int y, string name, int hp, int mp, int str, int def, int agi, int mobility):pos(x, y){
 	model = MV1LoadModel("data/image/3Dmodel/chara/boko.pmd");

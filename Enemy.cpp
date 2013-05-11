@@ -1,8 +1,7 @@
-﻿#include <DxLib.h>
-#include "Object.h"
+﻿#include "Object.h"
+#include "Stage.h"
 #include "Cursor.h"
 #include "ChipBrightnessManager.h"
-#include "Stage.h"
 
 Enemy::Enemy(int x, int y, string name, int hp, int mp, int str, int def, int agi, int mobility):
 	pos(x, y),
