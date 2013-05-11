@@ -72,8 +72,7 @@ protected:
 			dir[WEST]  = Position(-1,  0);
 			dir[EAST]  = Position( 1,  0);
 
-			move_frame = 20;
-			moving_rate = 1.0/move_frame;	//0.05
+			moving_rate = 1.0/20;	//0.05
 			diff = VGet(0.0f,0.0f,0.0f);
 
 			jump_path = NULL;
@@ -89,7 +88,6 @@ protected:
 		void move();
 		void setObjectDirection(int MHandle);
 		int current_dir;
-		int move_frame;
 		double moving_rate;
 		VECTOR diff;
 

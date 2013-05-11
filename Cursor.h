@@ -8,6 +8,7 @@ public:
 	void update();
 	void draw();
 	void manipulate();
+	void setDirection();
 
 	static Position pos;
 

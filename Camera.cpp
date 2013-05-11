@@ -4,7 +4,7 @@
 #include "Stage.h"
 #include "Cursor.h"
 
-int Camera::viewfrom;
+int Camera::dir;
 
 Camera::Camera(){
 	// カメラの座標をセット
@@ -16,7 +16,7 @@ Camera::Camera(){
 	*/
 	pos.y = 270;
 	target.y = 0;
-	viewfrom = MAX_MAX;
+	dir = MAX_MAX;
 	is_turning = false;
 	turning_time = 0;
 	//ChangeLightTypePoint(VGet( pos.x, pos.y, pos.z ),	10000, 1, 0, 0 ) ;
@@ -38,26 +38,26 @@ void Camera::update(){
 	
 	//カメラの位置を移動する
 	if(Keyboard::pushing(KEY_INPUT_A) ){
-		viewfrom = ZERO_ZERO;
+		dir = ZERO_ZERO;
 		is_turning = true;
 	}
 	if(Keyboard::pushing(KEY_INPUT_Q) ){
-		viewfrom = ZERO_MAX;
+		dir = ZERO_MAX;
 		is_turning = true;
 	}
 
 	if(Keyboard::pushing(KEY_INPUT_S) ){
-		viewfrom = MAX_ZERO;
+		dir = MAX_ZERO;
 		is_turning = true;
 	}
 	if(Keyboard::pushing(KEY_INPUT_W) ){
-		viewfrom = MAX_MAX;
+		dir = MAX_MAX;
 		is_turning = true;
 	}
 	
 
 	//カメラの位置を移動後
-	switch(viewfrom){
+	switch(dir){
 	case MAX_MAX:
 		pos.x = target.x +220;
 		pos.z = target.z + 220;
@@ -95,13 +95,13 @@ void Camera::update(){
 	}
 
 	if(Keyboard::pushed(KEY_INPUT_R) ){
-		++viewfrom;
-		if(viewfrom >= DIR_NUM) viewfrom = MAX_MAX;
+		++dir;
+		if(dir >= DIR_NUM) dir = MAX_MAX;
 		is_turning = true;
 	}
 	if(Keyboard::pushed(KEY_INPUT_L) ){
-		viewfrom += DIR_NUM-1;
-		viewfrom %= DIR_NUM;
+		dir += DIR_NUM-1;
+		dir %= DIR_NUM;
 		is_turning = true;
 	}
 

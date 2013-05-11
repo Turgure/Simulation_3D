@@ -25,7 +25,10 @@ void BattleScene::initialize(){
 void BattleScene::update(){
 	stage.update();
 	camera.update();
-	if(camera.isTurning()) return;
+	if(camera.isTurning()){
+		cursor.setDirection();
+		return;
+	}
 	cursor.update();
 
 	for(auto& player : players){
