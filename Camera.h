@@ -8,22 +8,25 @@ public:
 
 	//カメラが移動回転中かどうかを調べる
 	bool isTurning(){ return is_turning; }
+	//カメラ方向に応じた,
+	//FRONT, BACK, LEFT, RIGHTの方向を得る
+	static int getDirection(int dir){ return direction[dir]; }
 
+private:
+	void setDirection();
+
+	bool is_turning;	//カメラが移動回転中かどうか
+	int turning_time;
+	static int direction[4];
+	
 	//カメラの位置(stageの右手前のマスの配列)
 	enum CameraDir{
 		MAX_MAX,
 		ZERO_MAX,
 		ZERO_ZERO,
 		MAX_ZERO,
-		DIR_NUM
 	};
-	static int getDir(){ return dir; }
-
-private:
-	//カメラの状態を得る
-	static int dir;
-	bool is_turning;	//カメラが移動回転中かどうか
-	int turning_time;
+	int cameradir;
 
 	VECTOR pos;		// カメラの座標
 	VECTOR target;	// カメラの注視点

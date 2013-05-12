@@ -8,7 +8,6 @@ Position Cursor::pos;
 
 Cursor::Cursor(){
 	image = MV1LoadModel("data/image/3Dmodel/cursor/cursor.x");
-	setDirection();
 }
 
 void Cursor::update(){
@@ -19,19 +18,19 @@ void Cursor::update(){
 void Cursor::manipulate(){
 	if(Keyboard::pushed(KEY_INPUT_LEFT, false) ||
 		(Keyboard::pushingUntil(KEY_INPUT_LEFT, 30) && Keyboard::pushingPer(KEY_INPUT_LEFT, 6))){
-			move(dir[0]);
+			move(Camera::getDirection(LEFT));
 	}
 	if(Keyboard::pushed(KEY_INPUT_RIGHT, false) ||
 		(Keyboard::pushingUntil(KEY_INPUT_RIGHT, 30) && Keyboard::pushingPer(KEY_INPUT_RIGHT, 6))){
-			move(dir[1]);
+			move(Camera::getDirection(RIGHT));
 	}
 	if(Keyboard::pushed(KEY_INPUT_UP, false) ||
 		(Keyboard::pushingUntil(KEY_INPUT_UP, 30) && Keyboard::pushingPer(KEY_INPUT_UP, 6))){
-			move(dir[2]);
+			move(Camera::getDirection(FRONT));
 	}
 	if(Keyboard::pushed(KEY_INPUT_DOWN, false) ||
 		(Keyboard::pushingUntil(KEY_INPUT_DOWN, 30) && Keyboard::pushingPer(KEY_INPUT_DOWN, 6))){
-			move(dir[3]);
+			move(Camera::getDirection(BACK));
 	}
 }
 
@@ -43,35 +42,6 @@ void Cursor::draw(){
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 192);
 	Stage::drawChip(pos.x, pos.y, GetColor(255,0,0));
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-}
-
-void Cursor::setDirection(){
-	switch(Camera::getDir()){
-	case Camera::MAX_MAX:
-		dir[0] = WEST;
-		dir[1] = EAST;
-		dir[2] = NORTH;
-		dir[3] = SOUTH;
-		break;
-	case Camera::ZERO_MAX:
-		dir[0] = SOUTH;
-		dir[1] = NORTH;
-		dir[2] = WEST;
-		dir[3] = EAST;
-		break;
-	case Camera::ZERO_ZERO:
-		dir[0] = EAST;
-		dir[1] = WEST;
-		dir[2] = SOUTH;
-		dir[3] = NORTH;
-		break;
-	case Camera::MAX_ZERO:
-		dir[0] = NORTH;
-		dir[1] = SOUTH;
-		dir[2] = EAST;
-		dir[3] = WEST;
-		break;
-	}
 }
 
 void Cursor::move(int direction){
