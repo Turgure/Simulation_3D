@@ -68,22 +68,26 @@ void BaseObject::MovingManager::calcShortestPath(const Position& pos, const Posi
 	}
 }
 
-void BaseObject::MovingManager::setObjectDirection(int MHandle){
+void BaseObject::MovingManager::setObjectDirection(int model, int dir){
 	//Z軸の負の向きが始線。回転角は時計回り
-	switch(current_dir){
+	switch(dir){
 	case NORTH:
-		MV1SetRotationXYZ(MHandle, VGet(0.0f, DX_PI_F/2, 0.0f));
+		MV1SetRotationXYZ(model, VGet(0.0f, DX_PI_F/2, 0.0f));
 		break;
 	case SOUTH:
-		MV1SetRotationXYZ(MHandle, VGet(0.0f, -DX_PI_F/2, 0.0f));
+		MV1SetRotationXYZ(model, VGet(0.0f, -DX_PI_F/2, 0.0f));
 		break;
 	case WEST:
-		MV1SetRotationXYZ(MHandle, VGet(0.0f, 0.0f, 0.0f));
+		MV1SetRotationXYZ(model, VGet(0.0f, 0.0f, 0.0f));
 		break;
 	case EAST:
-		MV1SetRotationXYZ(MHandle, VGet(0.0f, DX_PI_F, 0.0f));
+		MV1SetRotationXYZ(model, VGet(0.0f, DX_PI_F, 0.0f));
 		break;
 	}
+}
+
+void BaseObject::MovingManager::setObjectDirection(int model){
+	setObjectDirection(model, current_dir);
 }
 
 void BaseObject::MovingManager::initJumpmotion(const Position& pos, const Position& topos){

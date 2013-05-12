@@ -81,12 +81,12 @@ protected:
 		void trackMovement(const Position& pos, const Position& topos, int mob);
 		void initialize();
 		void calcShortestPath(const Position& pos, const Position& topos, int mob);
-		enum Direction{NORTH, SOUTH, WEST, EAST, DIR_NUM};
 		Position dir[4];
 		vector<int> path;
 		
 		void move();
-		void setObjectDirection(int MHandle);
+		void setObjectDirection(int model, int dir);
+		void setObjectDirection(int model);
 		int current_dir;
 		double moving_rate;
 		VECTOR diff;
