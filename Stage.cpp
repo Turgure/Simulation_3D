@@ -134,6 +134,8 @@ bool Stage::canMove(const Position& pos){
 }
 
 void Stage::brighten(const Position& pos, int color){
+	if(mapchip[pos.y][pos.x].is_brighting) return;
+
 	mapchip[pos.y][pos.x].is_brighting = true;
 	mapchip[pos.y][pos.x].bright_color = color;
 }

@@ -22,6 +22,7 @@ Player::Player(int x, int y, string name, int hp, int mp, int str, int def, int 
 	ATBgauge = 100;
 	can_move = true;
 	can_act = true;
+	has_brightened = false;
 }
 
 void Player::update(){
@@ -56,10 +57,16 @@ void Player::draw(){
 
 	switch(state){
 	case MOVE:
-		ChipBrightnessManager::range(pos, mobility, true, this);
+		if(!has_brightened){
+			ChipBrightnessManager::range(pos, mobility, true, this);
+			has_brightened = true;
+		}
 		break;
 	case ATTACK:
-		ChipBrightnessManager::reachTo(pos, ChipBrightnessManager::getColorAttack(), 1, 3);
+		if(!has_brightened){
+			ChipBrightnessManager::reachTo(pos, ChipBrightnessManager::getColorAttack(), 1, 3);
+			has_brightened = true;
+		}
 		break;
 	default:
 		break;
@@ -73,6 +80,7 @@ void Player::action(){
 	switch(state){
 	case SELECT:
 		Stage::disbrighten();
+		has_brightened = false;
 		if(pos == Cursor::pos){
 			if(Keyboard::pushed(KEY_INPUT_X)){
 				if(changeState(state, WAIT)){
@@ -120,6 +128,8 @@ void Player::action(){
 		break;
 
 	case ACTION:
+		Stage::disbrighten();
+		has_brightened = false;
 		if(Keyboard::pushed(KEY_INPUT_X)){
 			if(changeState(state, SELECT)){
 				command.back();
@@ -142,6 +152,7 @@ void Player::action(){
 		can_move = false;
 		can_act = false;
 		Stage::disbrighten();
+		has_brightened = false;
 		break;
 
 	case WAIT:
@@ -194,6 +205,7 @@ void Player::action(){
 				order = 0;
 				can_move = false;
 				Stage::disbrighten();
+				has_brightened = false;
 				changeState(state, SELECT);
 			}
 		}
@@ -271,6 +283,7 @@ void Player::attack(vector<Enemy> &enemies){
 			}
 		}
 		Stage::disbrighten();
+		has_brightened = false;
 	}
 }
 

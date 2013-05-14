@@ -39,11 +39,12 @@ void ChipBrightnessManager::range(const Position& pos, int n, bool is_resistance
 					if(me_player == you_player || you_enemy == NULL){
 						range(topos, rest, is_resistance, obj);
 					}
-				} else if(me_enemy != NULL){
+					continue;
+				}
+				if(me_enemy != NULL){
 					if(me_enemy == you_enemy || you_player == NULL){
 						range(topos, rest, is_resistance, obj);
 					}
-				} else {
 					continue;
 				}
 			}

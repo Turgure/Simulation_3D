@@ -25,6 +25,7 @@ Enemy::Enemy(int x, int y, string name, int hp, int mp, int str, int def, int ag
 		can_act = false;
 		moved = false;
 		attacked = false;
+		has_brightened = false;
 		wait_time = 0;
 		attack_range = 3;
 }
@@ -46,11 +47,16 @@ void Enemy::draw(){
 
 	switch(state){
 	case MOVE:
-		ChipBrightnessManager::range(pos, mobility, true, this);
+		if(!has_brightened){
+			ChipBrightnessManager::range(pos, mobility, true, this);
+		has_brightened = true;
+		}
 		break;
 	case ACTION:
-		if(can_act)
+		if(can_act && !has_brightened){
 			ChipBrightnessManager::reachTo(pos, ChipBrightnessManager::getColorAttack(), 1, attack_range);
+			has_brightened = true;
+		}
 		break;
 	default:
 		break;
@@ -87,6 +93,7 @@ void Enemy::action(){
 		can_move = false;
 		can_act = false;
 		Stage::disbrighten();
+		has_brightened = false;
 		break;
 
 	case WAIT:
@@ -140,6 +147,7 @@ void Enemy::action(){
 				can_move = false;
 				moved = true;
 				Stage::disbrighten();
+				has_brightened = false;
 				changeState(state, SELECT);
 			}
 		}
@@ -259,6 +267,7 @@ void Enemy::attack(vector<Player>& players){
 	}
 
 	Stage::disbrighten();
+	has_brightened = false;
 }
 
 void Enemy::assignDirection(const vector<Player>& players){

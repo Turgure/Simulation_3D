@@ -29,6 +29,7 @@ protected:
 	int ATBgauge;
 	bool can_move;
 	bool can_act;
+	bool has_brightened;
 
 	bool changeState(State& mystate, State next);
 	bool state_changed;
