@@ -3,8 +3,8 @@
 #include <vector>
 #include "BaseScene.h"
 #include "Stage.h"
-#include "Cursor.h"
 #include "Camera.h"
+#include "Cursor.h"
 #include "Object.h"
 
 using namespace std;
@@ -25,8 +25,8 @@ private:
 	void simulate();
 
 	Stage stage;
-	Cursor cursor;
 	Camera camera;
+	Cursor cursor;
 	vector<Player> players;
 	vector<Enemy> enemies;
 

@@ -23,25 +23,25 @@ void BattleScene::initialize(){
 }
 
 void BattleScene::update(){
-	
-	camera.update();
-	if(camera.getCameraMoving()){
-		return;
-	}
-
 	stage.update();
+	camera.update();
+
+	if(camera.isTurning()) return;
 	cursor.update();
+
 	for(auto& player : players){
 		player.update();
 	}
 	for(auto& enemy : enemies){
 		enemy.update();
 	}
+
 	//calculate ATBgauge
 	while(!has_come_turn){
 		for(auto& player : players){
 			//sub ATBgauge
-				player.stepATBgauge();
+			player.stepATBgauge();
+
 			//check
 			if(player.isMyTurn()){
 				has_come_turn = true;
@@ -51,9 +51,11 @@ void BattleScene::update(){
 		}
 		//敵との重複を避ける
 		if(has_come_turn) break;
+
 		for(auto& enemy : enemies){
 			//sub ATBgauge
 			enemy.stepATBgauge();
+
 			//check
 			if(enemy.isMyTurn()){
 				has_come_turn = true;
@@ -63,6 +65,7 @@ void BattleScene::update(){
 		}
 		break;
 	}
+
 	//action
 	while(has_come_turn){
 		for(auto& player : players){
@@ -76,7 +79,7 @@ void BattleScene::update(){
 				cursor.manipulate();
 				break;
 			}
-			
+
 			player.attack(enemies);
 			player.action();
 			if(player.state == player.END){
@@ -100,6 +103,7 @@ void BattleScene::update(){
 			}
 			enemy.action();
 			enemy.attack(players);
+
 			if(enemy.state == enemy.END){
 				enemy.endMyTurn();
 				enemy.assignDirection(players);
@@ -110,6 +114,7 @@ void BattleScene::update(){
 		}
 		break;
 	}
+
 	//delete
 	auto player = players.begin();
 	while(player != players.end()){
@@ -127,6 +132,7 @@ void BattleScene::update(){
 			++enemy;
 		}
 	}
+
 	//change scene
 	if(players.empty() || enemies.empty()){
 		changeScene(new HomeScene);

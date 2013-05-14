@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <vector>
 #include <string>
+#include <DxLib.h>
 #include "GV.h"
 #include "Position.h"
 #include "Command.h"
@@ -71,8 +72,7 @@ protected:
 			dir[WEST]  = Position(-1,  0);
 			dir[EAST]  = Position( 1,  0);
 
-			move_frame = 20;
-			moving_rate = 1.0/move_frame;	//0.05
+			moving_rate = 1.0/20;	//0.05
 			diff = VGet(0.0f,0.0f,0.0f);
 
 			jump_path = NULL;
@@ -81,14 +81,13 @@ protected:
 		void trackMovement(const Position& pos, const Position& topos, int mob);
 		void initialize();
 		void calcShortestPath(const Position& pos, const Position& topos, int mob);
-		enum Direction{NORTH, SOUTH, WEST, EAST, DIR_NUM};
 		Position dir[4];
 		vector<int> path;
 		
 		void move();
-		void setObjectDirection(int MHandle);
+		void setObjectDirection(int model, int dir);
+		void setObjectDirection(int model);
 		int current_dir;
-		int move_frame;
 		double moving_rate;
 		VECTOR diff;
 

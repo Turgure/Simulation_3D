@@ -1,15 +1,15 @@
-﻿#include <DxLib.h>
-#include "Object.h"
+﻿#include "Object.h"
 #include "Keyboard.h"
+#include "Stage.h"
+#include "Camera.h"
 #include "Cursor.h"
 #include "ChipBrightnessManager.h"
-#include "Stage.h"
 
 Player::Player(int x, int y, string name, int hp, int mp, int str, int def, int agi, int mobility):pos(x, y){
 	model = MV1LoadModel("data/image/3Dmodel/chara/boko.pmd");
 	MV1SetScale(model, VGet(3.0f, 3.0f, 3.0f));	//拡大
 	MV1SetRotationXYZ(model, VGet(0.0f, 90 * DX_PI_F/180.0f, 0.0f));	//向き
-	mv_mng.current_dir = mv_mng.NORTH;
+	mv_mng.current_dir = NORTH;
 
 	this->name = name;
 	this->hp = maxhp = hp;
@@ -275,14 +275,15 @@ void Player::attack(vector<Enemy> &enemies){
 }
 
 bool Player::assignDirection(){
+
 	if(Keyboard::pushed(KEY_INPUT_UP)){
-		MV1SetRotationXYZ(model, VGet(0.0f, DX_PI_F/2, 0.0f));
+		mv_mng.setObjectDirection(model, Camera::getDirection(FRONT));
 	} else if(Keyboard::pushed(KEY_INPUT_DOWN)){
-		MV1SetRotationXYZ(model, VGet(0.0f, -DX_PI_F/2, 0.0f));
+		mv_mng.setObjectDirection(model, Camera::getDirection(BACK));
 	} else if(Keyboard::pushed(KEY_INPUT_LEFT)){
-		MV1SetRotationXYZ(model, VGet(0.0f, 0.0f, 0.0f));
+		mv_mng.setObjectDirection(model, Camera::getDirection(LEFT));
 	} else if(Keyboard::pushed(KEY_INPUT_RIGHT)){
-		MV1SetRotationXYZ(model, VGet(0.0f, DX_PI_F, 0.0f));
+		mv_mng.setObjectDirection(model, Camera::getDirection(RIGHT));
 	}
 
 	if(Keyboard::pushed(KEY_INPUT_Z)) return true;

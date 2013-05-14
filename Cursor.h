@@ -12,6 +12,8 @@ public:
 	static Position pos;
 
 private:
+	void move(int direction);
+
 	int image;
 
 	VECTOR myvec;

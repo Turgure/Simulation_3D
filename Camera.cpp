@@ -4,7 +4,7 @@
 #include "Stage.h"
 #include "Cursor.h"
 
-CameraPos Camera::viewfrom;
+int Camera::direction[4];
 
 Camera::Camera(){
 	// カメラの座標をセット
@@ -16,102 +16,65 @@ Camera::Camera(){
 	*/
 	pos.y = 270;
 	target.y = 0;
-	viewfrom = MAX_MAX;
-	cameramoving = FALSE;
-	cameramovingtime = 0;
+	cameradir = MAX_MAX;
+	setDirection();
+
+	is_turning = false;
+	turning_time = 0;
 	//ChangeLightTypePoint(VGet( pos.x, pos.y, pos.z ),	10000, 1, 0, 0 ) ;
 	//ライトの方向指定
 	SetLightDirection( VGet(-0.5, -0.7, -0.5) );
 }
 
 void Camera::update(){
-	if(getCameraMoving()){
-		cameramovingtime++;
-		if(cameramovingtime == moveframe){
-			cameramovingtime = 0;
-			cameramoving = FALSE;
-			rotation = NON;
+	if(isTurning()){
+		turning_time++;
+		if(turning_time == moveframe){
+			turning_time = 0;
+			is_turning = false;
 		}
 		return;
 	}
-	target.x = Cursor::pos.y*chipsize;
-	target.z = Cursor::pos.x*chipsize;
+	target.x = Cursor::pos.y * chipsize;
+	target.z = Cursor::pos.x * chipsize;
+	
 	//カメラの位置を移動する
 	if(Keyboard::pushing(KEY_INPUT_A) ){
-		viewfrom = ZERO_ZERO;
-		cameramoving = TRUE;
+		cameradir = ZERO_ZERO;
+		is_turning = true;
 	}
 	if(Keyboard::pushing(KEY_INPUT_Q) ){
-		viewfrom = ZERO_MAX;
-		cameramoving = TRUE;
+		cameradir = ZERO_MAX;
+		is_turning = true;
 	}
 
 	if(Keyboard::pushing(KEY_INPUT_S) ){
-		viewfrom = MAX_ZERO;
-		cameramoving = TRUE;
+		cameradir = MAX_ZERO;
+		is_turning = true;
 	}
 	if(Keyboard::pushing(KEY_INPUT_W) ){
-		viewfrom = MAX_MAX;
-		cameramoving = TRUE;
+		cameradir = MAX_MAX;
+		is_turning = true;
 	}
+	
 
 	//カメラの位置を移動後
-	switch(viewfrom){
+	switch(cameradir){
 	case MAX_MAX:
 		pos.x = target.x +220;
 		pos.z = target.z + 220;
-		if(Keyboard::pushed(KEY_INPUT_R,true) ){
-			viewfrom = ZERO_MAX;
-			rotation = RIGHT;
-			cameramoving = TRUE;
-		}
-		if(Keyboard::pushed(KEY_INPUT_L,true) ){
-			viewfrom = MAX_ZERO;
-			rotation = LEFT;
-			cameramoving = TRUE;
-		}
 		break;
 	case MAX_ZERO:
 		pos.x = target.x + 220;
 		pos.z = target.z -220;
-		if(Keyboard::pushed(KEY_INPUT_R,true) ){
-			viewfrom = MAX_MAX;
-			rotation = RIGHT;
-			cameramoving = TRUE;
-		}
-		if(Keyboard::pushed(KEY_INPUT_L,true) ){
-			viewfrom = ZERO_ZERO;
-			rotation = LEFT;
-			cameramoving = TRUE;
-		}
 		break;
 	case ZERO_MAX:
 		pos.x = target.x -220;
 		pos.z = target.z +220;
-		if(Keyboard::pushed(KEY_INPUT_R,true) ){
-			viewfrom = ZERO_ZERO;
-			rotation = RIGHT;
-			cameramoving = TRUE;
-		}
-		if(Keyboard::pushed(KEY_INPUT_L,true) ){
-			viewfrom = MAX_MAX;
-			rotation = LEFT;
-			cameramoving = TRUE;
-		}
 		break;
 	case ZERO_ZERO:
 		pos.x = target.x-220;
 		pos.z = target.z-220;
-		if(Keyboard::pushed(KEY_INPUT_R,true) ){
-			viewfrom = MAX_ZERO;
-			rotation = RIGHT;
-			cameramoving = TRUE;
-		}
-		if(Keyboard::pushed(KEY_INPUT_L,true) ){
-			viewfrom = ZERO_MAX;
-			rotation = LEFT;
-			cameramoving = TRUE;
-		}
 		//直後のコメントアウト消さないでくれると助かります(tannpo)
 		/*
 		if(Cursor::pos.y*chipsize-target.x > difffromcameratotarget){
@@ -132,6 +95,17 @@ void Camera::update(){
 		break;
 	}
 
+	if(Keyboard::pushed(KEY_INPUT_R) ){
+		cameradir = (cameradir + 1) % DIR_NUM;
+		is_turning = true;
+		setDirection();
+	}
+	if(Keyboard::pushed(KEY_INPUT_L) ){
+		cameradir = (cameradir + (DIR_NUM-1)) % DIR_NUM;
+		is_turning = true;
+		setDirection();
+	}
+
 	//target = VGet(Cursor::pos.y*chipsize, Stage::getHeight(Cursor::pos)*chipheight, Cursor::pos.x*chipsize);
 
 	DrawFormatString(0, 360, GetColor(255,255,255), " CamPos x:%.0f y:%.0f z:%.0f", pos.x, pos.y, pos.z);
@@ -145,4 +119,35 @@ void Camera::update(){
 
 	// カメラの位置と向きをセットする
 	SetCameraPositionAndTarget_UpVecY(pos, target);
+}
+
+void Camera::setDirection(){
+	switch(cameradir){
+	case MAX_MAX:
+		direction[LEFT]  = WEST;
+		direction[RIGHT] = EAST;
+		direction[FRONT] = NORTH;
+		direction[BACK]  = SOUTH;
+		break;
+	case ZERO_MAX:
+		direction[LEFT]  = SOUTH;
+		direction[RIGHT] = NORTH;
+		direction[FRONT] = WEST;
+		direction[BACK]  = EAST;
+		break;
+	case ZERO_ZERO:
+		direction[LEFT]  = EAST;
+		direction[RIGHT] = WEST;
+		direction[FRONT] = SOUTH;
+		direction[BACK]  = NORTH;
+		break;
+	case MAX_ZERO:
+		direction[LEFT]  = NORTH;
+		direction[RIGHT] = SOUTH;
+		direction[FRONT] = EAST;
+		direction[BACK]  = WEST;
+		break;
+	default:
+		printfDx("invalid direction");
+	}
 }
