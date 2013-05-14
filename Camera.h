@@ -26,11 +26,19 @@ private:
 		ZERO_ZERO,
 		MAX_ZERO,
 	};
+	
 	int cameradir;
+
+	enum CameraRotation{
+		RIGHT,
+		LEFT
+	};
+	
+	CameraRotation camerarotation;
 
 	VECTOR pos;		// カメラの座標
 	VECTOR target;	// カメラの注視点
 
-	static const int difffromcameratotarget = 100;
+//	static const int difffromcameratotarget = 100;
 	static const int moveframe = 30;	//カメラの移動や旋回に掛けるフレーム数
 };

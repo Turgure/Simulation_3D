@@ -27,8 +27,53 @@ Camera::Camera(){
 }
 
 void Camera::update(){
-	if(isTurning()){
+	if(is_turning){
 		turning_time++;
+		
+		if(camerarotation == RIGHT){
+			//右回り
+			switch(cameradir/*移動後のポジション*/){
+			case ZERO_MAX:
+				pos.x = target.x+root_2*220*sin(DX_PI_F/4-DX_PI_F/2*turning_time/moveframe);
+				pos.z = target.z+root_2*220*cos(DX_PI_F/4-DX_PI_F/2*turning_time/moveframe);
+				break;
+			case ZERO_ZERO:
+				pos.x = target.x+root_2*220*sin(DX_PI_F*7/4-DX_PI_F/2*turning_time/moveframe);
+				pos.z = target.z+root_2*220*cos(DX_PI_F*7/4-DX_PI_F/2*turning_time/moveframe);
+				break;
+			case MAX_ZERO:
+				pos.x = target.x+root_2*220*sin(DX_PI_F*5/4-DX_PI_F/2*turning_time/moveframe);
+				pos.z = target.z+root_2*220*cos(DX_PI_F*5/4-DX_PI_F/2*turning_time/moveframe);
+				break;
+			case MAX_MAX:
+				pos.x = target.x+root_2*220*sin(DX_PI_F*3/4-DX_PI_F/2*turning_time/moveframe);
+				pos.z = target.z+root_2*220*cos(DX_PI_F*3/4-DX_PI_F/2*turning_time/moveframe);
+				break;
+			}
+		}else
+		if(camerarotation == LEFT){
+			//左回り
+			switch(cameradir){
+			case ZERO_MAX:
+				pos.x = target.x+root_2*220*sin(DX_PI_F*5/4+DX_PI_F/2*turning_time/moveframe);
+				pos.z = target.z+root_2*220*cos(DX_PI_F*5/4+DX_PI_F/2*turning_time/moveframe);
+				break;
+			case ZERO_ZERO:
+				pos.x = target.x+root_2*220*sin(DX_PI_F*3/4+DX_PI_F/2*turning_time/moveframe);
+				pos.z = target.z+root_2*220*cos(DX_PI_F*3/4+DX_PI_F/2*turning_time/moveframe);
+				break;
+			case MAX_ZERO:
+				pos.x = target.x+root_2*220*sin(DX_PI_F/4+DX_PI_F/2*turning_time/moveframe);
+				pos.z = target.z+root_2*220*cos(DX_PI_F/4+DX_PI_F/2*turning_time/moveframe);
+				break;
+			case MAX_MAX:
+				pos.x = target.x+root_2*220*sin(DX_PI_F*7/4+DX_PI_F/2*turning_time/moveframe);
+				pos.z = target.z+root_2*220*cos(DX_PI_F*7/4+DX_PI_F/2*turning_time/moveframe);
+				break;
+			}
+		}
+		// カメラの位置と向きをセットする
+		SetCameraPositionAndTarget_UpVecY(pos, target);
 		if(turning_time == moveframe){
 			turning_time = 0;
 			is_turning = false;
@@ -96,11 +141,13 @@ void Camera::update(){
 	}
 
 	if(Keyboard::pushed(KEY_INPUT_R) ){
+		camerarotation =RIGHT;
 		cameradir = (cameradir + 1) % DIR_NUM;
 		is_turning = true;
 		setDirection();
 	}
 	if(Keyboard::pushed(KEY_INPUT_L) ){
+		camerarotation = LEFT;
 		cameradir = (cameradir + (DIR_NUM-1)) % DIR_NUM;
 		is_turning = true;
 		setDirection();
