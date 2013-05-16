@@ -1,9 +1,8 @@
-﻿#include <math.h>
-#include <DxLib.h>
+﻿#include <DxLib.h>
 #include "BattleScene.h"
 #include "HomeScene.h"
-#include "Keyboard.h"
 #include "GV.h"
+#include "Keyboard.h"
 
 BattleScene::BattleScene(){
 	has_come_turn = false;

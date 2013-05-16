@@ -1,10 +1,11 @@
-﻿#include "Camera.h"
+﻿#include <cmath>
+#include "Camera.h"
 #include "GV.h"
 #include "Keyboard.h"
 #include "Stage.h"
 #include "Cursor.h"
 
-int Camera::direction[4];
+int Camera::stage_dir[4];
 
 Camera::Camera(){
 	// カメラの座標をセット
@@ -16,7 +17,7 @@ Camera::Camera(){
 	*/
 	pos.y = 270;
 	target.y = 0;
-	cameradir = MAX_MAX;
+	dir = MAX_MAX;
 	setDirection();
 
 	is_turning = false;
@@ -28,83 +29,14 @@ Camera::Camera(){
 
 void Camera::update(){
 	if(is_turning){
-		turning_time++;
-		
-		if(camerarotation == RIGHT){
-			//右回り
-			switch(cameradir/*移動後のポジション*/){
-			case ZERO_MAX:
-				pos.x = target.x+root_2*220*sin(DX_PI_F/4-DX_PI_F/2*turning_time/moveframe);
-				pos.z = target.z+root_2*220*cos(DX_PI_F/4-DX_PI_F/2*turning_time/moveframe);
-				break;
-			case ZERO_ZERO:
-				pos.x = target.x+root_2*220*sin(DX_PI_F*7/4-DX_PI_F/2*turning_time/moveframe);
-				pos.z = target.z+root_2*220*cos(DX_PI_F*7/4-DX_PI_F/2*turning_time/moveframe);
-				break;
-			case MAX_ZERO:
-				pos.x = target.x+root_2*220*sin(DX_PI_F*5/4-DX_PI_F/2*turning_time/moveframe);
-				pos.z = target.z+root_2*220*cos(DX_PI_F*5/4-DX_PI_F/2*turning_time/moveframe);
-				break;
-			case MAX_MAX:
-				pos.x = target.x+root_2*220*sin(DX_PI_F*3/4-DX_PI_F/2*turning_time/moveframe);
-				pos.z = target.z+root_2*220*cos(DX_PI_F*3/4-DX_PI_F/2*turning_time/moveframe);
-				break;
-			}
-		}else
-		if(camerarotation == LEFT){
-			//左回り
-			switch(cameradir){
-			case ZERO_MAX:
-				pos.x = target.x+root_2*220*sin(DX_PI_F*5/4+DX_PI_F/2*turning_time/moveframe);
-				pos.z = target.z+root_2*220*cos(DX_PI_F*5/4+DX_PI_F/2*turning_time/moveframe);
-				break;
-			case ZERO_ZERO:
-				pos.x = target.x+root_2*220*sin(DX_PI_F*3/4+DX_PI_F/2*turning_time/moveframe);
-				pos.z = target.z+root_2*220*cos(DX_PI_F*3/4+DX_PI_F/2*turning_time/moveframe);
-				break;
-			case MAX_ZERO:
-				pos.x = target.x+root_2*220*sin(DX_PI_F/4+DX_PI_F/2*turning_time/moveframe);
-				pos.z = target.z+root_2*220*cos(DX_PI_F/4+DX_PI_F/2*turning_time/moveframe);
-				break;
-			case MAX_MAX:
-				pos.x = target.x+root_2*220*sin(DX_PI_F*7/4+DX_PI_F/2*turning_time/moveframe);
-				pos.z = target.z+root_2*220*cos(DX_PI_F*7/4+DX_PI_F/2*turning_time/moveframe);
-				break;
-			}
-		}
-		// カメラの位置と向きをセットする
-		SetCameraPositionAndTarget_UpVecY(pos, target);
-		if(turning_time == moveframe){
-			turning_time = 0;
-			is_turning = false;
-		}
+		turn();
 		return;
 	}
 	target.x = Cursor::pos.y * chipsize;
 	target.z = Cursor::pos.x * chipsize;
-	
-	//カメラの位置を移動する
-	if(Keyboard::pushing(KEY_INPUT_A) ){
-		cameradir = ZERO_ZERO;
-		is_turning = true;
-	}
-	if(Keyboard::pushing(KEY_INPUT_Q) ){
-		cameradir = ZERO_MAX;
-		is_turning = true;
-	}
-
-	if(Keyboard::pushing(KEY_INPUT_S) ){
-		cameradir = MAX_ZERO;
-		is_turning = true;
-	}
-	if(Keyboard::pushing(KEY_INPUT_W) ){
-		cameradir = MAX_MAX;
-		is_turning = true;
-	}
-	
 
 	//カメラの位置を移動後
-	switch(cameradir){
+	switch(dir){
 	case MAX_MAX:
 		pos.x = target.x +220;
 		pos.z = target.z + 220;
@@ -140,15 +72,15 @@ void Camera::update(){
 		break;
 	}
 
-	if(Keyboard::pushed(KEY_INPUT_R) ){
-		camerarotation =RIGHT;
-		cameradir = (cameradir + 1) % DIR_NUM;
+	if(Keyboard::pushed(KEY_INPUT_Q) ){
+		rotation = CLOCKWISE;
+		dir = (dir + 1) % DIR_NUM;
 		is_turning = true;
 		setDirection();
 	}
-	if(Keyboard::pushed(KEY_INPUT_L) ){
-		camerarotation = LEFT;
-		cameradir = (cameradir + (DIR_NUM-1)) % DIR_NUM;
+	if(Keyboard::pushed(KEY_INPUT_W) ){
+		rotation = COUNTERCLOCKWISE;
+		dir = (dir + (DIR_NUM-1)) % DIR_NUM;
 		is_turning = true;
 		setDirection();
 	}
@@ -169,32 +101,88 @@ void Camera::update(){
 }
 
 void Camera::setDirection(){
-	switch(cameradir){
+	switch(dir){
 	case MAX_MAX:
-		direction[LEFT]  = WEST;
-		direction[RIGHT] = EAST;
-		direction[FRONT] = NORTH;
-		direction[BACK]  = SOUTH;
+		stage_dir[LEFT]  = WEST;
+		stage_dir[RIGHT] = EAST;
+		stage_dir[FRONT] = NORTH;
+		stage_dir[BACK]  = SOUTH;
 		break;
 	case ZERO_MAX:
-		direction[LEFT]  = SOUTH;
-		direction[RIGHT] = NORTH;
-		direction[FRONT] = WEST;
-		direction[BACK]  = EAST;
+		stage_dir[LEFT]  = SOUTH;
+		stage_dir[RIGHT] = NORTH;
+		stage_dir[FRONT] = WEST;
+		stage_dir[BACK]  = EAST;
 		break;
 	case ZERO_ZERO:
-		direction[LEFT]  = EAST;
-		direction[RIGHT] = WEST;
-		direction[FRONT] = SOUTH;
-		direction[BACK]  = NORTH;
+		stage_dir[LEFT]  = EAST;
+		stage_dir[RIGHT] = WEST;
+		stage_dir[FRONT] = SOUTH;
+		stage_dir[BACK]  = NORTH;
 		break;
 	case MAX_ZERO:
-		direction[LEFT]  = NORTH;
-		direction[RIGHT] = SOUTH;
-		direction[FRONT] = EAST;
-		direction[BACK]  = WEST;
+		stage_dir[LEFT]  = NORTH;
+		stage_dir[RIGHT] = SOUTH;
+		stage_dir[FRONT] = EAST;
+		stage_dir[BACK]  = WEST;
 		break;
 	default:
-		printfDx("invalid direction");
+		printfDx("invalid stage_dir");
+	}
+}
+
+void Camera::turn(){
+	turning_time++;
+
+	//時計回り
+	switch(rotation){
+	case CLOCKWISE:
+		//移動後のポジション
+		switch(dir){
+		case ZERO_MAX:
+			pos.x = target.x+sqrt(2)*220*sin(DX_PI_F/4-DX_PI_F/2*turning_time/moveframe);
+			pos.z = target.z+sqrt(2)*220*cos(DX_PI_F/4-DX_PI_F/2*turning_time/moveframe);
+			break;
+		case ZERO_ZERO:
+			pos.x = target.x+sqrt(2)*220*sin(DX_PI_F*7/4-DX_PI_F/2*turning_time/moveframe);
+			pos.z = target.z+sqrt(2)*220*cos(DX_PI_F*7/4-DX_PI_F/2*turning_time/moveframe);
+			break;
+		case MAX_ZERO:
+			pos.x = target.x+sqrt(2)*220*sin(DX_PI_F*5/4-DX_PI_F/2*turning_time/moveframe);
+			pos.z = target.z+sqrt(2)*220*cos(DX_PI_F*5/4-DX_PI_F/2*turning_time/moveframe);
+			break;
+		case MAX_MAX:
+			pos.x = target.x+sqrt(2)*220*sin(DX_PI_F*3/4-DX_PI_F/2*turning_time/moveframe);
+			pos.z = target.z+sqrt(2)*220*cos(DX_PI_F*3/4-DX_PI_F/2*turning_time/moveframe);
+			break;
+		}
+		break;
+		//反時計回り
+	case COUNTERCLOCKWISE:
+		switch(dir){
+		case ZERO_MAX:
+			pos.x = target.x+sqrt(2)*220*sin(DX_PI_F*5/4+DX_PI_F/2*turning_time/moveframe);
+			pos.z = target.z+sqrt(2)*220*cos(DX_PI_F*5/4+DX_PI_F/2*turning_time/moveframe);
+			break;
+		case ZERO_ZERO:
+			pos.x = target.x+sqrt(2)*220*sin(DX_PI_F*3/4+DX_PI_F/2*turning_time/moveframe);
+			pos.z = target.z+sqrt(2)*220*cos(DX_PI_F*3/4+DX_PI_F/2*turning_time/moveframe);
+			break;
+		case MAX_ZERO:
+			pos.x = target.x+sqrt(2)*220*sin(DX_PI_F/4+DX_PI_F/2*turning_time/moveframe);
+			pos.z = target.z+sqrt(2)*220*cos(DX_PI_F/4+DX_PI_F/2*turning_time/moveframe);
+			break;
+		case MAX_MAX:
+			pos.x = target.x+sqrt(2)*220*sin(DX_PI_F*7/4+DX_PI_F/2*turning_time/moveframe);
+			pos.z = target.z+sqrt(2)*220*cos(DX_PI_F*7/4+DX_PI_F/2*turning_time/moveframe);
+			break;
+		}
+		break;
+	}
+	// カメラの位置と向きをセットする
+	SetCameraPositionAndTarget_UpVecY(pos, target);
+	if(turning_time >= moveframe){
+		turning_time = 0;
+		is_turning = false;
 	}
 }
