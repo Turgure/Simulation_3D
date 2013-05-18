@@ -13,10 +13,8 @@ void BattleScene::initialize(){
 	turn = 1;
 	stage.initialize();
 
-	ObjectManager::create(players, "data/chara/player1.csv", 3, 7);
-	ObjectManager::create(players, "data/chara/player2.csv", 6, 7);
-
-	ObjectManager::create(enemies, "data/stage/stage2/enemy.csv");
+	ObjectManager::create(players, "data/stage/stage2/players.csv");
+	ObjectManager::create(enemies, "data/stage/stage2/enemies.csv");
 
 	simulate();
 }

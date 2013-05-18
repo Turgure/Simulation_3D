@@ -21,12 +21,11 @@ int ChipBrightnessManager::color_support = GetColor(102,255,102);
 void ChipBrightnessManager::range(const Position& pos, int n, bool is_resistance, BaseObject* obj){
 	if(n <= 0) return;
 
-	Position topos;
-	int rest;
 	for(int i = 0; i < 4; ++i){
-		topos = pos + dir[i*2];
+		Position topos = pos + dir[i*2];
+		int height = abs(Stage::getHeight(topos) - Stage::getHeight(pos));
 		if(Stage::canMove(topos)){
-			rest = is_resistance ? n - Stage::getResistance(topos) : n - 1;
+			int rest = is_resistance ? n - Stage::getResistance(topos) : n - 1;
 			if(rest >= 0){
 				Stage::brighten(topos, color_move);
 				//敵をすり抜けないようにする

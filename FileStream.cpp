@@ -1,5 +1,6 @@
-﻿#include <fstream>
-#include <DxLib.h>
+﻿#include <iostream>
+#include <cstdlib>
+#include <fstream>
 #include "FileStream.h"
 
 void FileStream::load(const string& filename, vector<string>& data){
@@ -8,8 +9,8 @@ void FileStream::load(const string& filename, vector<string>& data){
 
 	ifstream file(filename);
 	if(file.fail()){
-		printfDx("%s load error.", filename);
-		return;
+		cout << filename.c_str() << " load error." << endl;
+		exit(1);
 	}
 	
 	while(getline(file, str)){
@@ -33,8 +34,8 @@ void FileStream::load(const string& filename, vector<vector<string>>& data){
 
 	ifstream file(filename);
 	if(file.fail()){
-		printfDx("%s load error.", filename);
-		return;
+		cout << filename.c_str() << " load error." << endl;
+		exit(1);
 	}
 	
 	while(getline(file, str)){

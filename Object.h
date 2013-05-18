@@ -50,8 +50,10 @@ protected:
 		int getDef() const { return def; }
 		void setAgi(int agi){ this->agi = agi; }
 		int getAgi() const { return agi; }
-		void setMob(int mob){ this->mobility = mob; }
+		void setMob(int mob){ mobility = mob; }
 		int getMob() const { return mobility; }
+		void setJumpPow(int pow){ jump_power = pow; }
+		int getJumpPow() const { return jump_power; }
 
 	protected:
 		int model;
@@ -64,6 +66,7 @@ protected:
 		int def;
 		int agi;
 		int mobility;
+		int jump_power;
 	};
 
 	struct MovingManager{
@@ -112,14 +115,14 @@ class Enemy;
 //生成等を行う
 class ObjectManager{
 public:
-	static void create(vector<Player> &players, const string& filename, int x, int y);
+	static void create(vector<Player> &players, const string& filename);
 	static void create(vector<Enemy> &enemies, const string& filename);
 };
 
 //プレイヤークラス
 class Player : public BaseObject, public BaseObject::Status{
 public:
-	Player(int x, int y, string name, int hp, int mp, int str, int def, int agi, int mobility);
+	Player(string name, int x, int y, int hp, int mp, int str, int def, int agi, int mobility, int jump_power);
 	virtual void update() override;
 	virtual void draw() override;
 	virtual void action() override;
@@ -146,7 +149,7 @@ private:
 //エネミークラス
 class Enemy : public BaseObject, public BaseObject::Status{
 public:
-	Enemy(int x, int y, string name, int hp, int mp, int str, int def, int agi, int mobility);
+	Enemy(string name, int x, int y, int hp, int mp, int str, int def, int agi, int mobility, int jump_power);
 	virtual void update() override;
 	virtual void draw() override;
 	virtual void action() override;

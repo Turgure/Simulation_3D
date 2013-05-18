@@ -27,13 +27,14 @@ bool BaseObject::changeState(State& mystate, State next){
 
 ///BaseObjec::Status
 void BaseObject::Status::showStatus(int x, int y) const{
-	DrawFormatString(x, y   , GetColor(255,255,255), "name  %s", name.c_str());
-	DrawFormatString(x, y+16, GetColor(255,255,255), "hp  %d/%d", hp, maxhp);
-	DrawFormatString(x, y+32, GetColor(255,255,255), "mp  %d/%d", mp, maxmp);
-	DrawFormatString(x, y+48, GetColor(255,255,255), "str %d", str);
-	DrawFormatString(x, y+64, GetColor(255,255,255), "def %d", def);
-	DrawFormatString(x, y+80, GetColor(255,255,255), "agi %d", agi);
-	DrawFormatString(x, y+94, GetColor(255,255,255), "mob %d", mobility);
+	DrawFormatString(x, y    , GetColor(255,255,255), "Name %s", name.c_str());
+	DrawFormatString(x, y+ 16, GetColor(255,255,255), "HP %d/%d", hp, maxhp);
+	DrawFormatString(x, y+ 32, GetColor(255,255,255), "MP %d/%d", mp, maxmp);
+	DrawFormatString(x, y+ 48, GetColor(255,255,255), "攻撃力 %d", str);
+	DrawFormatString(x, y+ 64, GetColor(255,255,255), "防御力 %d", def);
+	DrawFormatString(x, y+ 80, GetColor(255,255,255), "素早さ %d", agi);
+	DrawFormatString(x, y+ 96, GetColor(255,255,255), "移動力 %d", mobility);
+	DrawFormatString(x, y+112, GetColor(255,255,255), "ジャンプ力 %d", jump_power);
 }
 
 
@@ -102,16 +103,22 @@ void BaseObject::MovingManager::initJumpmotion(const Position& pos, const Positi
 
 
 ///ObjectManager
-void ObjectManager::create(vector<Player> &players, const string& filename, int x, int y){
+void ObjectManager::create(vector<Player> &players, const string& filename){
 	vector<vector<string>> status;
 	FileStream::load(filename, status);
 
 	//int型に変換
-	vector<int> d;
-	for(auto& s : status[1]){
-		d.push_back(stoi(s));
+	vector<vector<int>> d;
+	for(unsigned int i = 0; i < status.size(); ++i){
+		vector<int> inner;
+		for(unsigned int j = 1; j < status[i].size(); ++j){
+			inner.push_back( stoi(status[i][j]) );
+		}
+		d.push_back(inner);
+
+		players.push_back( Player(status[i][0], d[i][0], d[i][1], d[i][2], d[i][3], d[i][4], d[i][5], d[i][6], d[i][7], d[i][8]) );
 	}
-	players.push_back( Player(x, y, status[0][0], d[0], d[1], d[2], d[3], d[4], d[5]) );
+
 }
 
 void ObjectManager::create(vector<Enemy> &enemies, const string& filename){
@@ -121,17 +128,19 @@ void ObjectManager::create(vector<Enemy> &enemies, const string& filename){
 	Position finalpos;
 
 	//int型に変換
-	int d[256][256];
+	vector<vector<int>> d;
 	for(unsigned int i = 0; i < status.size(); ++i){
+		vector<int> inner;
 		for(unsigned int j = 1; j < status[i].size(); ++j){
-			d[i][j-1] = stoi(status[i][j]);
+			inner.push_back( stoi(status[i][j]) );
 		}
+		d.push_back(inner);
 
 		do{
 			finalpos.x = GetRand(Stage::getWidth());
 			finalpos.y = GetRand(Stage::getDepth());
 		}while(!Stage::canMove(finalpos));
 
-		enemies.push_back( Enemy(finalpos.x, finalpos.y, status[i][0], d[i][0], d[i][1], d[i][2], d[i][3], d[i][4], d[i][5]) );
+		enemies.push_back( Enemy(status[i][0], finalpos.x, finalpos.y, d[i][0], d[i][1], d[i][2], d[i][3], d[i][4], d[i][5], d[i][6]) );
 	}
 }

@@ -5,7 +5,7 @@
 #include "Cursor.h"
 #include "ChipBrightnessManager.h"
 
-Player::Player(int x, int y, string name, int hp, int mp, int str, int def, int agi, int mobility):pos(x, y){
+Player::Player(string name, int x, int y, int hp, int mp, int str, int def, int agi, int mobility, int jump_power):pos(x, y){
 	model = MV1LoadModel("data/image/3Dmodel/chara/boko.pmd");
 	MV1SetScale(model, VGet(3.0f, 3.0f, 3.0f));	//拡大
 	MV1SetRotationXYZ(model, VGet(0.0f, 90 * DX_PI_F/180.0f, 0.0f));	//向き
@@ -18,6 +18,7 @@ Player::Player(int x, int y, string name, int hp, int mp, int str, int def, int 
 	this->def = def;
 	this->agi = agi;
 	this->mobility = mobility;
+	this->jump_power = jump_power;
 	state = SELECT;
 	ATBgauge = 100;
 	can_move = true;

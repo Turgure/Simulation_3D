@@ -3,7 +3,7 @@
 #include "Cursor.h"
 #include "ChipBrightnessManager.h"
 
-Enemy::Enemy(int x, int y, string name, int hp, int mp, int str, int def, int agi, int mobility):
+Enemy::Enemy(string name, int x, int y, int hp, int mp, int str, int def, int agi, int mobility, int jump_power):
 	pos(x, y),
 	move_pos(),
 	act_pos(){
@@ -19,6 +19,7 @@ Enemy::Enemy(int x, int y, string name, int hp, int mp, int str, int def, int ag
 		this->def = def;
 		this->agi = agi;
 		this->mobility = mobility;
+		this->jump_power = jump_power;
 		state = SELECT;
 		ATBgauge = 100;
 		can_move = false;
