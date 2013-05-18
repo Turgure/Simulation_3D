@@ -8,8 +8,8 @@
 Player::Player(string name, int x, int y, int hp, int mp, int str, int def, int agi, int mobility, int jump_power):pos(x, y){
 	model = MV1LoadModel("data/image/3Dmodel/chara/boko.pmd");
 	MV1SetScale(model, VGet(3.0f, 3.0f, 3.0f));	//拡大
-	MV1SetRotationXYZ(model, VGet(0.0f, 90 * DX_PI_F/180.0f, 0.0f));	//向き
 	mv_mng.current_dir = NORTH;
+	mv_mng.setObjectDirection(model);	//向き
 
 	this->name = name;
 	this->hp = maxhp = hp;
@@ -23,6 +23,7 @@ Player::Player(string name, int x, int y, int hp, int mp, int str, int def, int 
 	ATBgauge = 100;
 	can_move = true;
 	can_act = true;
+	has_attacked = false;
 	has_brightened = false;
 }
 
@@ -54,6 +55,17 @@ void Player::draw(){
 
 	if(isMyTurn()){
 		showCommand();
+	}
+
+	if(has_attacked){
+		static int cnt;
+		++cnt;
+		//DrawFormatString(pos.x*chipsize, pos.y*chipsize - cnt, GetColor(255,0,0), "%d", damage);
+		DrawFormatString(0, 32, GetColor(255,0,0), "%d", damage);
+		if(cnt >= 60){
+			has_attacked = false;
+			cnt = 0;
+		}
 	}
 
 	switch(state){
@@ -270,9 +282,8 @@ void Player::attack(vector<Enemy> &enemies){
 					}
 
 					int diff = str - enemy.getDef();
-					if(diff > 0){
-						enemy.setHP(enemy.getHP() - diff);
-					}
+					enemy.setDamage(diff > 0 ? diff : 0);
+					enemy.setHP(enemy.getHP() - diff);
 					break;
 				}
 			} else {

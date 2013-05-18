@@ -55,6 +55,9 @@ protected:
 		void setJumpPow(int pow){ jump_power = pow; }
 		int getJumpPow() const { return jump_power; }
 
+		void setDamage(int damage){ this->damage = damage; has_attacked = true; }
+		int getDamage() const { return damage; }
+
 	protected:
 		int model;
 		string name;
@@ -67,10 +70,13 @@ protected:
 		int agi;
 		int mobility;
 		int jump_power;
+	
+		int damage;
+		bool has_attacked;
 	};
 
-	struct MovingManager{
-		MovingManager(){
+	struct MoveManager{
+		MoveManager(){
 			dir[NORTH] = Position( 0, -1);
 			dir[SOUTH] = Position( 0,  1);
 			dir[WEST]  = Position(-1,  0);
@@ -82,6 +88,7 @@ protected:
 			jump_path = NULL;
 			jump_height = chipheight;
 		}
+		//horizontal
 		void trackMovement(const Position& pos, const Position& topos, int mob);
 		void initialize();
 		void calcShortestPath(const Position& pos, const Position& topos, int mob);
@@ -95,6 +102,7 @@ protected:
 		double moving_rate;
 		VECTOR diff;
 
+		//vertical
 		void initJumpmotion(const Position& pos, const Position& topos);
 
 		enum Jump{UP, DOWN} jump;
@@ -102,10 +110,10 @@ protected:
 		int jump_height;
 		int jump_dist;
 		double jump_path;
+
 	private:
 		vector<int> current_path;
 		vector<int> shortest_path;
-
 	};
 };
 
@@ -140,7 +148,7 @@ public:
 	Position pos;
 
 private:
-	MovingManager mv_mng;
+	MoveManager mv_mng;
 
 	VECTOR myvec;
 };
@@ -172,7 +180,7 @@ private:
 	int attack_range;
 	bool moved;
 	bool attacked;
-	MovingManager mv_mng;
+	MoveManager mv_mng;
 
 	VECTOR myvec;
 	Position move_pos;

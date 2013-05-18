@@ -1,4 +1,5 @@
-﻿#include "Object.h"
+﻿#include <map>
+#include "Object.h"
 #include "Stage.h"
 #include "Cursor.h"
 #include "ChipBrightnessManager.h"
@@ -9,8 +10,8 @@ Enemy::Enemy(string name, int x, int y, int hp, int mp, int str, int def, int ag
 	act_pos(){
 		model = MV1LoadModel("data/image/3Dmodel/chara/miku.pmd");
 		MV1SetScale(model, VGet(3.0f, 3.0f, 3.0f));	//拡大
-		MV1SetRotationXYZ(model, VGet(0.0f, -90 * DX_PI_F/180.0f, 0.0f));	//向き
 		mv_mng.current_dir = SOUTH;
+		mv_mng.setObjectDirection(model);	//向き
 
 		this->name = name;
 		this->hp = maxhp = hp;
@@ -26,6 +27,7 @@ Enemy::Enemy(string name, int x, int y, int hp, int mp, int str, int def, int ag
 		can_act = false;
 		moved = false;
 		attacked = false;
+		has_attacked = false;
 		has_brightened = false;
 		wait_time = 0;
 		attack_range = 3;
@@ -46,11 +48,22 @@ void Enemy::draw(){
 		showStatus(200, 0);
 	}
 
+	if(has_attacked){
+		static int cnt;
+		++cnt;
+		//DrawFormatString(pos.x*chipsize, pos.y*chipsize - cnt, GetColor(255,0,0), "%d", damage);
+		DrawFormatString(0, 32, GetColor(255,0,0), "%d", damage);
+		if(cnt >= 60){
+			has_attacked = false;
+			cnt = 0;
+		}
+	}
+
 	switch(state){
 	case MOVE:
 		if(!has_brightened){
 			ChipBrightnessManager::range(pos, mobility, true, this);
-		has_brightened = true;
+			has_brightened = true;
 		}
 		break;
 	case ACTION:
@@ -98,8 +111,8 @@ void Enemy::action(){
 		break;
 
 	case WAIT:
-		//if(isCountOver(30))
 		if(can_act){
+			//if(isCountOver(30)) attack(players);
 			break;
 		} else if(can_move){
 			if(isCountOver(30)){
@@ -157,7 +170,7 @@ void Enemy::action(){
 }
 
 void Enemy::endMyTurn(){
-	changeState(state, SELECT);
+	state = SELECT;
 	ATBgauge =  100;
 	wait_time = 0;
 	//if(moved) ATBgauge += 20;
@@ -225,6 +238,7 @@ void Enemy::calcAttack(const vector<Player>& players){
 
 	ChipBrightnessManager::reachTo(pos, ChipBrightnessManager::getColorAttack(), 1, attack_range);
 
+	map<int, Position> candidate_pos;
 	Position finalpos(-1, -1);
 	for(int y = 0; y < Stage::getDepth(); ++y){
 		for(int x = 0; x < Stage::getWidth(); ++x){
@@ -233,15 +247,22 @@ void Enemy::calcAttack(const vector<Player>& players){
 
 			for(auto& player : players){
 				if(checkpos == player.pos){
-					act_pos = finalpos = checkpos;
-					can_act = true;
-					Stage::disbrighten();
-					return;
+					int damage = abs(str - player.getDef());
+					candidate_pos[damage] = checkpos;
 				}
 			}
 		}
 	}
-	//探索にヒットしなかったら
+
+	//最大ダメージを与えられる敵を狙う
+	int max = -1;
+	if(!candidate_pos.empty()){
+		for(auto& cp : candidate_pos){
+			if(max < cp.first) max = cp.first;
+		}
+		finalpos = candidate_pos[max];
+		can_act = true;
+	}
 	act_pos = finalpos;
 	Stage::disbrighten();
 }
@@ -255,15 +276,12 @@ void Enemy::attack(vector<Player>& players){
 	attacked = true;
 	changeState(state, SELECT);
 
-	if(Stage::isBrightened(Cursor::pos)){
-		for(auto& player : players){
+	for(auto& player : players){
+		if(player.pos == act_pos){
 			int diff = str - player.getDef();
-			if(diff <= 0) continue;
-
-			if(player.pos == Cursor::pos){
-				player.setHP(player.getHP() - diff);
-				break;
-			}
+			player.setDamage(diff > 0 ? diff : 0);
+			player.setHP(player.getHP() - diff);
+			break;
 		}
 	}
 

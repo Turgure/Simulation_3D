@@ -27,7 +27,7 @@ bool BaseObject::changeState(State& mystate, State next){
 
 ///BaseObjec::Status
 void BaseObject::Status::showStatus(int x, int y) const{
-	DrawFormatString(x, y    , GetColor(255,255,255), "Name %s", name.c_str());
+	DrawFormatString(x, y    , GetColor(255,255,255), "名前 %s", name.c_str());
 	DrawFormatString(x, y+ 16, GetColor(255,255,255), "HP %d/%d", hp, maxhp);
 	DrawFormatString(x, y+ 32, GetColor(255,255,255), "MP %d/%d", mp, maxmp);
 	DrawFormatString(x, y+ 48, GetColor(255,255,255), "攻撃力 %d", str);
@@ -39,17 +39,17 @@ void BaseObject::Status::showStatus(int x, int y) const{
 
 
 ///BaseObject::MovingManager
-void BaseObject::MovingManager::trackMovement(const Position& pos, const Position& topos, int mob){
+void BaseObject::MoveManager::initialize(){
+	shortest_path.resize(100);
+}
+
+void BaseObject::MoveManager::trackMovement(const Position& pos, const Position& topos, int mob){
 	initialize();
 	calcShortestPath(pos, topos, mob);
 	path = shortest_path;
 }
 
-void BaseObject::MovingManager::initialize(){
-	shortest_path.resize(100);
-}
-
-void BaseObject::MovingManager::calcShortestPath(const Position& pos, const Position& topos, int mob){
+void BaseObject::MoveManager::calcShortestPath(const Position& pos, const Position& topos, int mob){
 	if(mob <= 0) return;
 
 	Position checkpos;
@@ -69,7 +69,7 @@ void BaseObject::MovingManager::calcShortestPath(const Position& pos, const Posi
 	}
 }
 
-void BaseObject::MovingManager::setObjectDirection(int model, int dir){
+void BaseObject::MoveManager::setObjectDirection(int model, int dir){
 	//Z軸の負の向きが始線。回転角は時計回り
 	switch(dir){
 	case NORTH:
@@ -87,11 +87,11 @@ void BaseObject::MovingManager::setObjectDirection(int model, int dir){
 	}
 }
 
-void BaseObject::MovingManager::setObjectDirection(int model){
+void BaseObject::MoveManager::setObjectDirection(int model){
 	setObjectDirection(model, current_dir);
 }
 
-void BaseObject::MovingManager::initJumpmotion(const Position& pos, const Position& topos){
+void BaseObject::MoveManager::initJumpmotion(const Position& pos, const Position& topos){
 	if(jump_path != NULL) return;
 
 	step = (Stage::getHeight(topos) - Stage::getHeight(pos)) * chipheight;
