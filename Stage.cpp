@@ -34,7 +34,7 @@ void Stage::initID(){
 			break;
 
 		case 1://movable（id=1 => 草原, id=2 => 岩…　などにする）
-			chip.image = MV1LoadModel("data/image/3Dmodel/chip/01 grass.x");
+			chip.image = MV1LoadModel("data/image/3Dmodel/chip/01 grass.mqo");
 			//chip.image = GetColor(128, 255, 0);
 			chip.resistance = 1;
 			break;
@@ -53,7 +53,7 @@ void Stage::initID(){
 
 void Stage::initMap(){
 	vector<vector<string>> mapdata;
-	FileStream::load("data/stage/stage2/map.csv", mapdata);
+	FileStream::load("data/stage/stage1/map.csv", mapdata);
 
 	auto& header = mapdata[0];
 	width = stoi(header[0]);
