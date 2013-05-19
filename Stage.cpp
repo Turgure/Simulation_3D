@@ -28,7 +28,7 @@ void Stage::initID(){
 	for(auto& chip : mapchipDefinition){
 		switch(chip.id){
 		case 0://chip which can't move 
-			chip.image = MV1LoadModel("data/image/3Dmodel/chip/00 null.x");
+			chip.image = MV1LoadModel("data/image/3Dmodel/chip/00 null/00 null.mqo");
 			//chip.image = GetColor(255, 128, 0);
 			chip.resistance = INT_MAX;
 			break;
@@ -40,7 +40,7 @@ void Stage::initID(){
 			break;
 
 		case 2://沼地的な
-			chip.image = MV1LoadModel("data/image/3Dmodel/chip/02 marsh.x");
+			chip.image = MV1LoadModel("data/image/3Dmodel/chip/02 marsh.mqo");
 			//chip.image = GetColor(128, 0, 128);
 			chip.resistance = 2;
 			break;
