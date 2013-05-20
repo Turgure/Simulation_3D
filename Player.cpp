@@ -7,7 +7,16 @@
 
 Player::Player(string name, int x, int y, int hp, int mp, int str, int def, int agi, int mobility, int jump_power):pos(x, y){
 	model = MV1LoadModel("data/image/3Dmodel/chara/woman003/waitting.pmx");
+	modelattack[0] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack01.pmx");
+	modelattack[1] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack02.pmx");
+	modelattack[2] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack03.pmx");
+	modelattack[3] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack04.pmx");
+	modelattack[4] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack05.pmx");
+	modelattack[5] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack06.pmx");
 	MV1SetScale(model, VGet(3.0f, 3.0f, 3.0f));	//拡大
+	for(int i = 0; i < 6; i++){
+		MV1SetScale(modelattack[i], VGet(3.0f,3.0f,3.0f));
+	}
 	mv_mng.current_dir = NORTH;
 	mv_mng.setObjectDirection(model);	//向き
 
@@ -25,12 +34,21 @@ Player::Player(string name, int x, int y, int hp, int mp, int str, int def, int 
 	can_act = true;
 	has_attacked = false;
 	has_brightened = false;
+	attackstatus = 0;
 }
 
 void Player::update(){
 	myvec = VAdd(VGet(pos.y*chipsize, Stage::getHeight(pos)*chipheight, pos.x*chipsize), mv_mng.diff);
 	//3Dモデルの配置
-	MV1SetPosition(model, VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));
+	switch(attackstatus){
+	case 0:MV1SetPosition(model, VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));	break;
+	case 1:MV1SetPosition(modelattack[0], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));	break;
+	case 2:MV1SetPosition(modelattack[1], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));	break;
+	case 3:MV1SetPosition(modelattack[2], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));	break;
+	case 4:MV1SetPosition(modelattack[3], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));	break;
+	case 5:MV1SetPosition(modelattack[4], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));	break;
+	case 6:MV1SetPosition(modelattack[5], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));	break;
+	}
 	Stage::setObjectAt(pos, this);
 
 	if(isMyTurn()){
@@ -47,8 +65,15 @@ void Player::update(){
 
 void Player::draw(){
 	// ３Ｄモデルの描画
-	MV1DrawModel(model);
-
+	switch(attackstatus){
+	case 0:MV1DrawModel(model);	break;
+	case 1:MV1DrawModel(modelattack[0]);	break;
+	case 2:MV1DrawModel(modelattack[1]);	break;
+	case 3:MV1DrawModel(modelattack[2]);	break;
+	case 4:MV1DrawModel(modelattack[3]);	break;
+	case 5:MV1DrawModel(modelattack[4]);	break;
+	case 6:MV1DrawModel(modelattack[5]);	break;
+	}
 	if(pos == Cursor::pos){
 		showStatus(200, 0);
 	}

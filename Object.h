@@ -60,6 +60,8 @@ protected:
 
 	protected:
 		int model;
+		int modelattack[6];
+		int attackstatus;
 		string name;
 		int maxhp;
 		int maxmp;
