@@ -6,7 +6,7 @@
 #include "ChipBrightnessManager.h"
 
 Player::Player(string name, int x, int y, int hp, int mp, int str, int def, int agi, int mobility, int jump_power):pos(x, y){
-	model = MV1LoadModel("data/image/3Dmodel/chara/boko.pmd");
+	model = MV1LoadModel("data/image/3Dmodel/chara/woman003/waitting.pmx");
 	MV1SetScale(model, VGet(3.0f, 3.0f, 3.0f));	//拡大
 	mv_mng.current_dir = NORTH;
 	mv_mng.setObjectDirection(model);	//向き
