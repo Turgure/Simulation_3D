@@ -12,7 +12,7 @@ Cursor::Cursor(){
 
 void Cursor::update(){
 	myvec = VGet(pos.y*chipsize, Stage::getHeight(pos)*chipheight, pos.x*chipsize);
-	MV1SetPosition(image, VAdd(myvec, VGet(chipsize/2, chipsize/2+30, chipsize/2)));
+	MV1SetPosition(image, VAdd(myvec, VGet(chipsize/2, chipsize/2 + 60, chipsize/2)));
 }
 
 void Cursor::manipulate(){

@@ -305,17 +305,17 @@ void Player::attack(vector<Enemy> &enemies){
 				int diff = str - enemy->getDef();
 				enemy->setDamage(diff > 0 ? diff : 0);
 				enemy->setHP(enemy->getHP() - diff);
-				
+
 				//向きの指定
 				Position dirpos = pos - enemy->pos;
 				if(abs(dirpos.y) >= abs(dirpos.x) && dirpos.y > 0){
-					mv_mng.setObjectDirection(model[0], NORTH);
+					for(int i = 0; i < 7; ++i) mv_mng.setObjectDirection(model[i], NORTH);
 				} else if(abs(dirpos.y) >= abs(dirpos.x) && dirpos.y < 0){
-					mv_mng.setObjectDirection(model[0], SOUTH);
+					for(int i = 0; i < 7; ++i) mv_mng.setObjectDirection(model[i], SOUTH);
 				} else if(abs(dirpos.y) <= abs(dirpos.x) && dirpos.x > 0){
-					mv_mng.setObjectDirection(model[0], WEST);
+					for(int i = 0; i < 7; ++i) mv_mng.setObjectDirection(model[i], WEST);
 				} else if(abs(dirpos.y) <= abs(dirpos.x) && dirpos.x > 0){
-					mv_mng.setObjectDirection(model[0], EAST);
+					for(int i = 0; i < 7; ++i) mv_mng.setObjectDirection(model[i], EAST);
 				}
 
 				checked = true;
@@ -346,7 +346,7 @@ void Player::attack(vector<Enemy> &enemies){
 
 	while(attackstatus <= 6){
 		static int atk_rate;
-		if(++atk_rate >= 20000){
+		if(++atk_rate >= 100000){
 			++attackstatus;
 			atk_rate = 0;
 			return;
