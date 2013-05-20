@@ -132,7 +132,7 @@ void Player::action(){
 			command.clear();
 			if(Stage::isBrightened(Cursor::pos) && !Stage::getObjectAt(Cursor::pos)){
 				changeState(state, MOVING);
-				mv_mng.trackMovement(pos, Cursor::pos, mobility);
+				mv_mng.trackMovement(pos, Cursor::pos, mobility, this);
 			} else {
 				Cursor::pos = pos;
 				changeState(state, SELECT);

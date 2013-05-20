@@ -43,28 +43,37 @@ void BaseObject::MoveManager::initialize(){
 	shortest_path.resize(100);
 }
 
-void BaseObject::MoveManager::trackMovement(const Position& pos, const Position& topos, int mob){
+void BaseObject::MoveManager::trackMovement(const Position& pos, const Position& topos, int mob, BaseObject* obj){
 	initialize();
-	calcShortestPath(pos, topos, mob);
+	calcShortestPath(pos, topos, mob, obj);
 	path = shortest_path;
 }
 
-void BaseObject::MoveManager::calcShortestPath(const Position& pos, const Position& topos, int mob){
+void BaseObject::MoveManager::calcShortestPath(const Position& pos, const Position& topos, int mob, BaseObject* obj){
 	if(mob <= 0) return;
+
+	Player* me_player = dynamic_cast<Player*>(obj);
+	Enemy* me_enemy = dynamic_cast<Enemy*>(obj);
 
 	Position checkpos;
 	for(int i = 0; i < DIR_NUM; ++i){
 		checkpos = pos + dir[i];
 
 		if(Stage::isBrightened(checkpos) && (mob-1) >= 0){
-			current_path.push_back(i);
-			if(checkpos == topos){
-				if(current_path.size() < shortest_path.size()){
-					shortest_path = current_path;
-				}
+			//ジャンプ力の足りる位置から移動
+			int height = abs(Stage::getHeight(checkpos) - Stage::getHeight(pos));
+			if( (me_player != NULL && me_player->getJumpPow() >= height) ||
+				(me_enemy != NULL && me_enemy->getJumpPow() >= height) ){
+
+					current_path.push_back(i);
+					if(checkpos == topos){
+						if(current_path.size() < shortest_path.size()){
+							shortest_path = current_path;
+						}
+					}
+					calcShortestPath(checkpos, topos, mob-1, obj);
+					current_path.pop_back();
 			}
-			calcShortestPath(checkpos, topos, mob-1);
-			current_path.pop_back();
 		}
 	}
 }
