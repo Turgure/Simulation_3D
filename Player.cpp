@@ -248,16 +248,12 @@ void Player::showCommand(){
 	switch(state){
 	case SELECT:
 	case ACTION:
+		DrawGraph(0, 16, Graphic::picture_frame, true);
 		command.draw(16, 32);
 		break;
 	case MOVE:
-		DrawString(400,  0, "where?", GetColor(255,255,255));
-		break;
 	case ATTACK:
-		DrawString(400,  0, "to whom?", GetColor(255,255,255));
-		break;
 	case END:
-		DrawString(400,  0, "end.", GetColor(255,255,255));
 		break;
 	}
 }

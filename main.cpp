@@ -1,4 +1,6 @@
 #include <DxLib.h>
+#include "Graphic.h"
+#include "Sound.h"
 #include "Keyboard.h"
 #include "BattleScene.h"
 #include "StartScene.h"
@@ -9,6 +11,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	if(DxLib_Init() == -1 || SetDrawScreen(DX_SCREEN_BACK) != 0) return -1;	//‰Šú‰»‚Æ— ‰æ–Êˆ—
 
 	Keyboard::initialize();
+	Sound::initialize();
+	Graphic::initialize();
 	
 	SceneManager::run(new StartScene);
 
