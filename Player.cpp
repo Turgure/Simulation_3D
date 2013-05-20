@@ -6,19 +6,19 @@
 #include "ChipBrightnessManager.h"
 
 Player::Player(string name, int x, int y, int hp, int mp, int str, int def, int agi, int mobility, int jump_power):pos(x, y){
-	model = MV1LoadModel("data/image/3Dmodel/chara/woman003/waitting.pmx");
-	modelattack[0] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack01.pmx");
-	modelattack[1] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack02.pmx");
-	modelattack[2] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack03.pmx");
-	modelattack[3] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack04.pmx");
-	modelattack[4] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack05.pmx");
-	modelattack[5] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack06.pmx");
-	MV1SetScale(model, VGet(3.0f, 3.0f, 3.0f));	//拡大
-	for(int i = 0; i < 6; i++){
-		MV1SetScale(modelattack[i], VGet(3.0f,3.0f,3.0f));
+	model[0] = MV1LoadModel("data/image/3Dmodel/chara/woman003/waitting.pmx");
+	model[1] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack01.pmx");
+	model[2] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack02.pmx");
+	model[3] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack03.pmx");
+	model[4] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack04.pmx");
+	model[5] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack05.pmx");
+	model[6] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack06.pmx");
+	for(int i = 0; i < 7; i++){
+		MV1SetScale(model[i], VGet(3.0f, 3.0f, 3.0f));	//拡大
 	}
+
 	mv_mng.current_dir = NORTH;
-	mv_mng.setObjectDirection(model);	//向き
+	mv_mng.setObjectDirection(model[0]);	//向き
 
 	this->name = name;
 	this->hp = maxhp = hp;
@@ -40,14 +40,8 @@ Player::Player(string name, int x, int y, int hp, int mp, int str, int def, int 
 void Player::update(){
 	myvec = VAdd(VGet(pos.y*chipsize, Stage::getHeight(pos)*chipheight, pos.x*chipsize), mv_mng.diff);
 	//3Dモデルの配置
-	switch(attackstatus){
-	case 0:MV1SetPosition(model, VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));	break;
-	case 1:MV1SetPosition(modelattack[0], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));	break;
-	case 2:MV1SetPosition(modelattack[1], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));	break;
-	case 3:MV1SetPosition(modelattack[2], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));	break;
-	case 4:MV1SetPosition(modelattack[3], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));	break;
-	case 5:MV1SetPosition(modelattack[4], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));	break;
-	case 6:MV1SetPosition(modelattack[5], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));	break;
+	for(int i = 0; i < 7; ++i){
+		MV1SetPosition(model[i], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));
 	}
 	Stage::setObjectAt(pos, this);
 
@@ -66,14 +60,15 @@ void Player::update(){
 void Player::draw(){
 	// ３Ｄモデルの描画
 	switch(attackstatus){
-	case 0:MV1DrawModel(model);	break;
-	case 1:MV1DrawModel(modelattack[0]);	break;
-	case 2:MV1DrawModel(modelattack[1]);	break;
-	case 3:MV1DrawModel(modelattack[2]);	break;
-	case 4:MV1DrawModel(modelattack[3]);	break;
-	case 5:MV1DrawModel(modelattack[4]);	break;
-	case 6:MV1DrawModel(modelattack[5]);	break;
+	case 0:MV1DrawModel(model[0]);	break;
+	case 1:MV1DrawModel(model[1]);	break;
+	case 2:MV1DrawModel(model[2]);	break;
+	case 3:MV1DrawModel(model[3]);	break;
+	case 4:MV1DrawModel(model[4]);	break;
+	case 5:MV1DrawModel(model[5]);	break;
+	case 6:MV1DrawModel(model[6]);	break;
 	}
+
 	if(pos == Cursor::pos){
 		showStatus();
 	}
@@ -183,7 +178,15 @@ void Player::action(){
 		break;
 
 	case ATTACK:
-		//attack(enemies);
+		if(Keyboard::pushed(KEY_INPUT_X)){
+			Cursor::pos = pos;
+			if(changeState(state, ACTION)){
+				command.back();
+			}
+		}
+		if(Keyboard::pushed(KEY_INPUT_Z)){
+			state = ATTACKING;
+		}
 		break;
 
 	case END:
@@ -205,12 +208,19 @@ void Player::action(){
 		}
 		break;
 
+	case ATTACKING:
+		//attack(enemies);
+		break;
+
 	case MOVING:
 		static int order;
 		static Position topos;
 		mv_mng.current_dir = mv_mng.path[order];
 		topos = pos + mv_mng.dir[mv_mng.current_dir];
-		mv_mng.setObjectDirection(model);
+
+		for(int i = 0; i < 7; ++i){
+			mv_mng.setObjectDirection(model[0]);
+		}
 
 		mv_mng.diff = VAdd(mv_mng.diff,
 			VGet(mv_mng.dir[mv_mng.current_dir].y*chipsize*mv_mng.moving_rate, 0.0f, mv_mng.dir[mv_mng.current_dir].x*chipsize*mv_mng.moving_rate));
@@ -284,38 +294,72 @@ void Player::showCommand(){
 }
 
 void Player::attack(vector<Enemy> &enemies){
-	if(state != ATTACK) return;
+	if(state != ATTACKING) return;
 
-	if(Keyboard::pushed(KEY_INPUT_X)){
-		Cursor::pos = pos;
-		if(changeState(state, ACTION)){
-			command.back();
-		}
-	}
-	if(Keyboard::pushed(KEY_INPUT_Z)){
-		for(auto& enemy : enemies){
-			if(Stage::isBrightened(Cursor::pos)){
-				if(enemy.pos == Cursor::pos){
-					Cursor::pos = pos;
-					can_act = false;
-					if(changeState(state, SELECT)){
-						command.clear();
-					}
+	static bool checked = false;
+	for(auto& enemy = enemies.begin(); enemy != enemies.end(); ++enemy){
+		if(checked) break;
 
-					int diff = str - enemy.getDef();
-					enemy.setDamage(diff > 0 ? diff : 0);
-					enemy.setHP(enemy.getHP() - diff);
-					break;
+		if(Stage::isBrightened(Cursor::pos)){
+			if(enemy->pos == Cursor::pos){
+				int diff = str - enemy->getDef();
+				enemy->setDamage(diff > 0 ? diff : 0);
+				enemy->setHP(enemy->getHP() - diff);
+				
+				//向きの指定
+				Position dirpos = pos - enemy->pos;
+				if(abs(dirpos.y) >= abs(dirpos.x) && dirpos.y > 0){
+					mv_mng.setObjectDirection(model[0], NORTH);
+				} else if(abs(dirpos.y) >= abs(dirpos.x) && dirpos.y < 0){
+					mv_mng.setObjectDirection(model[0], SOUTH);
+				} else if(abs(dirpos.y) <= abs(dirpos.x) && dirpos.x > 0){
+					mv_mng.setObjectDirection(model[0], WEST);
+				} else if(abs(dirpos.y) <= abs(dirpos.x) && dirpos.x > 0){
+					mv_mng.setObjectDirection(model[0], EAST);
 				}
-			} else {
+
+				checked = true;
+				break;
+			}
+
+			//色付き空白マス
+			if(enemy == enemies.end()-1){
 				Cursor::pos = pos;
 				if(changeState(state, ACTION)){
 					command.back();
+					Stage::disbrighten();
+					has_brightened = false;
+					return;
 				}
-				break;
+			}
+		} else {
+			//色なしマス
+			Cursor::pos = pos;
+			if(changeState(state, ACTION)){
+				command.back();
+				Stage::disbrighten();
+				has_brightened = false;
+				return;
 			}
 		}
-		Stage::disbrighten();
+	}
+
+	while(attackstatus <= 6){
+		static int atk_rate;
+		if(++atk_rate >= 20000){
+			++attackstatus;
+			atk_rate = 0;
+			return;
+		}
+	}
+
+	if(attackstatus > 6){
+		Cursor::pos = pos;
+		changeState(state, SELECT);
+		command.clear();
+		attackstatus = 0;
+		checked = false;
+		can_act = false;
 		has_brightened = false;
 	}
 }
@@ -323,13 +367,13 @@ void Player::attack(vector<Enemy> &enemies){
 bool Player::assignDirection(){
 
 	if(Keyboard::pushed(KEY_INPUT_UP)){
-		mv_mng.setObjectDirection(model, Camera::getDirection(FRONT));
+		mv_mng.setObjectDirection(model[0], Camera::getDirection(FRONT));
 	} else if(Keyboard::pushed(KEY_INPUT_DOWN)){
-		mv_mng.setObjectDirection(model, Camera::getDirection(BACK));
+		mv_mng.setObjectDirection(model[0], Camera::getDirection(BACK));
 	} else if(Keyboard::pushed(KEY_INPUT_LEFT)){
-		mv_mng.setObjectDirection(model, Camera::getDirection(LEFT));
+		mv_mng.setObjectDirection(model[0], Camera::getDirection(LEFT));
 	} else if(Keyboard::pushed(KEY_INPUT_RIGHT)){
-		mv_mng.setObjectDirection(model, Camera::getDirection(RIGHT));
+		mv_mng.setObjectDirection(model[0], Camera::getDirection(RIGHT));
 	}
 
 	if(Keyboard::pushed(KEY_INPUT_Z)) return true;

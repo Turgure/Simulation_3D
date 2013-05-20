@@ -17,7 +17,7 @@ public:
 	virtual void stepATBgauge(){};
 	bool isMyTurn();
 
-	enum State{SELECT, MOVE, ACTION, ATTACK, END, WAIT, MOVING} state;
+	enum State{SELECT, MOVE, ACTION, ATTACK, END, WAIT, MOVING, ATTACKING} state;
 
 protected:
 	virtual void update(){};
@@ -59,8 +59,7 @@ protected:
 		int getDamage() const { return damage; }
 
 	protected:
-		int model;
-		int modelattack[6];
+		int model[7];
 		int attackstatus;
 		string name;
 		int maxhp;

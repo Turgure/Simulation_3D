@@ -8,10 +8,10 @@ Enemy::Enemy(string name, int x, int y, int hp, int mp, int str, int def, int ag
 	pos(x, y),
 	move_pos(),
 	act_pos(){
-		model = MV1LoadModel("data/image/3Dmodel/chara/miku.pmd");
-		MV1SetScale(model, VGet(3.0f, 3.0f, 3.0f));	//拡大
+		model[0] = MV1LoadModel("data/image/3Dmodel/chara/miku.pmd");
+		MV1SetScale(model[0], VGet(3.0f, 3.0f, 3.0f));	//拡大
 		mv_mng.current_dir = SOUTH;
-		mv_mng.setObjectDirection(model);	//向き
+		mv_mng.setObjectDirection(model[0]);	//向き
 
 		this->name = name;
 		this->hp = maxhp = hp;
@@ -36,13 +36,13 @@ Enemy::Enemy(string name, int x, int y, int hp, int mp, int str, int def, int ag
 void Enemy::update(){
 	myvec = VAdd(VGet(pos.y*chipsize, Stage::getHeight(pos)*chipheight, pos.x*chipsize), mv_mng.diff);
 	//3Dモデルの配置
-	MV1SetPosition(model, VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));
+	MV1SetPosition(model[0], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));
 	Stage::setObjectAt(pos, this);
 }
 
 void Enemy::draw(){
 	// ３Ｄモデルの描画
-	MV1DrawModel(model);
+	MV1DrawModel(model[0]);
 
 	if(pos == Cursor::pos){
 		showStatus();
@@ -127,7 +127,7 @@ void Enemy::action(){
 		static Position topos;
 		mv_mng.current_dir = mv_mng.path[order];
 		topos = pos + mv_mng.dir[mv_mng.current_dir];
-		mv_mng.setObjectDirection(model);
+		mv_mng.setObjectDirection(model[0]);
 
 		mv_mng.diff = VAdd(mv_mng.diff,
 			VGet(mv_mng.dir[mv_mng.current_dir].y*chipsize*mv_mng.moving_rate, 0.0f, mv_mng.dir[mv_mng.current_dir].x*chipsize*mv_mng.moving_rate));
@@ -308,12 +308,12 @@ void Enemy::assignDirection(const vector<Player>& players){
 
 	Position dirpos = pos - finalpos;
 	if(abs(dirpos.y) >= abs(dirpos.x) && dirpos.y > 0){
-		mv_mng.setObjectDirection(model, NORTH);
+		mv_mng.setObjectDirection(model[0], NORTH);
 	} else if(abs(dirpos.y) >= abs(dirpos.x) && dirpos.y < 0){
-		mv_mng.setObjectDirection(model, SOUTH);
+		mv_mng.setObjectDirection(model[0], SOUTH);
 	} else if(abs(dirpos.y) <= abs(dirpos.x) && dirpos.x > 0){
-		mv_mng.setObjectDirection(model, WEST);
+		mv_mng.setObjectDirection(model[0], WEST);
 	} else if(abs(dirpos.y) <= abs(dirpos.x) && dirpos.x > 0){
-		mv_mng.setObjectDirection(model, EAST);
+		mv_mng.setObjectDirection(model[0], EAST);
 	}
 }
