@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 
 class Sound{
 public:
 	static void initialize();
 	
-	//sound–¼
+	//soundå
 	//static int hoge;
 	//static int foo;
 	//static int fuga;

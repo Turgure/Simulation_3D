@@ -1,10 +1,10 @@
-#pragma once
+Ôªø#pragma once
 
 class Graphic{
 public:
 	static void initialize();
 	
-	//graphicñº
+	//graphicÂêç
 	static int picture_frame;
 	//static int hoge;
 	//static int foo;

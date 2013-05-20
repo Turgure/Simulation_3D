@@ -1,4 +1,4 @@
-#include "DxLib.h"
+﻿#include "DxLib.h"
 #include "Graphic.h"
 
 int Graphic::picture_frame;
