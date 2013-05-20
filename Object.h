@@ -35,7 +35,7 @@ protected:
 	bool state_changed;
 
 	struct Status{
-		void showStatus(int x, int y) const;
+		void showStatus() const;
 		
 		string getName(){ return name; }
 		void setHP(int hp){ this->hp = hp; }
@@ -91,9 +91,9 @@ protected:
 			jump_height = chipheight;
 		}
 		//horizontal
-		void trackMovement(const Position& pos, const Position& topos, int mob);
+		void trackMovement(const Position& pos, const Position& topos, int mob, BaseObject* obj);
 		void initialize();
-		void calcShortestPath(const Position& pos, const Position& topos, int mob);
+		void calcShortestPath(const Position& pos, const Position& topos, int mob, BaseObject* obj);
 		Position dir[4];
 		vector<int> path;
 		

@@ -21,31 +21,37 @@ int ChipBrightnessManager::color_support = GetColor(102,255,102);
 void ChipBrightnessManager::range(const Position& pos, int n, bool is_resistance, BaseObject* obj){
 	if(n <= 0) return;
 
+	Player* me_player = dynamic_cast<Player*>(obj);
+	Enemy* me_enemy = dynamic_cast<Enemy*>(obj);
+
 	for(int i = 0; i < 4; ++i){
 		Position topos = pos + dir[i*2];
-		int height = abs(Stage::getHeight(topos) - Stage::getHeight(pos));
 		if(Stage::canMove(topos)){
-			int rest = is_resistance ? n - Stage::getResistance(topos) : n - 1;
-			if(rest >= 0){
-				Stage::brighten(topos, color_move);
-				//敵をすり抜けないようにする
-				BaseObject* me_player = dynamic_cast<Player*>(obj);
-				BaseObject* me_enemy = dynamic_cast<Enemy*>(obj);
-				BaseObject* you_player = dynamic_cast<Player*>(Stage::getObjectAt(topos));
-				BaseObject* you_enemy = dynamic_cast<Enemy*>(Stage::getObjectAt(topos));
+			//ジャンプ力が足りなかったらreturn
+			int height = abs(Stage::getHeight(topos) - Stage::getHeight(pos));
+			if( (me_player != NULL && me_player->getJumpPow() >= height) ||
+				(me_enemy != NULL && me_enemy->getJumpPow() >= height) ){
 
-				if(me_player != NULL){
-					if(me_player == you_player || you_enemy == NULL){
-						range(topos, rest, is_resistance, obj);
+					int rest = is_resistance ? n - Stage::getResistance(topos) : n - 1;
+					if(rest >= 0){
+						Stage::brighten(topos, color_move);
+						//敵をすり抜けないようにする
+						Player* you_player = dynamic_cast<Player*>(Stage::getObjectAt(topos));
+						Enemy* you_enemy = dynamic_cast<Enemy*>(Stage::getObjectAt(topos));
+
+						if(me_player != NULL){
+							if(me_player == you_player || you_enemy == NULL){
+								range(topos, rest, is_resistance, obj);
+							}
+							continue;
+						}
+						if(me_enemy != NULL){
+							if(me_enemy == you_enemy || you_player == NULL){
+								range(topos, rest, is_resistance, obj);
+							}
+							continue;
+						}
 					}
-					continue;
-				}
-				if(me_enemy != NULL){
-					if(me_enemy == you_enemy || you_player == NULL){
-						range(topos, rest, is_resistance, obj);
-					}
-					continue;
-				}
 			}
 		}
 	}

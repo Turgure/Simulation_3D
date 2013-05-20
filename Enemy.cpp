@@ -45,7 +45,7 @@ void Enemy::draw(){
 	MV1DrawModel(model);
 
 	if(pos == Cursor::pos){
-		showStatus(200, 0);
+		showStatus();
 	}
 
 	if(has_attacked){
@@ -116,7 +116,7 @@ void Enemy::action(){
 			break;
 		} else if(can_move){
 			if(isCountOver(30)){
-				mv_mng.trackMovement(pos, Cursor::pos, mobility);
+				mv_mng.trackMovement(pos, Cursor::pos, mobility, this);
 				changeState(state, MOVING);
 			}
 		}

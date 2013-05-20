@@ -10,6 +10,8 @@ CommandSelect::CommandSelect(){
 	select_num.push_back(0);
 	current = MV_ACT_END;
 	next = MV_ACT_END;
+
+	cnt = -100;
 }
 
 void CommandSelect::update(){
@@ -21,6 +23,11 @@ void CommandSelect::update(){
 		select_num[current] = (select_num[current] + (content[current].size()-2)) % (content[current].size()-1);
 		next = setNext();
 	}
+
+	int size = content[current][select_num[current]+1].description.size();
+	if(++cnt >= DEFAULT_SCREEN_SIZE_X + size*10){
+		cnt = -100;
+	}
 }
 
 void CommandSelect::draw(int x, int y){
@@ -31,6 +38,9 @@ void CommandSelect::draw(int x, int y){
 			DrawFormatString(x, y + i*20, GetColor(255,255,255), "   %s", content[current][i+1].words.c_str());
 		}
 	}
+
+	DrawFormatString(DEFAULT_SCREEN_SIZE_X - cnt, DEFAULT_SCREEN_SIZE_Y-16,
+		GetColor(255,255,255), "%s", content[current][select_num[current]+1].description.c_str());
 }
 
 void CommandSelect::loadCommands(){

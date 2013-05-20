@@ -75,7 +75,7 @@ void Player::draw(){
 	case 6:MV1DrawModel(modelattack[5]);	break;
 	}
 	if(pos == Cursor::pos){
-		showStatus(200, 0);
+		showStatus();
 	}
 
 	if(isMyTurn()){
@@ -157,7 +157,7 @@ void Player::action(){
 			command.clear();
 			if(Stage::isBrightened(Cursor::pos) && !Stage::getObjectAt(Cursor::pos)){
 				changeState(state, MOVING);
-				mv_mng.trackMovement(pos, Cursor::pos, mobility);
+				mv_mng.trackMovement(pos, Cursor::pos, mobility, this);
 			} else {
 				Cursor::pos = pos;
 				changeState(state, SELECT);
@@ -273,16 +273,12 @@ void Player::showCommand(){
 	switch(state){
 	case SELECT:
 	case ACTION:
-		command.draw(400, 0);
+		DrawGraph(0, 16, Graphic::picture_frame, true);
+		command.draw(16, 32);
 		break;
 	case MOVE:
-		DrawString(400,  0, "where?", GetColor(255,255,255));
-		break;
 	case ATTACK:
-		DrawString(400,  0, "to whom?", GetColor(255,255,255));
-		break;
 	case END:
-		DrawString(400,  0, "end.", GetColor(255,255,255));
 		break;
 	}
 }

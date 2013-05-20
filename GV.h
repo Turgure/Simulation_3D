@@ -1,4 +1,7 @@
 ﻿#pragma once
+#include "Graphic.h"
+#include "Sound.h"
+
 const int chipsize = 32;
 const int chipheight = 16;
 
