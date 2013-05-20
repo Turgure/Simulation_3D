@@ -1,9 +1,9 @@
 ﻿#pragma once
 #include "BaseScene.h"
 
-class HomeScene : public BaseScene{
+class ResultScene : public BaseScene{
 public:
-	HomeScene();
+	ResultScene();
 	virtual void initialize() override;
 	virtual void update() override;
 	virtual void draw() override;

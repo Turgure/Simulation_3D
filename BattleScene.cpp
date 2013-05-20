@@ -1,6 +1,6 @@
 ﻿#include <DxLib.h>
 #include "BattleScene.h"
-#include "HomeScene.h"
+#include "ResultScene.h"
 #include "GV.h"
 #include "Keyboard.h"
 
@@ -132,7 +132,7 @@ void BattleScene::update(){
 
 	//change scene
 	if(players.empty() || enemies.empty()){
-		changeScene(new HomeScene);
+		changeScene(new ResultScene);
 	}
 }
 
