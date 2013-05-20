@@ -28,6 +28,8 @@ public:
 	int setNext();
 
 private:
+	int cnt;
+
 	vector<int> select_num;
 	vector<int> prev;
 	int current;
