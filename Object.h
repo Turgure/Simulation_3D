@@ -35,7 +35,7 @@ protected:
 	bool state_changed;
 
 	struct Status{
-		void showStatus(int x, int y) const;
+		void showStatus() const;
 		
 		string getName(){ return name; }
 		void setHP(int hp){ this->hp = hp; }

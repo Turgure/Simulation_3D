@@ -26,17 +26,16 @@ bool BaseObject::changeState(State& mystate, State next){
 
 
 ///BaseObjec::Status
-void BaseObject::Status::showStatus(int x, int y) const{
-	DrawFormatString(x, y    , GetColor(255,255,255), "名前 %s", name.c_str());
-	DrawFormatString(x, y+ 16, GetColor(255,255,255), "HP %d/%d", hp, maxhp);
-	DrawFormatString(x, y+ 32, GetColor(255,255,255), "MP %d/%d", mp, maxmp);
-	DrawFormatString(x, y+ 48, GetColor(255,255,255), "攻撃力 %d", str);
-	DrawFormatString(x, y+ 64, GetColor(255,255,255), "防御力 %d", def);
-	DrawFormatString(x, y+ 80, GetColor(255,255,255), "素早さ %d", agi);
-	DrawFormatString(x, y+ 96, GetColor(255,255,255), "移動力 %d", mobility);
-	DrawFormatString(x, y+112, GetColor(255,255,255), "ジャンプ力 %d", jump_power);
+void BaseObject::Status::showStatus() const{
+	DrawFormatString(160, 16*0, GetColor(255,255,255), "名前 %s", name.c_str());
+	DrawFormatString(160, 16*1, GetColor(255,255,255), "HP %d/%d", hp, maxhp);
+	DrawFormatString(160, 16*2, GetColor(255,255,255), "MP %d/%d", mp, maxmp);
+	DrawFormatString(160, 16*3, GetColor(255,255,255), "攻撃力 %d", str);
+	DrawFormatString(160, 16*4, GetColor(255,255,255), "防御力 %d", def);
+	DrawFormatString(160, 16*5, GetColor(255,255,255), "素早さ %d", agi);
+	DrawFormatString(160, 16*6, GetColor(255,255,255), "移動力 %d", mobility);
+	DrawFormatString(160, 16*7, GetColor(255,255,255), "ジャンプ力 %d", jump_power);
 }
-
 
 ///BaseObject::MovingManager
 void BaseObject::MoveManager::initialize(){

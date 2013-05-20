@@ -50,7 +50,7 @@ void Player::draw(){
 	MV1DrawModel(model);
 
 	if(pos == Cursor::pos){
-		showStatus(200, 0);
+		showStatus();
 	}
 
 	if(isMyTurn()){
@@ -248,7 +248,7 @@ void Player::showCommand(){
 	switch(state){
 	case SELECT:
 	case ACTION:
-		command.draw(400, 0);
+		command.draw(16, 32);
 		break;
 	case MOVE:
 		DrawString(400,  0, "where?", GetColor(255,255,255));

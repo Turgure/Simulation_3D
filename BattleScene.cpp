@@ -137,8 +137,6 @@ void BattleScene::update(){
 }
 
 void BattleScene::draw(){
-	if(!has_come_turn) DrawString(0, 16, "waiting...", GetColor(255,255,255));
-
 	stage.draw();
 	cursor.draw();
 
@@ -150,10 +148,12 @@ void BattleScene::draw(){
 	}
 
 	//行動順を表示
-	int i = 0;
-	for(auto& or : order){
-		DrawFormatString(0, 64+16*i, GetColor(255,255,255), "%2d: %s", i, or.c_str());
-		++i;
+	if(Keyboard::pushing(KEY_INPUT_LSHIFT)){
+		int i = 0;
+		for(auto& or : order){
+			DrawFormatString(DEFAULT_SCREEN_SIZE_X-128, 16*i, GetColor(255,255,255), "%2d: %s", i, or.c_str());
+			++i;
+		}
 	}
 
 	lateUpdate();

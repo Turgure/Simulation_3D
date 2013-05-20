@@ -45,7 +45,7 @@ void Enemy::draw(){
 	MV1DrawModel(model);
 
 	if(pos == Cursor::pos){
-		showStatus(200, 0);
+		showStatus();
 	}
 
 	if(has_attacked){
