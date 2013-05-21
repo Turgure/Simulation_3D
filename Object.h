@@ -59,7 +59,6 @@ protected:
 		int getDamage() const { return damage; }
 
 	protected:
-		int model[7];
 		int attackstatus;
 		string name;
 		int maxhp;
@@ -98,6 +97,7 @@ protected:
 		
 		void move();
 		void setObjectDirection(int model, int dir);
+		void setObjectDirection(int model, const Position& dirpos);
 		void setObjectDirection(int model);
 		int current_dir;
 		double moving_rate;
@@ -149,8 +149,10 @@ public:
 	Position pos;
 
 private:
-	MoveManager mv_mng;
+	int picture_frame;
+	vector<int> model;
 
+	MoveManager mv_mng;
 	VECTOR myvec;
 };
 
@@ -181,8 +183,9 @@ private:
 	int attack_range;
 	bool moved;
 	bool attacked;
-	MoveManager mv_mng;
+	vector<int> model;
 
+	MoveManager mv_mng;
 	VECTOR myvec;
 	Position move_pos;
 	Position act_pos;

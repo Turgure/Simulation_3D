@@ -79,6 +79,7 @@
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FileStream.cpp" />
+    <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="Keyboard.cpp" />
@@ -97,6 +98,7 @@
     <ClInclude Include="Command.h" />
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="FileStream.h" />
+    <ClInclude Include="GameoverScene.h" />
     <ClInclude Include="Graphic.h" />
     <ClInclude Include="GV.h" />
     <ClInclude Include="ResultScene.h" />

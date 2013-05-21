@@ -1,6 +1,7 @@
 ﻿#include <DxLib.h>
 #include "BattleScene.h"
 #include "ResultScene.h"
+#include "GameoverScene.h"
 #include "GV.h"
 #include "Keyboard.h"
 
@@ -131,7 +132,9 @@ void BattleScene::update(){
 	}
 
 	//change scene
-	if(players.empty() || enemies.empty()){
+	if(players.empty() || Keyboard::pushed(KEY_INPUT_1)){
+		changeScene(new GameoverScene);
+	} else if(enemies.empty() || Keyboard::pushed(KEY_INPUT_2)){
 		changeScene(new ResultScene);
 	}
 }
@@ -140,11 +143,11 @@ void BattleScene::draw(){
 	stage.draw();
 	cursor.draw();
 
-	for(auto& player : players){
-		player.draw();
-	}
 	for(auto& enemy : enemies){
 		enemy.draw();
+	}
+	for(auto& player : players){
+		player.draw();
 	}
 
 	//行動順を表示

@@ -27,14 +27,14 @@ bool BaseObject::changeState(State& mystate, State next){
 
 ///BaseObjec::Status
 void BaseObject::Status::showStatus() const{
-	DrawFormatString(160, 16*0, GetColor(255,255,255), "名前 %s", name.c_str());
-	DrawFormatString(160, 16*1, GetColor(255,255,255), "HP %d/%d", hp, maxhp);
-	DrawFormatString(160, 16*2, GetColor(255,255,255), "MP %d/%d", mp, maxmp);
-	DrawFormatString(160, 16*3, GetColor(255,255,255), "攻撃力 %d", str);
-	DrawFormatString(160, 16*4, GetColor(255,255,255), "防御力 %d", def);
-	DrawFormatString(160, 16*5, GetColor(255,255,255), "素早さ %d", agi);
-	DrawFormatString(160, 16*6, GetColor(255,255,255), "移動力 %d", mobility);
-	DrawFormatString(160, 16*7, GetColor(255,255,255), "ジャンプ力 %d", jump_power);
+	DrawFormatString(0, 16*2, GetColor(255,255,255), "名前 %s", name.c_str());
+	DrawFormatString(0, 16*3, GetColor(255,255,255), "HP %d/%d", hp, maxhp);
+	DrawFormatString(0, 16*4, GetColor(255,255,255), "MP %d/%d", mp, maxmp);
+	DrawFormatString(0, 16*5, GetColor(255,255,255), "攻撃力 %d", str);
+	DrawFormatString(0, 16*6, GetColor(255,255,255), "防御力 %d", def);
+	DrawFormatString(0, 16*7, GetColor(255,255,255), "素早さ %d", agi);
+	DrawFormatString(0, 16*8, GetColor(255,255,255), "移動力 %d", mobility);
+	DrawFormatString(0, 16*9, GetColor(255,255,255), "ジャンプ力 %d", jump_power);
 }
 
 ///BaseObject::MovingManager
@@ -92,6 +92,22 @@ void BaseObject::MoveManager::setObjectDirection(int model, int dir){
 	case EAST:
 		MV1SetRotationXYZ(model, VGet(0.0f, DX_PI_F, 0.0f));
 		break;
+	}
+}
+
+void BaseObject::MoveManager::setObjectDirection(int model, const Position& dirpos){
+	if(abs(dirpos.y) >= abs(dirpos.x)){
+		if(dirpos.y < 0){
+			setObjectDirection(model, NORTH);
+		} else{
+			setObjectDirection(model, SOUTH);
+		}
+	} else {
+		if(dirpos.x < 0){
+			setObjectDirection(model, WEST);
+		} else {
+			setObjectDirection(model, EAST);
+		}
 	}
 }
 

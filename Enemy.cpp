@@ -8,7 +8,9 @@ Enemy::Enemy(string name, int x, int y, int hp, int mp, int str, int def, int ag
 	pos(x, y),
 	move_pos(),
 	act_pos(){
-		model[0] = MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_blue.x");//miku.pmd
+
+		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_blue.x") );
+
 		MV1SetScale(model[0], VGet(3.0f, 3.0f, 3.0f));	//拡大
 		mv_mng.current_dir = SOUTH;
 		mv_mng.setObjectDirection(model[0]);	//向き
@@ -51,8 +53,7 @@ void Enemy::draw(){
 	if(has_attacked){
 		static int cnt;
 		++cnt;
-		//DrawFormatString(pos.x*chipsize, pos.y*chipsize - cnt, GetColor(255,0,0), "%d", damage);
-		DrawFormatString(0, 32, GetColor(255,0,0), "%d", damage);
+		DrawFormatString(100, 60 - cnt, GetColor(255,0,0), "%d", damage);
 		if(cnt >= 60){
 			has_attacked = false;
 			cnt = 0;
@@ -306,14 +307,5 @@ void Enemy::assignDirection(const vector<Player>& players){
 		}
 	}
 
-	Position dirpos = pos - finalpos;
-	if(abs(dirpos.y) >= abs(dirpos.x) && dirpos.y > 0){
-		mv_mng.setObjectDirection(model[0], NORTH);
-	} else if(abs(dirpos.y) >= abs(dirpos.x) && dirpos.y < 0){
-		mv_mng.setObjectDirection(model[0], SOUTH);
-	} else if(abs(dirpos.y) <= abs(dirpos.x) && dirpos.x > 0){
-		mv_mng.setObjectDirection(model[0], WEST);
-	} else if(abs(dirpos.y) <= abs(dirpos.x) && dirpos.x > 0){
-		mv_mng.setObjectDirection(model[0], EAST);
-	}
+	mv_mng.setObjectDirection(model[0], finalpos - pos);
 }

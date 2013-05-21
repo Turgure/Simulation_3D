@@ -8,8 +8,8 @@ CommandSelect::CommandSelect(){
 	initCommands();
 
 	select_num.push_back(0);
-	current = MV_ACT_END;
-	next = MV_ACT_END;
+	current = SELECT;
+	next = SELECT;
 
 	cnt = -100;
 }
@@ -31,20 +31,24 @@ void CommandSelect::update(){
 }
 
 void CommandSelect::draw(int x, int y){
+	SetFontSize(32);
+	int color;
 	for(unsigned int i = 0; i < (content[current].size()-1); ++i){
 		if(i == select_num[current]){
-			DrawFormatString(x, y + i*20, GetColor(255,255,255), "-> %s", content[current][i+1].words.c_str());
+			color = GetColor(255,128,  0);
 		} else {
-			DrawFormatString(x, y + i*20, GetColor(255,255,255), "   %s", content[current][i+1].words.c_str());
+			color = GetColor(255,255,255);
 		}
+		DrawFormatString(x, y + i*32+5, color, "%s", content[current][i+1].words.c_str());
 	}
+	SetFontSize(16);
 
 	DrawFormatString(DEFAULT_SCREEN_SIZE_X - cnt, DEFAULT_SCREEN_SIZE_Y-16,
 		GetColor(255,255,255), "%s", content[current][select_num[current]+1].description.c_str());
 }
 
 void CommandSelect::loadCommands(){
-	FileStream::load("data/command/00 mv_act_end.csv", commands[00]);
+	FileStream::load("data/command/00 select.csv", commands[00]);
 	FileStream::load("data/command/01 action.csv", commands[01]);
 	FileStream::load("data/command/02 swordplay.csv", commands[02]);
 	FileStream::load("data/command/03 white_magic.csv", commands[02]);
@@ -86,15 +90,15 @@ void CommandSelect::clear(){
 	select_num.clear();
 	select_num.push_back(0);
 	prev.clear();
-	current = MV_ACT_END;
+	current = SELECT;
 }
 
 int CommandSelect::setNext(){
-	if(commandIs("MOVE")) return MV_ACT_END;
-	if(commandIs("ACTION")) return ATTACK;
-	if(commandIs("END")) return MV_ACT_END;
+	if(commandIs("移動")) return SELECT;
+	if(commandIs("行動")) return ATTACK;
+	if(commandIs("終了")) return SELECT;
 
-	if(commandIs("たたかう")) return MV_ACT_END;
-	if(commandIs("とくぎ")) return MV_ACT_END;
+	if(commandIs("たたかう")) return SELECT;
+	if(commandIs("とくぎ")) return SELECT;
 	else return -1;
 }

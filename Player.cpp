@@ -6,14 +6,16 @@
 #include "ChipBrightnessManager.h"
 
 Player::Player(string name, int x, int y, int hp, int mp, int str, int def, int agi, int mobility, int jump_power):pos(x, y){
-	model[0] = MV1LoadModel("data/image/3Dmodel/chara/woman003/waitting.pmx");
-	model[1] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack01.pmx");
-	model[2] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack02.pmx");
-	model[3] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack03.pmx");
-	model[4] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack04.pmx");
-	model[5] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack05.pmx");
-	model[6] = MV1LoadModel("data/image/3Dmodel/chara/woman003/attack06.pmx");
-	for(int i = 0; i < 7; i++){
+	picture_frame = LoadGraph("data/image/frame/f02_208x160.png");
+	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/woman003/waitting.pmx") );
+	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/woman003/attack01.pmx") );
+	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/woman003/attack02.pmx") );
+	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/woman003/attack03.pmx") );
+	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/woman003/attack04.pmx") );
+	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/woman003/attack05.pmx") );
+	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/woman003/attack06.pmx") );
+
+	for(int i = 0; i < 6; i++){
 		MV1SetScale(model[i], VGet(3.0f, 3.0f, 3.0f));	//拡大
 	}
 
@@ -40,7 +42,7 @@ Player::Player(string name, int x, int y, int hp, int mp, int str, int def, int 
 void Player::update(){
 	myvec = VAdd(VGet(pos.y*chipsize, Stage::getHeight(pos)*chipheight, pos.x*chipsize), mv_mng.diff);
 	//3Dモデルの配置
-	for(int i = 0; i < 7; ++i){
+	for(int i = 0; i < 6; ++i){
 		MV1SetPosition(model[i], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));
 	}
 	Stage::setObjectAt(pos, this);
@@ -80,8 +82,7 @@ void Player::draw(){
 	if(has_attacked){
 		static int cnt;
 		++cnt;
-		//DrawFormatString(pos.x*chipsize, pos.y*chipsize - cnt, GetColor(255,0,0), "%d", damage);
-		DrawFormatString(0, 32, GetColor(255,0,0), "%d", damage);
+		DrawFormatString(100, 60 - cnt, GetColor(255,0,0), "%d", damage);
 		if(cnt >= 60){
 			has_attacked = false;
 			cnt = 0;
@@ -122,17 +123,17 @@ void Player::action(){
 			}
 
 			if(Keyboard::pushed(KEY_INPUT_Z)){
-				if(command.commandIs("MOVE") && can_move){
+				if(command.commandIs("移動") && can_move){
 					if(changeState(state, MOVE)){
 						command.step();
 					}
 				}
-				if(command.commandIs("ACTION") && can_act){
+				if(command.commandIs("行動") && can_act){
 					if(changeState(state, ACTION)){
 						command.step();
 					}
 				}
-				if(command.commandIs("END")){
+				if(command.commandIs("終了")){
 					if(changeState(state, END)){
 						command.clear();
 					}
@@ -218,7 +219,7 @@ void Player::action(){
 		mv_mng.current_dir = mv_mng.path[order];
 		topos = pos + mv_mng.dir[mv_mng.current_dir];
 
-		for(int i = 0; i < 7; ++i){
+		for(int i = 0; i < 6; ++i){
 			mv_mng.setObjectDirection(model[0]);
 		}
 
@@ -283,8 +284,8 @@ void Player::showCommand(){
 	switch(state){
 	case SELECT:
 	case ACTION:
-		DrawGraph(0, 16, Graphic::picture_frame, true);
-		command.draw(16, 32);
+		DrawGraph(DEFAULT_SCREEN_SIZE_X-208, DEFAULT_SCREEN_SIZE_Y-160-16-5, picture_frame, true);
+		command.draw(DEFAULT_SCREEN_SIZE_X-170, DEFAULT_SCREEN_SIZE_Y-155);
 		break;
 	case MOVE:
 	case ATTACK:
@@ -307,16 +308,10 @@ void Player::attack(vector<Enemy> &enemies){
 				enemy->setHP(enemy->getHP() - diff);
 
 				//向きの指定
-				Position dirpos = pos - enemy->pos;
-				if(abs(dirpos.y) >= abs(dirpos.x) && dirpos.y > 0){
-					for(int i = 0; i < 7; ++i) mv_mng.setObjectDirection(model[i], NORTH);
-				} else if(abs(dirpos.y) >= abs(dirpos.x) && dirpos.y < 0){
-					for(int i = 0; i < 7; ++i) mv_mng.setObjectDirection(model[i], SOUTH);
-				} else if(abs(dirpos.y) <= abs(dirpos.x) && dirpos.x > 0){
-					for(int i = 0; i < 7; ++i) mv_mng.setObjectDirection(model[i], WEST);
-				} else if(abs(dirpos.y) <= abs(dirpos.x) && dirpos.x > 0){
-					for(int i = 0; i < 7; ++i) mv_mng.setObjectDirection(model[i], EAST);
+				for(int i = 0; i < 6; ++i){
+					mv_mng.setObjectDirection(model[i], enemy->pos - pos);
 				}
+
 
 				checked = true;
 				break;
@@ -346,7 +341,7 @@ void Player::attack(vector<Enemy> &enemies){
 
 	while(attackstatus <= 6){
 		static int atk_rate;
-		if(++atk_rate >= 100000){
+		if(++atk_rate >= 1000000){
 			++attackstatus;
 			atk_rate = 0;
 			return;
