@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string>
 #include <map>
 #include "BaseScene.h"
 #include "Position.h"
@@ -13,8 +14,11 @@ public:
 	virtual void draw() override;
 
 private:
+	vector<string> my_mission;
+
 	vector<int> order;
 
+	void addMenu();
 	void select(map<pair<int, int>, string> maps);
 	void action();
 	void drawValues(map<pair<int, int>, string> maps, int num);

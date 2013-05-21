@@ -9,8 +9,8 @@ void FileStream::load(const string& filename, vector<string>& data){
 
 	ifstream file(filename);
 	if(file.fail()){
-		cout << filename.c_str() << " load error." << endl;
-		exit(1);
+		ofstream ofs(filename);
+		return;
 	}
 	
 	while(getline(file, str)){
@@ -34,8 +34,8 @@ void FileStream::load(const string& filename, vector<vector<string>>& data){
 
 	ifstream file(filename);
 	if(file.fail()){
-		cout << filename.c_str() << " load error." << endl;
-		exit(1);
+		ofstream ofs(filename);
+		return;
 	}
 	
 	while(getline(file, str)){
