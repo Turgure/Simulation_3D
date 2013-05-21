@@ -1,0 +1,2 @@
+//name, x, y, hp, mp, str, def, agi, mobility, jump_power
+Player1, 0, 0, 10, 10, 4, 4, 5, 5, 3

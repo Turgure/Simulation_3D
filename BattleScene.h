@@ -18,7 +18,9 @@ public:
 	void lateUpdate();
 
 private:
-	int turn;
+	vector<int> my_mission;
+	int imy_mission;
+
 	bool has_come_turn;
 	bool act_only_one;
 

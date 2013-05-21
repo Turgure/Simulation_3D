@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <vector>
-#include <DxLib.h>
+#include "DxLib.h"
 #include "Position.h"
 #include "Camera.h"
 using namespace std;
@@ -11,7 +11,7 @@ public:
 	Stage();
 	void initialize();
 	void initID();
-	void initMap();
+	void initMap(string area);
 	void update();
 	void draw();
 	void drawMap();
@@ -37,8 +37,6 @@ public:
 	static BaseObject* getObjectAt(const Position& pos){ return mapchip[pos.y][pos.x].object; }
 
 private:
-	int current_map;
-
 	static int width;
 	static int depth;
 	static int leftup_positionX;

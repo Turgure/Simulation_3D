@@ -1,4 +1,4 @@
-﻿#include <DxLib.h>
+﻿#include "DxLib.h"
 #include "Command.h"
 #include "FileStream.h"
 #include "Keyboard.h"

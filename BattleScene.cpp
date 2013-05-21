@@ -1,8 +1,10 @@
-﻿#include <DxLib.h>
+﻿#include <sstream>
+#include "DxLib.h"
 #include "BattleScene.h"
 #include "ResultScene.h"
 #include "GameoverScene.h"
 #include "GV.h"
+#include "FileStream.h"
 #include "Keyboard.h"
 
 BattleScene::BattleScene(){
@@ -11,11 +13,16 @@ BattleScene::BattleScene(){
 }
 
 void BattleScene::initialize(){
-	turn = 1;
+	FileStream::load("data/data.dat", my_mission);
+	imy_mission = my_mission[1];
+
 	stage.initialize();
 
-	ObjectManager::create(players, "data/stage/stage2/players.csv");
-	ObjectManager::create(enemies, "data/stage/stage2/enemies.csv");
+	stringstream ss; ss << imy_mission + 1;
+	string pass = "\data/stage/stage";
+	pass += ss.str();
+	ObjectManager::create(players, pass + "/players.csv");
+	ObjectManager::create(enemies, pass + "/enemies.csv");
 
 	simulate();
 }
