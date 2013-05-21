@@ -37,6 +37,7 @@ Player::Player(string name, int x, int y, int hp, int mp, int str, int def, int 
 	has_attacked = false;
 	has_brightened = false;
 	attackstatus = 0;
+	attackactioning = false;
 }
 
 void Player::update(){
@@ -280,6 +281,7 @@ void Player::resetATBgauge(){
 	ATBgauge = 100;
 }
 
+
 void Player::showCommand(){
 	switch(state){
 	case SELECT:
@@ -341,7 +343,7 @@ void Player::attack(vector<Enemy> &enemies){
 
 	while(attackstatus <= 6){
 		static int atk_rate;
-		if(++atk_rate >= 1000000){
+		if(++atk_rate >= 10){
 			++attackstatus;
 			atk_rate = 0;
 			return;

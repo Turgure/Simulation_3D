@@ -16,6 +16,8 @@ public:
 	void lateUpdate();
 	virtual void stepATBgauge(){};
 	bool isMyTurn();
+	
+	bool getAttackActioning();
 
 	enum State{SELECT, MOVE, ACTION, ATTACK, END, WAIT, MOVING, ATTACKING} state;
 
@@ -33,6 +35,9 @@ protected:
 
 	bool changeState(State& mystate, State next);
 	bool state_changed;
+
+	bool attackactioning;
+	int attackstatus;
 
 	struct Status{
 		void showStatus() const;
@@ -59,7 +64,6 @@ protected:
 		int getDamage() const { return damage; }
 
 	protected:
-		int attackstatus;
 		string name;
 		int maxhp;
 		int maxmp;
@@ -138,7 +142,6 @@ public:
 	virtual void endMyTurn() override;
 	virtual void stepATBgauge() override;
 	virtual void resetATBgauge() override;
-
 
 	void showCommand();
 	void attack(vector<Enemy>& enemies);
