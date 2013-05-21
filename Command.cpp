@@ -48,11 +48,11 @@ void CommandSelect::draw(int x, int y){
 }
 
 void CommandSelect::loadCommands(){
-	FileStream::load("data/command/00 select.csv", commands[00]);
-	FileStream::load("data/command/01 action.csv", commands[01]);
-	FileStream::load("data/command/02 swordplay.csv", commands[02]);
-	FileStream::load("data/command/03 white_magic.csv", commands[02]);
-	FileStream::load("data/command/04 black_magic.csv", commands[03]);
+	FileStream::loadCSV("data/command/00 select.csv", commands[00]);
+	FileStream::loadCSV("data/command/01 action.csv", commands[01]);
+	FileStream::loadCSV("data/command/02 swordplay.csv", commands[02]);
+	FileStream::loadCSV("data/command/03 white_magic.csv", commands[02]);
+	FileStream::loadCSV("data/command/04 black_magic.csv", commands[03]);
 }
 
 void CommandSelect::initCommands(){

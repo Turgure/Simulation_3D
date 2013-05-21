@@ -5,12 +5,22 @@
 #include "Keyboard.h"
 
 StartScene::StartScene(){
-	FileStream::load("data/data.dat", my_mission);
+	order.push_back(0);
+	addMenu();
+}
+
+StartScene::~StartScene(){
+	int imy_mission;
+	if(my_mission.empty()){
+		my_mission.push_back(0);
+	} else {
+		imy_mission = my_mission[0];
+	}
+	FileStream::write("data/data.dat", my_mission);
 }
 
 void StartScene::initialize(){
-	order.push_back(0);
-	addMenu();
+	FileStream::load("data/data.dat", my_mission);
 }
 
 void StartScene::update(){
@@ -23,7 +33,11 @@ void StartScene::draw(){
 		drawValues(menus[i], i);
 	}
 
-	DrawFormatString(0, 100, GetColor(255,255,255), "%d", my_mission.size());
+	//debug print
+	if(my_mission.empty())
+		DrawFormatString(0, 100, GetColor(255,255,255), "empty");
+	else
+		DrawFormatString(0, 100, GetColor(255,255,255), "%d", my_mission[0]);
 }
 
 void StartScene::addMenu(){

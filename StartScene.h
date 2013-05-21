@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include <string>
 #include <map>
 #include "BaseScene.h"
 #include "Position.h"
@@ -9,14 +8,14 @@ using namespace std;
 class StartScene : public BaseScene{
 public:
 	StartScene();
+	~StartScene();
 	virtual void initialize() override;
 	virtual void update() override;
 	virtual void draw() override;
 
 private:
-	vector<string> my_mission;
-
 	vector<int> order;
+	vector<int> my_mission;
 
 	void addMenu();
 	void select(map<pair<int, int>, string> maps);

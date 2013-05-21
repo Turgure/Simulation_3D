@@ -129,7 +129,7 @@ void BaseObject::MoveManager::initJumpmotion(const Position& pos, const Position
 ///ObjectManager
 void ObjectManager::create(vector<Player> &players, const string& filename){
 	vector<vector<string>> status;
-	FileStream::load(filename, status);
+	FileStream::loadCSV(filename, status);
 
 	//int型に変換
 	vector<vector<int>> d;
@@ -147,7 +147,7 @@ void ObjectManager::create(vector<Player> &players, const string& filename){
 
 void ObjectManager::create(vector<Enemy> &enemies, const string& filename){
 	vector<vector<string>> status;
-	FileStream::load(filename, status);
+	FileStream::loadCSV(filename, status);
 
 	Position finalpos;
 
