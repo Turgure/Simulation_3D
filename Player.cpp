@@ -14,11 +14,12 @@ Player::Player(string name, int x, int y, int hp, int mp, int str, int def, int 
 	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/woman003/attack04.pmx") );
 	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/woman003/attack05.pmx") );
 	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/woman003/attack06.pmx") );
-
 	for(int i = 0; i < 6; i++){
 		MV1SetScale(model[i], VGet(3.0f, 3.0f, 3.0f));	//拡大
 	}
 
+	LoadDivGraph("data/image/attackeffect/fire.png",10,10,1,48,48, attackeffect);
+	
 	mv_mng.current_dir = NORTH;
 	mv_mng.setObjectDirection(model[0]);	//向き
 
@@ -63,13 +64,15 @@ void Player::draw(){
 	// ３Ｄモデルの描画
 	switch(attackstatus){
 	case 0:MV1DrawModel(model[0]);	break;
-	case 1:MV1DrawModel(model[1]);	break;
-	case 2:MV1DrawModel(model[2]);	break;
-	case 3:MV1DrawModel(model[3]);	break;
-	case 4:MV1DrawModel(model[4]);	break;
-	case 5:MV1DrawModel(model[5]);	break;
-	case 6:MV1DrawModel(model[6]);	break;
+	case 1:MV1DrawModel(model[1]);	DrawGraph( 295, 210, attackeffect[1], TRUE );	break;
+	case 2:MV1DrawModel(model[2]);	DrawGraph( 295, 210, attackeffect[2], TRUE );	break;
+	case 3:MV1DrawModel(model[3]);	DrawGraph( 295, 210, attackeffect[3], TRUE );break;
+	case 4:MV1DrawModel(model[4]);	DrawGraph( 295, 210, attackeffect[4], TRUE );break;
+	case 5:MV1DrawModel(model[5]);	DrawGraph( 295, 210, attackeffect[5], TRUE );break;
+	case 6:MV1DrawModel(model[6]);	DrawGraph( 295, 210, attackeffect[6], TRUE );break;
 	}
+
+
 
 	if(pos == Cursor::pos){
 		showStatus();
@@ -82,8 +85,8 @@ void Player::draw(){
 	if(has_attacked){
 		static int cnt;
 		++cnt;
-		DrawFormatString(100, 60 - cnt, GetColor(255,0,0), "%d", damage);
-		if(cnt >= 60){
+		DrawFormatString(320, 210 , GetColor(255,0,0), "%d", damage);
+		if(cnt >= 30){
 			has_attacked = false;
 			cnt = 0;
 		}
@@ -342,10 +345,9 @@ void Player::attack(vector<Enemy> &enemies){
 
 //	while(attackstatus <= 6){
 		static int atk_rate;
-		if(++atk_rate >= 3){
+		if(++atk_rate >= 5){
 			++attackstatus;
 			atk_rate = 0;
-			return;
 		}
 //	}
 

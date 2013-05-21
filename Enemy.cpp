@@ -54,8 +54,8 @@ void Enemy::draw(){
 	if(has_attacked){
 		static int cnt;
 		++cnt;
-		DrawFormatString(100, 60 - cnt, GetColor(255,0,0), "%d", damage);
-		if(cnt >= 60){
+		DrawFormatString(320, 210 , GetColor(255,0,0), "%d", damage);
+		if(cnt >= 30){
 			has_attacked = false;
 			cnt = 0;
 		}

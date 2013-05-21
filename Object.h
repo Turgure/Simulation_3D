@@ -152,6 +152,8 @@ public:
 private:
 	int picture_frame;
 	vector<int> model;
+	int attackeffect[10];
+
 
 	MoveManager mv_mng;
 	VECTOR myvec;
