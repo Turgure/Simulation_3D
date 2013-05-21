@@ -6,18 +6,22 @@
 
 StartScene::StartScene(){
 	background = LoadGraph("data/image/startscene/startscene.jpg");
-	content[make_pair(280, 320)] = "New Game";
-	content[make_pair(280, 340)] = "Continue";
-	content[make_pair(280, 360)] = "Exit";
-	menus.push_back(content);
-	content.clear();
+	order.push_back(0);
+	addMenu();
+}
 
-	FileStream::load("data/data.dat", my_mission);
+StartScene::~StartScene(){
+	int imy_mission;
+	if(my_mission.empty()){
+		my_mission.push_back(0);
+	} else {
+		imy_mission = my_mission[0];
+	}
+	FileStream::write("data/data.dat", my_mission);
 }
 
 void StartScene::initialize(){
-	order.push_back(0);
-	addMenu();
+	FileStream::load("data/data.dat", my_mission);
 }
 
 void StartScene::update(){
@@ -30,23 +34,17 @@ void StartScene::draw(){
 	for(unsigned int i = 0; i < order.size(); ++i){
 		drawValues(menus[i], i);
 	}
-
-	DrawFormatString(0, 100, GetColor(255,255,255), "%d", my_mission.size());
 }
 
 void StartScene::addMenu(){
-	content[make_pair(0, 16)] = "New Game";
-	content[make_pair(0, 32)] = "Continue";
-	content[make_pair(0, 48)] = "Exit";
+	content[make_pair(280, 320)] = "New Game";
+	content[make_pair(280, 340)] = "Continue";
+	content[make_pair(280, 360)] = "Exit";
 	menus.push_back(content);
 	content.clear();
 
-	content[make_pair(96, 16)] = "Mission 1";
-	content[make_pair(96, 32)] = "Mission 2";
-	content[make_pair(96, 48)] = "Mission 3";
-	content[make_pair(96, 64)] = "Mission 4";
-	content[make_pair(96, 80)] = "Mission 5";
-	content[make_pair(96, 96)] = "Mission 6";
+	content[make_pair(96, 16)] = "hoge";
+	content[make_pair(96, 32)] = "fuga";
 	menus.push_back(content);
 	content.clear();
 }

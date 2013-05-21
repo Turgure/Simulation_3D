@@ -84,9 +84,6 @@
     <ClCompile Include="ResultScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Graphic.cpp">
-      <Filter>ソース ファイル\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="Sound.cpp">
       <Filter>ソース ファイル\Resource</Filter>
     </ClCompile>
@@ -136,9 +133,6 @@
     </ClInclude>
     <ClInclude Include="ResultScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphic.h">
-      <Filter>ヘッダー ファイル\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Sound.h">
       <Filter>ヘッダー ファイル\Resource</Filter>

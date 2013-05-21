@@ -1,5 +1,4 @@
 #include <DxLib.h>
-#include "Graphic.h"
 #include "Sound.h"
 #include "Keyboard.h"
 #include "BattleScene.h"
@@ -12,7 +11,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	Keyboard::initialize();
 	Sound::initialize();
-	Graphic::initialize();
 	
 	SceneManager::run(new StartScene);
 
