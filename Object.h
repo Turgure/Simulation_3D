@@ -149,6 +149,7 @@ public:
 	Position pos;
 
 private:
+	int picture_frame;
 	vector<int> model;
 
 	MoveManager mv_mng;

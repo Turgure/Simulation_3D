@@ -6,6 +6,7 @@
 #include "ChipBrightnessManager.h"
 
 Player::Player(string name, int x, int y, int hp, int mp, int str, int def, int agi, int mobility, int jump_power):pos(x, y){
+	picture_frame = LoadGraph("data/image/frame/f02_208x160.png");
 	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/woman003/waitting.pmx") );
 	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/woman003/attack01.pmx") );
 	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/woman003/attack02.pmx") );
@@ -81,8 +82,7 @@ void Player::draw(){
 	if(has_attacked){
 		static int cnt;
 		++cnt;
-		//DrawFormatString(pos.x*chipsize, pos.y*chipsize - cnt, GetColor(255,0,0), "%d", damage);
-		DrawFormatString(0, 32, GetColor(255,0,0), "%d", damage);
+		DrawFormatString(100, 60 - cnt, GetColor(255,0,0), "%d", damage);
 		if(cnt >= 60){
 			has_attacked = false;
 			cnt = 0;
@@ -123,17 +123,17 @@ void Player::action(){
 			}
 
 			if(Keyboard::pushed(KEY_INPUT_Z)){
-				if(command.commandIs("MOVE") && can_move){
+				if(command.commandIs("移動") && can_move){
 					if(changeState(state, MOVE)){
 						command.step();
 					}
 				}
-				if(command.commandIs("ACTION") && can_act){
+				if(command.commandIs("行動") && can_act){
 					if(changeState(state, ACTION)){
 						command.step();
 					}
 				}
-				if(command.commandIs("END")){
+				if(command.commandIs("終了")){
 					if(changeState(state, END)){
 						command.clear();
 					}
@@ -284,8 +284,8 @@ void Player::showCommand(){
 	switch(state){
 	case SELECT:
 	case ACTION:
-		DrawGraph(0, 16, Graphic::picture_frame, true);
-		command.draw(16, 32);
+		DrawGraph(DEFAULT_SCREEN_SIZE_X-208, DEFAULT_SCREEN_SIZE_Y-160-16-5, picture_frame, true);
+		command.draw(DEFAULT_SCREEN_SIZE_X-170, DEFAULT_SCREEN_SIZE_Y-155);
 		break;
 	case MOVE:
 	case ATTACK:

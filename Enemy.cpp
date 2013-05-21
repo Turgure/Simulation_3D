@@ -51,8 +51,7 @@ void Enemy::draw(){
 	if(has_attacked){
 		static int cnt;
 		++cnt;
-		//DrawFormatString(pos.x*chipsize, pos.y*chipsize - cnt, GetColor(255,0,0), "%d", damage);
-		DrawFormatString(0, 32, GetColor(255,0,0), "%d", damage);
+		DrawFormatString(100, 60 - cnt, GetColor(255,0,0), "%d", damage);
 		if(cnt >= 60){
 			has_attacked = false;
 			cnt = 0;

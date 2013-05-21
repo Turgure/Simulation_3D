@@ -140,11 +140,11 @@ void BattleScene::draw(){
 	stage.draw();
 	cursor.draw();
 
-	for(auto& player : players){
-		player.draw();
-	}
 	for(auto& enemy : enemies){
 		enemy.draw();
+	}
+	for(auto& player : players){
+		player.draw();
 	}
 
 	//行動順を表示

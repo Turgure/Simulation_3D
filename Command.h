@@ -38,7 +38,7 @@ private:
 	vector<vector<string>> commands[256];
 	vector<Contents> content[256];
 	enum State{
-		MV_ACT_END,
+		SELECT,
 		ATTACK,
 		SWORDPLAY,
 		WHITE_MAGIC,
