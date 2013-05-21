@@ -54,7 +54,7 @@ void Enemy::draw(){
 	if(has_attacked){
 		static int cnt;
 		++cnt;
-		DrawFormatString(100, 60 - cnt, GetColor(255,0,0), "%d", damage);
+		DrawFormatString(120, 60 - cnt, GetColor(255,0,0), "%d", damage);
 		if(cnt >= 60){
 			has_attacked = false;
 			cnt = 0;
@@ -192,8 +192,6 @@ void Enemy::resetATBgauge(){
 	ATBgauge = 100;
 }
 
-
-
 bool Enemy::isCountOver(int time){
 	if(++wait_time > time){
 		wait_time = 0;
@@ -282,8 +280,8 @@ void Enemy::attack(vector<Player>& players){
 
 	for(auto& player : players){
 		if(player.pos == act_pos){
-			int diff = str - player.getDef();
-			player.setDamage(diff > 0 ? diff : 0);
+			int diff = str-player.getDef() > 0 ? str-player.getDef() : 0;
+			player.setDamage(diff);
 			player.setHP(player.getHP() - diff);
 			break;
 		}

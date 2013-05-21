@@ -16,7 +16,6 @@ public:
 	void lateUpdate();
 	virtual void stepATBgauge(){};
 	bool isMyTurn();
-	
 
 	enum State{SELECT, MOVE, ACTION, ATTACK, END, WAIT, MOVING, ATTACKING} state;
 

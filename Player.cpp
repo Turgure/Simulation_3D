@@ -82,7 +82,7 @@ void Player::draw(){
 	if(has_attacked){
 		static int cnt;
 		++cnt;
-		DrawFormatString(100, 60 - cnt, GetColor(255,0,0), "%d", damage);
+		DrawFormatString(120, 60 - cnt, GetColor(255,0,0), "%d", damage);
 		if(cnt >= 60){
 			has_attacked = false;
 			cnt = 0;
@@ -304,8 +304,8 @@ void Player::attack(vector<Enemy> &enemies){
 
 		if(Stage::isBrightened(Cursor::pos)){
 			if(enemy->pos == Cursor::pos){
-				int diff = str - enemy->getDef();
-				enemy->setDamage(diff > 0 ? diff : 0);
+				int diff = str-enemy->getDef() > 0 ? str-enemy->getDef() : 0;
+				enemy->setDamage(diff);
 				enemy->setHP(enemy->getHP() - diff);
 
 				//向きの指定
@@ -340,14 +340,12 @@ void Player::attack(vector<Enemy> &enemies){
 		}
 	}
 
-//	while(attackstatus <= 6){
-		static int atk_rate;
-		if(++atk_rate >= 3){
-			++attackstatus;
-			atk_rate = 0;
-			return;
-		}
-//	}
+	static int atk_rate;
+	if(++atk_rate >= 3){
+		++attackstatus;
+		atk_rate = 0;
+		return;
+	}
 
 	if(attackstatus > 6){
 		Cursor::pos = pos;
