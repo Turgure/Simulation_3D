@@ -11,17 +11,27 @@ StartScene::StartScene(){
 }
 
 StartScene::~StartScene(){
-	int imy_mission;
-	if(my_mission.empty()){
-		my_mission.push_back(0);
-	} else {
-		imy_mission = my_mission[0];
+	switch(order.size()-1){
+	case 0:
+		my_mission[1] = 0;
+		break;
+	case 1:
+		my_mission[1] = order[order.size()-1];
+		break;
+	default:
+		break;
 	}
+
 	FileStream::write("data/data.dat", my_mission);
 }
 
 void StartScene::initialize(){
 	FileStream::load("data/data.dat", my_mission);
+	if(my_mission.empty()){
+		my_mission.push_back(0);
+		my_mission.push_back(0);
+		FileStream::write("data/data.dat", my_mission);
+	}
 }
 
 void StartScene::update(){
@@ -34,6 +44,9 @@ void StartScene::draw(){
 	for(unsigned int i = 0; i < order.size(); ++i){
 		drawValues(menus[i], i);
 	}
+
+	//debug print
+	DrawFormatString(0,0,GetColor(255,255,255), "%d", my_mission[0]);
 }
 
 void StartScene::addMenu(){
@@ -43,18 +56,30 @@ void StartScene::addMenu(){
 	menus.push_back(content);
 	content.clear();
 
-	content[make_pair(96, 16)] = "hoge";
-	content[make_pair(96, 32)] = "fuga";
+	content[make_pair(96, 16)] = "hoge 1";
+	content[make_pair(96, 32)] = "hoge 2";
+	content[make_pair(96, 48)] = "hoge 3";
+	content[make_pair(96, 64)] = "hoge 4";
+	content[make_pair(96, 80)] = "hoge 5";
 	menus.push_back(content);
 	content.clear();
 }
 
 void StartScene::select(map<pair<int, int>, string> maps){
 	if(Keyboard::pushed(KEY_INPUT_DOWN)){
-		order[order.size()-1] = (order[order.size()-1] + 1) % maps.size();
+		if(maps == menus[1]){
+			order[order.size()-1] = (order[order.size()-1] + 1) % (my_mission[0]+1);
+		} else {
+			order[order.size()-1] = (order[order.size()-1] + 1) % maps.size();
+		}
 	}
+
 	if(Keyboard::pushed(KEY_INPUT_UP)){
-		order[order.size()-1] = (order[order.size()-1] + (maps.size()-1)) % maps.size();
+		if(maps == menus[1]){
+			order[order.size()-1] = (order[order.size()-1] + (my_mission[0])) % (my_mission[0]+1);
+		} else {
+			order[order.size()-1] = (order[order.size()-1] + (maps.size()-1)) % maps.size();
+		}
 	}
 }
 
@@ -67,27 +92,23 @@ void StartScene::action(){
 				changeScene(new BattleScene);
 				break;
 			case 1:
-				order.push_back(0);
+				if(my_mission[0] > 0){
+					order.push_back(0);
+				}
 				break;
 			default:
+				changeScene(nullptr);
 				break;
 			}
 			break;
 
 		case 1:
-			switch(order[order.size()-1]){
-			case 0:
-				//changeScene(new Mission1);
-				break;
-			case 1:
-				//changeScene(new Mission2);
-				break;
-			}
+			changeScene(new BattleScene);
 			break;
 		}
 	}
 
-	if(Keyboard::pushed(KEY_INPUT_X) && order.size() >= 1){
+	if(Keyboard::pushed(KEY_INPUT_X) && order.size() >= 2){
 		order.pop_back();
 	}
 }
@@ -95,6 +116,8 @@ void StartScene::action(){
 void StartScene::drawValues(map<pair<int, int>, string> maps, int num){
 	int i = 0, color;
 	for(auto& map : maps){
+		if(num == 1 && my_mission[0] < i) break;
+
 		if(i == order[num]){
 			color = GetColor(0,255,0);
 		} else {

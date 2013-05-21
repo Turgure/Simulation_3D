@@ -15,8 +15,8 @@ public:
 
 private:
 	int background;
-	vector<int> my_mission;
 
+	vector<int> my_mission;
 
 	void addMenu();
 	void select(map<pair<int, int>, string> maps);

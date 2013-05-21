@@ -1,4 +1,5 @@
-﻿#include <DxLib.h>
+﻿#include <sstream>
+#include <DxLib.h>
 #include "Stage.h"
 #include "GV.h"
 #include "FileStream.h"
@@ -15,9 +16,12 @@ Stage::Stage(){
 }
 
 void Stage::initialize(){
-	current_map = 1;
+	vector<int> area;
+	FileStream::load("data/data.dat", area);
+	stringstream ss; ss << area[1] + 1;
+
 	initID();
-	initMap();
+	initMap(ss.str());
 }
 
 void Stage::initID(){
@@ -51,9 +55,10 @@ void Stage::initID(){
 	}
 }
 
-void Stage::initMap(){
+void Stage::initMap(string area){
+	string pass = "\data/stage/stage" + area + "/map.csv";
 	vector<vector<string>> mapdata;
-	FileStream::loadCSV("data/stage/stage1/map.csv", mapdata);
+	FileStream::loadCSV(pass, mapdata);
 
 	auto& header = mapdata[0];
 	width = stoi(header[0]);
