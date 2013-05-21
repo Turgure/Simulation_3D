@@ -25,6 +25,7 @@ void BattleScene::update(){
 	camera.update();
 
 	if(camera.isTurning()) return;
+	cursor.update();
 
 	for(auto& player : players){
 		player.update();
@@ -34,8 +35,6 @@ void BattleScene::update(){
 		enemy.update();
 	}
 	
-	
-	cursor.update();
 	//calculate ATBgauge
 	while(!has_come_turn){
 		for(auto& player : players){

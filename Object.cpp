@@ -12,7 +12,6 @@ bool BaseObject::isMyTurn(){
 	else return false;
 }
 
-
 void BaseObject::lateUpdate(){
 	state_changed = false;
 }

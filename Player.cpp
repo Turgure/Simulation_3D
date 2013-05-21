@@ -307,8 +307,8 @@ void Player::attack(vector<Enemy> &enemies){
 
 		if(Stage::isBrightened(Cursor::pos)){
 			if(enemy->pos == Cursor::pos){
-				int diff = str - enemy->getDef();
-				enemy->setDamage(diff > 0 ? diff : 0);
+				int diff = str-enemy->getDef() > 0 ? str-enemy->getDef() : 0;
+				enemy->setDamage(diff);
 				enemy->setHP(enemy->getHP() - diff);
 
 				//向きの指定
@@ -343,13 +343,12 @@ void Player::attack(vector<Enemy> &enemies){
 		}
 	}
 
-//	while(attackstatus <= 6){
+
 		static int atk_rate;
 		if(++atk_rate >= 5){
 			++attackstatus;
 			atk_rate = 0;
 		}
-//	}
 
 	if(attackstatus > 6){
 		Cursor::pos = pos;
