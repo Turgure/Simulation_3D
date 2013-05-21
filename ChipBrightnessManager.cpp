@@ -1,4 +1,4 @@
-﻿#include <DxLib.h>
+﻿#include "DxLib.h"
 #include "ChipBrightnessManager.h"
 #include "GV.h"
 #include "Object.h"

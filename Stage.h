@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <vector>
-#include <DxLib.h>
+#include "DxLib.h"
 #include "Position.h"
 #include "Camera.h"
 using namespace std;

@@ -1,4 +1,4 @@
-﻿#include <DxLib.h>
+﻿#include "DxLib.h"
 #include "Keyboard.h"
 
 int Keyboard::key[256];

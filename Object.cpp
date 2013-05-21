@@ -1,5 +1,4 @@
-﻿#include <DxLib.h>
-#include "Object.h"
+﻿#include "Object.h"
 #include "FileStream.h"
 #include "Stage.h"
 

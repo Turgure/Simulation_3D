@@ -1,5 +1,5 @@
 ﻿#include <sstream>
-#include <DxLib.h>
+#include "DxLib.h"
 #include "BattleScene.h"
 #include "ResultScene.h"
 #include "GameoverScene.h"

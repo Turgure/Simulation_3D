@@ -1,5 +1,4 @@
 ﻿#include <sstream>
-#include <DxLib.h>
 #include "Stage.h"
 #include "GV.h"
 #include "FileStream.h"

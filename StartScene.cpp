@@ -1,4 +1,4 @@
-#include <DxLib.h>
+#include "DxLib.h"
 #include "FileStream.h"
 #include "StartScene.h"
 #include "BattleScene.h"
@@ -44,9 +44,6 @@ void StartScene::draw(){
 	for(unsigned int i = 0; i < order.size(); ++i){
 		drawValues(menus[i], i);
 	}
-
-	//debug print
-	DrawFormatString(0,0,GetColor(255,255,255), "%d", my_mission[0]);
 }
 
 void StartScene::addMenu(){
