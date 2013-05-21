@@ -15,6 +15,5 @@ private:
 	void move(int direction);
 
 	int image;
-
 	VECTOR myvec;
 };

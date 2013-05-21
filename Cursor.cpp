@@ -7,7 +7,7 @@
 Position Cursor::pos;
 
 Cursor::Cursor(){
-	image = MV1LoadModel("data/image/3Dmodel/cursor/cursor.x");
+	image = Graphic::cursor;
 }
 
 void Cursor::update(){

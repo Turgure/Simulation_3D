@@ -95,6 +95,22 @@ void BaseObject::MoveManager::setObjectDirection(int model, int dir){
 	}
 }
 
+void BaseObject::MoveManager::setObjectDirection(int model, const Position& dirpos){
+	if(abs(dirpos.y) >= abs(dirpos.x)){
+		if(dirpos.y < 0){
+			setObjectDirection(model, NORTH);
+		} else{
+			setObjectDirection(model, SOUTH);
+		}
+	} else {
+		if(dirpos.x < 0){
+			setObjectDirection(model, WEST);
+		} else {
+			setObjectDirection(model, EAST);
+		}
+	}
+}
+
 void BaseObject::MoveManager::setObjectDirection(int model){
 	setObjectDirection(model, current_dir);
 }
