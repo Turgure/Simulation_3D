@@ -9,7 +9,7 @@ Enemy::Enemy(string name, int x, int y, int hp, int mp, int str, int def, int ag
 	move_pos(),
 	act_pos(){
 
-		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_blue.x") );
+		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow.x") );
 
 		MV1SetScale(model[0], VGet(3.0f, 3.0f, 3.0f));	//拡大
 		mv_mng.current_dir = SOUTH;
