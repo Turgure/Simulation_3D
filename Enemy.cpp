@@ -8,7 +8,7 @@ Enemy::Enemy(string name, int x, int y, int hp, int mp, int str, int def, int ag
 	pos(x, y),
 	move_pos(),
 	act_pos(){
-		model[0] = MV1LoadModel("data/image/3Dmodel/chara/miku.pmd");
+		model[0] = MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_blue.x");//miku.pmd
 		MV1SetScale(model[0], VGet(3.0f, 3.0f, 3.0f));	//拡大
 		mv_mng.current_dir = SOUTH;
 		mv_mng.setObjectDirection(model[0]);	//向き

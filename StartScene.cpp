@@ -4,9 +4,10 @@
 #include "Keyboard.h"
 
 StartScene::StartScene(){
-	content[make_pair(0, 16)] = "New Game";
-	content[make_pair(0, 32)] = "Continue";
-	content[make_pair(0, 48)] = "Exit";
+	background = LoadGraph("data/image/startscene/startscene.jpg");
+	content[make_pair(280, 320)] = "New Game";
+	content[make_pair(280, 340)] = "Continue";
+	content[make_pair(280, 360)] = "Exit";
 	menus.push_back(content);
 	content.clear();
 
@@ -30,6 +31,7 @@ void StartScene::update(){
 }
 
 void StartScene::draw(){
+	DrawGraph(0,0,background, true);
 	for(unsigned int i = 0; i < order.size(); ++i){
 		drawValues(menus[i], i);
 	}

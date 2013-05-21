@@ -13,6 +13,7 @@ public:
 	virtual void draw() override;
 
 private:
+	int background;
 	vector<int> order;
 
 	void select(map<pair<int, int>, string> maps);
