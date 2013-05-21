@@ -34,7 +34,6 @@ Enemy::Enemy(string name, int x, int y, int hp, int mp, int str, int def, int ag
 		wait_time = 0;
 		attack_range = 3;
 		attackstatus = 0;
-		attackactioning = false;
 }
 
 void Enemy::update(){

@@ -34,12 +34,6 @@ void BattleScene::update(){
 		enemy.update();
 	}
 	
-	for(auto& player : players){
-		if(player.getAttackActioning())	return;
-	}
-	for(auto& enemy : enemies){
-		if(enemy.getAttackActioning())	return;
-	}
 	
 	cursor.update();
 	//calculate ATBgauge

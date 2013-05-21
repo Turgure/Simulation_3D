@@ -17,7 +17,6 @@ public:
 	virtual void stepATBgauge(){};
 	bool isMyTurn();
 	
-	bool getAttackActioning();
 
 	enum State{SELECT, MOVE, ACTION, ATTACK, END, WAIT, MOVING, ATTACKING} state;
 
@@ -36,7 +35,6 @@ protected:
 	bool changeState(State& mystate, State next);
 	bool state_changed;
 
-	bool attackactioning;
 	int attackstatus;
 
 	struct Status{

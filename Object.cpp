@@ -12,10 +12,6 @@ bool BaseObject::isMyTurn(){
 	else return false;
 }
 
-bool BaseObject::getAttackActioning(){
-	return attackactioning;
-}
-
 
 void BaseObject::lateUpdate(){
 	state_changed = false;
