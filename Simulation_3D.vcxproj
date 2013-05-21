@@ -80,7 +80,6 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FileStream.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
-    <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="main.cpp" />
@@ -99,7 +98,6 @@
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="FileStream.h" />
     <ClInclude Include="GameoverScene.h" />
-    <ClInclude Include="Graphic.h" />
     <ClInclude Include="GV.h" />
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="Keyboard.h" />
