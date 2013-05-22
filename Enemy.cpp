@@ -9,9 +9,14 @@ Enemy::Enemy(string name, int x, int y, int hp, int mp, int str, int def, int ag
 	move_pos(),
 	act_pos(){
 
-		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow.x") );
-
-		MV1SetScale(model[0], VGet(3.0f, 3.0f, 3.0f));	//拡大
+		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_waiting.pmx") );
+		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack01.pmx") );
+		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack02.pmx") );
+		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack03.pmx") );
+		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack04.pmx") );
+		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack05.pmx") );
+		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack06.pmx") );
+	//	MV1SetScale(model[0], VGet(3.0f, 3.0f, 3.0f));	//拡大
 		mv_mng.current_dir = SOUTH;
 		mv_mng.setObjectDirection(model[0]);	//向き
 

@@ -14,7 +14,7 @@ Player::Player(string name, int x, int y, int hp, int mp, int str, int def, int 
 	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/woman003/attack04.pmx") );
 	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/woman003/attack05.pmx") );
 	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/woman003/attack06.pmx") );
-	for(int i = 0; i < 6; i++){
+	for(int i = 0; i < 7; i++){
 		MV1SetScale(model[i], VGet(3.0f, 3.0f, 3.0f));	//拡大
 	}
 
@@ -43,7 +43,7 @@ Player::Player(string name, int x, int y, int hp, int mp, int str, int def, int 
 void Player::update(){
 	myvec = VAdd(VGet(pos.y*chipsize, Stage::getHeight(pos)*chipheight, pos.x*chipsize), mv_mng.diff);
 	//3Dモデルの配置
-	for(int i = 0; i < 6; ++i){
+	for(int i = 0; i < 7; ++i){
 		MV1SetPosition(model[i], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));
 	}
 	Stage::setObjectAt(pos, this);
@@ -222,8 +222,8 @@ void Player::action(){
 		mv_mng.current_dir = mv_mng.path[order];
 		topos = pos + mv_mng.dir[mv_mng.current_dir];
 
-		for(int i = 0; i < 6; ++i){
-			mv_mng.setObjectDirection(model[0]);
+		for(int i = 0; i < 7; ++i){
+			mv_mng.setObjectDirection(model[i]);
 		}
 
 		mv_mng.diff = VAdd(mv_mng.diff,
