@@ -35,6 +35,7 @@ protected:
 	bool state_changed;
 
 	vector<int> model;
+	int attack_effect[10];
 	int attack_status;
 
 	struct Status{
@@ -150,7 +151,6 @@ public:
 
 private:
 	int picture_frame;
-	int attackeffect[10];
 
 	CommandSelect command;
 	MoveManager mv_mng;
@@ -186,7 +186,6 @@ private:
 	bool attacked;
 
 	vector<int> model;
-	int attackeffect[10];
 
 	MoveManager mv_mng;
 	VECTOR myvec;

@@ -20,7 +20,7 @@ Enemy::Enemy(string name, int x, int y, int hp, int mp, int str, int def, int ag
 			MV1SetScale(model[i], VGet(3.0f, 3.0f, 3.0f));	//拡大
 		}
 
-		LoadDivGraph("data/image/attackeffect/thunder.png",8,8,1,48,48, attackeffect);
+		LoadDivGraph("data/image/attackeffect/thunder.png", 8, 8, 1, 48, 48, attack_effect);
 		
 		mv_mng.current_dir = SOUTH;
 		mv_mng.setObjectDirection(model[0]);	//向き
@@ -63,12 +63,12 @@ void Enemy::draw(){
 	// ３Ｄモデルの描画
 	switch(attack_status){
 	case 0:MV1DrawModel(model[0]); break;
-	case 1:MV1DrawModel(model[1]); DrawGraph( 295, 210, attackeffect[0], true); break;
-	case 2:MV1DrawModel(model[2]); DrawGraph( 295, 210, attackeffect[1], true); break;
-	case 3:MV1DrawModel(model[3]); DrawGraph( 295, 210, attackeffect[2], true); break;
-	case 4:MV1DrawModel(model[4]); DrawGraph( 295, 210, attackeffect[3], true); break;
-	case 5:MV1DrawModel(model[5]); DrawGraph( 295, 210, attackeffect[4], true); break;
-	case 6:MV1DrawModel(model[6]); DrawGraph( 295, 210, attackeffect[5], true); break;
+	case 1:MV1DrawModel(model[1]); DrawGraph( 295, 210, attack_effect[0], true); break;
+	case 2:MV1DrawModel(model[2]); DrawGraph( 295, 210, attack_effect[1], true); break;
+	case 3:MV1DrawModel(model[3]); DrawGraph( 295, 210, attack_effect[2], true); break;
+	case 4:MV1DrawModel(model[4]); DrawGraph( 295, 210, attack_effect[3], true); break;
+	case 5:MV1DrawModel(model[5]); DrawGraph( 295, 210, attack_effect[4], true); break;
+	case 6:MV1DrawModel(model[6]); DrawGraph( 295, 210, attack_effect[5], true); break;
 	}
 
 	if(pos == Cursor::pos){
@@ -78,7 +78,7 @@ void Enemy::draw(){
 	if(has_attacked){
 		static int cnt;
 		++cnt;
-		DrawFormatString(320, 210 - cnt, GetColor(255,0,0), "%d", damage);
+		DrawFormatString(330, 190 - cnt, GetColor(255,0,0), "%d", damage);
 		if(cnt >= 30){
 			has_attacked = false;
 			cnt = 0;

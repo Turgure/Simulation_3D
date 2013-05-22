@@ -18,7 +18,7 @@ Player::Player(string name, int x, int y, int hp, int mp, int str, int def, int 
 		MV1SetScale(model[i], VGet(3.0f, 3.0f, 3.0f));	//拡大
 	}
 
-	LoadDivGraph("data/image/attackeffect/fire.png",10,10,1,48,48, attackeffect);
+	LoadDivGraph("data/image/attackeffect/fire.png", 10, 10, 1, 48, 48, attack_effect);
 	
 	mv_mng.current_dir = NORTH;
 	mv_mng.setObjectDirection(model[0]);	//向き
@@ -68,12 +68,12 @@ void Player::draw(){
 	// ３Ｄモデルの描画
 	switch(attack_status){
 	case 0:MV1DrawModel(model[0]); break;
-	case 1:MV1DrawModel(model[1]); DrawGraph(295, 210, attackeffect[1], true); break;
-	case 2:MV1DrawModel(model[2]); DrawGraph(295, 210, attackeffect[2], true); break;
-	case 3:MV1DrawModel(model[3]); DrawGraph(295, 210, attackeffect[3], true); break;
-	case 4:MV1DrawModel(model[4]); DrawGraph(295, 210, attackeffect[4], true); break;
-	case 5:MV1DrawModel(model[5]); DrawGraph(295, 210, attackeffect[5], true); break;
-	case 6:MV1DrawModel(model[6]); DrawGraph(295, 210, attackeffect[6], true); break;
+	case 1:MV1DrawModel(model[1]); DrawGraph(295, 210, attack_effect[1], true); break;
+	case 2:MV1DrawModel(model[2]); DrawGraph(295, 210, attack_effect[2], true); break;
+	case 3:MV1DrawModel(model[3]); DrawGraph(295, 210, attack_effect[3], true); break;
+	case 4:MV1DrawModel(model[4]); DrawGraph(295, 210, attack_effect[4], true); break;
+	case 5:MV1DrawModel(model[5]); DrawGraph(295, 210, attack_effect[5], true); break;
+	case 6:MV1DrawModel(model[6]); DrawGraph(295, 210, attack_effect[6], true); break;
 	}
 
 	if(pos == Cursor::pos){
@@ -83,7 +83,7 @@ void Player::draw(){
 	if(has_attacked){
 		static int cnt;
 		++cnt;
-		DrawFormatString(320, 210 - cnt, GetColor(255,0,0), "%d", damage);
+		DrawFormatString(330, 190 - cnt, GetColor(255,0,0), "%d", damage);
 		if(cnt >= 30){
 			has_attacked = false;
 			cnt = 0;
