@@ -4,6 +4,7 @@
 #include "Keyboard.h"
 
 GameoverScene::GameoverScene(){
+	bg = LoadGraph("data/image/bg/gameover.png");
 }
 
 void GameoverScene::initialize(){
@@ -16,5 +17,5 @@ void GameoverScene::update(){
 }
 
 void GameoverScene::draw(){
-	DrawString(300, 200, "gameover...", GetColor(255,255,255));
+	DrawGraph(0, 0, bg, true);
 }
