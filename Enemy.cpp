@@ -53,6 +53,10 @@ void Enemy::update(){
 }
 
 void Enemy::draw(){
+	if(isMyTurn()){
+		DrawFormatString(0, 0, GetColor(255,255,255), "%s's turn.", name.c_str());
+	}
+
 	// ３Ｄモデルの描画
 	MV1DrawModel(model[0]);
 
@@ -89,8 +93,6 @@ void Enemy::draw(){
 }
 
 void Enemy::action(){
-	DrawFormatString(0, 0, GetColor(255,255,255), "%s's turn.", name.c_str());
-
 	switch(state){
 	case SELECT:
 		if(can_act)

@@ -61,6 +61,10 @@ void Player::update(){
 }
 
 void Player::draw(){
+	if(isMyTurn()){
+		DrawFormatString(0, 0, GetColor(255,255,255), "%s's turn.", name.c_str());
+	}
+
 	// ３Ｄモデルの描画
 	switch(attack_status){
 	case 0:MV1DrawModel(model[0]);	break;
@@ -104,8 +108,6 @@ void Player::draw(){
 	}
 }
 void Player::action(){
-	DrawFormatString(0, 0, GetColor(255,255,255), "%s's turn.", name.c_str());
-
 	if(!can_move && !can_act) changeState(state, END);
 
 	switch(state){

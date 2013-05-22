@@ -8,6 +8,7 @@
 #include "Keyboard.h"
 
 BattleScene::BattleScene(){
+	bg = LoadGraph("data/image/bg/BattleScene.jpg");
 	has_come_turn = false;
 	act_only_one = false;
 }
@@ -148,6 +149,8 @@ void BattleScene::update(){
 }
 
 void BattleScene::draw(){
+	DrawGraph(0, 0, bg, true);
+
 	stage.draw();
 	cursor.draw();
 	
@@ -165,9 +168,12 @@ void BattleScene::draw(){
 	
 	//行動順を表示
 	if(Keyboard::pushing(KEY_INPUT_LSHIFT)){
-		int i = 0;
+		int i = 0, x;
 		for(auto& or : order){
-			DrawFormatString(DEFAULT_SCREEN_SIZE_X-128, 16*i, GetColor(255,255,255), "%2d: %s", i, or.c_str());
+			if(i < 10) x = DEFAULT_SCREEN_SIZE_X-240;
+			else x = DEFAULT_SCREEN_SIZE_X-120;
+
+			DrawFormatString(x, 16*(i%10), GetColor(255,255,255), "%2d: %s", i, or.c_str());
 			++i;
 		}
 	}

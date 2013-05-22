@@ -14,7 +14,7 @@ public:
 	virtual void draw() override;
 
 private:
-	int background;
+	int bg;
 
 	vector<int> my_mission;
 
