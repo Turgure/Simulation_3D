@@ -19,6 +19,9 @@ Enemy::Enemy(string name, int x, int y, int hp, int mp, int str, int def, int ag
 		for(int i = 0; i < 7; i++){
 			MV1SetScale(model[i], VGet(3.0f, 3.0f, 3.0f));	//拡大
 		}
+
+		LoadDivGraph("data/image/attackeffect/thunder.png",8,8,1,48,48, attackeffect);
+		
 		mv_mng.current_dir = SOUTH;
 		mv_mng.setObjectDirection(model[0]);	//向き
 
@@ -54,7 +57,15 @@ void Enemy::update(){
 
 void Enemy::draw(){
 	// ３Ｄモデルの描画
-	MV1DrawModel(model[0]);
+	switch(attackstatus){
+	case 0:MV1DrawModel(model[0]);	break;
+	case 1:MV1DrawModel(model[1]);	DrawGraph( 295, 210, attackeffect[0], TRUE );	break;
+	case 2:MV1DrawModel(model[2]);	DrawGraph( 295, 210, attackeffect[1], TRUE );	break;
+	case 3:MV1DrawModel(model[3]);	DrawGraph( 295, 210, attackeffect[2], TRUE );break;
+	case 4:MV1DrawModel(model[4]);	DrawGraph( 295, 210, attackeffect[3], TRUE );break;
+	case 5:MV1DrawModel(model[5]);	DrawGraph( 295, 210, attackeffect[4], TRUE );break;
+	case 6:MV1DrawModel(model[6]);	DrawGraph( 295, 210, attackeffect[5], TRUE );break;
+	}
 
 	if(pos == Cursor::pos){
 		showStatus();
@@ -110,8 +121,12 @@ void Enemy::action(){
 	case ACTION:
 		//calcAttack(players);
 		if(can_act) Cursor::pos = act_pos;
-		changeState(state, WAIT);
+		changeState(state, ATTACK);
 		//attack(players);
+		break;
+
+	case ATTACK:
+		changeState(state, WAIT);
 		break;
 
 	case END:
@@ -123,7 +138,10 @@ void Enemy::action(){
 
 	case WAIT:
 		if(can_act){
-			//if(isCountOver(30)) attack(players);
+			if(isCountOver(30)){
+				//attack(players)
+				changeState(state, ATTACKING);
+			}
 			break;
 		} else if(can_move){
 			if(isCountOver(30)){
@@ -131,6 +149,9 @@ void Enemy::action(){
 				changeState(state, MOVING);
 			}
 		}
+		break;
+
+	case ATTACKING:
 		break;
 
 	case MOVING:
@@ -279,25 +300,48 @@ void Enemy::calcAttack(const vector<Player>& players){
 }
 
 void Enemy::attack(vector<Player>& players){
+	if(state != ATTACKING) return;
+	
 	if(act_pos.x < 0) return;
 	if(!can_act && attacked) return;
-	if(!isCountOver(30)) return;
 
-	can_act = false;
-	attacked = true;
-	changeState(state, SELECT);
+	
+	static bool checked = false;
+	for(auto& player = players.begin(); player != players.end(); ++player){
+		if(checked) break;
 
-	for(auto& player : players){
-		if(player.pos == act_pos){
-			int diff = str-player.getDef() > 0 ? str-player.getDef() : 0;
-			player.setDamage(diff);
-			player.setHP(player.getHP() - diff);
+		if(player->pos == act_pos){
+			int diff = str-player->getDef() > 0 ? str-player->getDef() : 0;
+			player->setDamage(diff);
+			player->setHP(player->getHP() - diff);
+			
+			//向きの指定
+			for(int i = 0; i < 7; ++i){
+				mv_mng.setObjectDirection(model[i], player->pos - pos);
+			}
+			
+			checked = true;
 			break;
 		}
 	}
 
+	static int atk_rate;
+	if(++atk_rate >= 5){
+		++attackstatus;
+		atk_rate = 0;
+	}
+
+	if(attackstatus > 6){
+		changeState(state, SELECT);
+		attackstatus = 0;
+		checked = false;
+		has_brightened = false;
+		can_act = false;
+		attacked = true;
+	}
+	
 	Stage::disbrighten();
-	has_brightened = false;
+
 }
 
 void Enemy::assignDirection(const vector<Player>& players){
@@ -316,6 +360,7 @@ void Enemy::assignDirection(const vector<Player>& players){
 			}
 		}
 	}
-
-	mv_mng.setObjectDirection(model[0], finalpos - pos);
+	for(int i=0; i<7; ++i){
+		mv_mng.setObjectDirection(model[i], finalpos - pos);
+	}
 }

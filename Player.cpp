@@ -64,12 +64,12 @@ void Player::draw(){
 	// ３Ｄモデルの描画
 	switch(attackstatus){
 	case 0:MV1DrawModel(model[0]);	break;
-	case 1:MV1DrawModel(model[1]);	DrawGraph( 295, 210, attackeffect[1], TRUE );	break;
-	case 2:MV1DrawModel(model[2]);	DrawGraph( 295, 210, attackeffect[2], TRUE );	break;
-	case 3:MV1DrawModel(model[3]);	DrawGraph( 295, 210, attackeffect[3], TRUE );break;
-	case 4:MV1DrawModel(model[4]);	DrawGraph( 295, 210, attackeffect[4], TRUE );break;
-	case 5:MV1DrawModel(model[5]);	DrawGraph( 295, 210, attackeffect[5], TRUE );break;
-	case 6:MV1DrawModel(model[6]);	DrawGraph( 295, 210, attackeffect[6], TRUE );break;
+	case 1:MV1DrawModel(model[1]);	DrawGraph( 295, 210, attackeffect[0], TRUE );	break;
+	case 2:MV1DrawModel(model[2]);	DrawGraph( 295, 210, attackeffect[1], TRUE );	break;
+	case 3:MV1DrawModel(model[3]);	DrawGraph( 295, 210, attackeffect[2], TRUE );	break;
+	case 4:MV1DrawModel(model[4]);	DrawGraph( 295, 210, attackeffect[3], TRUE );	break;
+	case 5:MV1DrawModel(model[5]);	DrawGraph( 295, 210, attackeffect[4], TRUE );	break;
+	case 6:MV1DrawModel(model[6]);	DrawGraph( 295, 210, attackeffect[5], TRUE );	break;
 	}
 
 
@@ -312,7 +312,7 @@ void Player::attack(vector<Enemy> &enemies){
 				enemy->setHP(enemy->getHP() - diff);
 
 				//向きの指定
-				for(int i = 0; i < 6; ++i){
+				for(int i = 0; i < 7; ++i){
 					mv_mng.setObjectDirection(model[i], enemy->pos - pos);
 				}
 

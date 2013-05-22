@@ -186,6 +186,7 @@ private:
 	bool moved;
 	bool attacked;
 	vector<int> model;
+	int attackeffect[10];
 
 	MoveManager mv_mng;
 	VECTOR myvec;
