@@ -9,9 +9,16 @@ Enemy::Enemy(string name, int x, int y, int hp, int mp, int str, int def, int ag
 	move_pos(),
 	act_pos(){
 
-		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_blue.x") );
-
-		MV1SetScale(model[0], VGet(3.0f, 3.0f, 3.0f));	//拡大
+		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_waiting.pmx") );
+		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack01.pmx") );
+		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack02.pmx") );
+		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack03.pmx") );
+		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack04.pmx") );
+		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack05.pmx") );
+		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack06.pmx") );
+		for(int i = 0; i < 7; i++){
+			MV1SetScale(model[i], VGet(3.0f, 3.0f, 3.0f));	//拡大
+		}
 		mv_mng.current_dir = SOUTH;
 		mv_mng.setObjectDirection(model[0]);	//向き
 
@@ -39,7 +46,9 @@ Enemy::Enemy(string name, int x, int y, int hp, int mp, int str, int def, int ag
 void Enemy::update(){
 	myvec = VAdd(VGet(pos.y*chipsize, Stage::getHeight(pos)*chipheight, pos.x*chipsize), mv_mng.diff);
 	//3Dモデルの配置
-	MV1SetPosition(model[0], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));
+	for(int i = 0;  i < 7; i++){
+		MV1SetPosition(model[0], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));
+	}
 	Stage::setObjectAt(pos, this);
 }
 
