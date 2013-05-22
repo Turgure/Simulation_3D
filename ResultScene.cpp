@@ -1,6 +1,7 @@
 ﻿#include "DxLib.h"
 #include "ResultScene.h"
 #include "StartScene.h"
+#include "GV.h"
 #include "FileStream.h"
 #include "Keyboard.h"
 
@@ -8,14 +9,14 @@ ResultScene::ResultScene(){
 }
 
 ResultScene::~ResultScene(){
-	if(my_mission[0] < imy_mission) my_mission[0] = imy_mission;
+	if(my_mission[0] < imy_mission && imy_mission < all_stage) my_mission[0] = imy_mission;
 	FileStream::write("data/data.dat", my_mission);
 }
 
 void ResultScene::initialize(){
 	FileStream::load("data/data.dat", my_mission);
 	imy_mission = my_mission[1];
-	if(imy_mission < 5) ++imy_mission;
+	if(imy_mission < all_stage) ++imy_mission;
 }
 
 void ResultScene::update(){
@@ -25,7 +26,7 @@ void ResultScene::update(){
 }
 
 void ResultScene::draw(){
-	if(imy_mission < 5){
+	if(imy_mission < all_stage){
 		DrawString(100, 200, "ステージクリアー！", GetColor(255,255,255));
 		//未クリア
 		if(my_mission[0] < imy_mission){
