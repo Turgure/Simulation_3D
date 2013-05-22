@@ -5,7 +5,7 @@
 #include "Keyboard.h"
 
 StartScene::StartScene(){
-	background = LoadGraph("data/image/startscene/startscene.jpg");
+	bg = LoadGraph("data/image/bg/StartScene.jpg");
 	order.push_back(0);
 	addMenu();
 }
@@ -40,10 +40,8 @@ void StartScene::update(){
 }
 
 void StartScene::draw(){
-	DrawGraph(0,0,background, true);
-	for(unsigned int i = 0; i < order.size(); ++i){
-		drawValues(menus[i], i);
-	}
+	DrawGraph(0, 0, bg, true);
+	drawValues(menus[order.size()-1], (order.size() == 1));
 }
 
 void StartScene::addMenu(){
@@ -110,12 +108,12 @@ void StartScene::action(){
 	}
 }
 
-void StartScene::drawValues(map<pair<int, int>, string> maps, int num){
+void StartScene::drawValues(map<pair<int, int>, string> maps, bool show_all){
 	int i = 0, color;
 	for(auto& map : maps){
-		if(num == 1 && my_mission[0] < i) break;
+		if(!show_all && my_mission[0] < i) break;
 
-		if(i == order[num]){
+		if(i == order[order.size()-1]){
 			color = GetColor(0,255,0);
 		} else {
 			color = GetColor(255,255,255);

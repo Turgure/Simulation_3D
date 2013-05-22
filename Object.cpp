@@ -148,8 +148,6 @@ void ObjectManager::create(vector<Enemy> &enemies, const string& filename){
 	vector<vector<string>> status;
 	FileStream::loadCSV(filename, status);
 
-	Position finalpos;
-
 	//int型に変換
 	vector<vector<int>> d;
 	for(unsigned int i = 0; i < status.size(); ++i){
@@ -159,11 +157,6 @@ void ObjectManager::create(vector<Enemy> &enemies, const string& filename){
 		}
 		d.push_back(inner);
 
-		do{
-			finalpos.x = GetRand(Stage::getWidth());
-			finalpos.y = GetRand(Stage::getDepth());
-		}while(!Stage::canMove(finalpos));
-
-		enemies.push_back( Enemy(status[i][0], finalpos.x, finalpos.y, d[i][0], d[i][1], d[i][2], d[i][3], d[i][4], d[i][5], d[i][6]) );
+		enemies.push_back( Enemy(status[i][0], d[i][0], d[i][1], d[i][2], d[i][3], d[i][4], d[i][5], d[i][6], d[i][7], d[i][8]) );
 	}
 }

@@ -14,14 +14,14 @@ public:
 	virtual void draw() override;
 
 private:
-	int background;
+	int bg;
 
 	vector<int> my_mission;
 
 	void addMenu();
 	void select(map<pair<int, int>, string> maps);
 	void action();
-	void drawValues(map<pair<int, int>, string> maps, int num);
+	void drawValues(map<pair<int, int>, string> maps, bool show_all);
 	
 	vector<int> order;
 	//map<Position, string> map_name;

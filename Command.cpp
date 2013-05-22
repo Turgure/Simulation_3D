@@ -35,7 +35,7 @@ void CommandSelect::draw(int x, int y){
 	int color;
 	for(unsigned int i = 0; i < (content[current].size()-1); ++i){
 		if(i == select_num[current]){
-			color = GetColor(255,128,  0);
+			color = GetColor(255,128,0);
 		} else {
 			color = GetColor(255,255,255);
 		}
@@ -44,7 +44,7 @@ void CommandSelect::draw(int x, int y){
 	SetFontSize(16);
 
 	DrawFormatString(DEFAULT_SCREEN_SIZE_X - cnt, DEFAULT_SCREEN_SIZE_Y-16,
-		GetColor(255,255,255), "%s", content[current][select_num[current]+1].description.c_str());
+		GetColor(0,0,0), "%s", content[current][select_num[current]+1].description.c_str());
 }
 
 void CommandSelect::loadCommands(){

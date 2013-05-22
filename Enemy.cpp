@@ -43,7 +43,7 @@ Enemy::Enemy(string name, int x, int y, int hp, int mp, int str, int def, int ag
 		has_brightened = false;
 		wait_time = 0;
 		attack_range = 3;
-		attackstatus = 0;
+		attack_status = 0;
 }
 
 void Enemy::update(){
@@ -56,6 +56,10 @@ void Enemy::update(){
 }
 
 void Enemy::draw(){
+	if(isMyTurn()){
+		DrawFormatString(0, 0, GetColor(255,255,255), "%s's turn.", name.c_str());
+	}
+
 	// ３Ｄモデルの描画
 	switch(attackstatus){
 	case 0:MV1DrawModel(model[0]);	break;
@@ -70,7 +74,7 @@ void Enemy::draw(){
 	if(pos == Cursor::pos){
 		showStatus();
 	}
-
+	
 	if(has_attacked){
 		static int cnt;
 		++cnt;
@@ -100,8 +104,6 @@ void Enemy::draw(){
 }
 
 void Enemy::action(){
-	DrawFormatString(0, 0, GetColor(255,255,255), "%s's turn.", name.c_str());
-
 	switch(state){
 	case SELECT:
 		if(can_act)

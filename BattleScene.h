@@ -18,6 +18,8 @@ public:
 	void lateUpdate();
 
 private:
+	int bg;
+
 	vector<int> my_mission;
 	int imy_mission;
 

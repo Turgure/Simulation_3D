@@ -34,7 +34,8 @@ protected:
 	bool changeState(State& mystate, State next);
 	bool state_changed;
 
-	int attackstatus;
+	vector<int> model;
+	int attack_status;
 
 	struct Status{
 		void showStatus() const;
@@ -140,20 +141,18 @@ public:
 	virtual void stepATBgauge() override;
 	virtual void resetATBgauge() override;
 
-	void showCommand();
+	void drawCommand();
 	void attack(vector<Enemy>& enemies);
 	bool assignDirection();
 
 	Status status;
-	CommandSelect command;
 	Position pos;
 
 private:
 	int picture_frame;
-	vector<int> model;
 	int attackeffect[10];
 
-
+	CommandSelect command;
 	MoveManager mv_mng;
 	VECTOR myvec;
 };
@@ -185,8 +184,11 @@ private:
 	int attack_range;
 	bool moved;
 	bool attacked;
+<<<<<<< HEAD
 	vector<int> model;
 	int attackeffect[10];
+=======
+>>>>>>> a94f7aca96ebfcdc8a80da687a016ac1360726e0
 
 	MoveManager mv_mng;
 	VECTOR myvec;
