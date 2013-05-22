@@ -4,8 +4,6 @@ class Sound{
 public:
 	static void initialize();
 	
-	//sound名
-	//static int hoge;
-	//static int foo;
-	//static int fuga;
+	static int battle_scene[5];
+	static int start_scene;
 };

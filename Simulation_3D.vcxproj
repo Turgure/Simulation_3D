@@ -79,7 +79,7 @@
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FileStream.cpp" />
-    <ClCompile Include="GameOverScene.cpp" />
+    <ClCompile Include="GameoverScene.cpp" />
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="main.cpp" />

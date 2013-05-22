@@ -7,4 +7,9 @@ public:
 	virtual void initialize() override;
 	virtual void update() override;
 	virtual void draw() override;
+
+private:
+	int bg;
+	int cnt;
+	bool adding;
 };

@@ -13,6 +13,10 @@ BattleScene::BattleScene(){
 	act_only_one = false;
 }
 
+BattleScene::~BattleScene(){
+	StopSoundMem(Sound::battle_scene[imy_mission]);
+}
+
 void BattleScene::initialize(){
 	FileStream::load("data/data.dat", my_mission);
 	imy_mission = my_mission[1];
@@ -26,6 +30,8 @@ void BattleScene::initialize(){
 	ObjectManager::create(enemies, pass + "/enemies.csv");
 
 	simulate();
+
+	PlaySoundMem(Sound::battle_scene[imy_mission], DX_PLAYTYPE_LOOP);
 }
 
 void BattleScene::update(){
