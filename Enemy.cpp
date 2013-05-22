@@ -47,7 +47,7 @@ void Enemy::update(){
 	myvec = VAdd(VGet(pos.y*chipsize, Stage::getHeight(pos)*chipheight, pos.x*chipsize), mv_mng.diff);
 	//3Dモデルの配置
 	for(int i = 0;  i < 7; i++){
-		MV1SetPosition(model[0], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));
+		MV1SetPosition(model[i], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));
 	}
 	Stage::setObjectAt(pos, this);
 }
