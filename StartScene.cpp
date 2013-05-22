@@ -21,8 +21,9 @@ StartScene::~StartScene(){
 	default:
 		break;
 	}
-
 	FileStream::write("data/data.dat", my_mission);
+	
+	StopSoundMem(Sound::start_scene);
 }
 
 void StartScene::initialize(){
@@ -32,6 +33,8 @@ void StartScene::initialize(){
 		my_mission.push_back(0);
 		FileStream::write("data/data.dat", my_mission);
 	}
+
+	PlaySoundMem(Sound::start_scene, DX_PLAYTYPE_LOOP);
 }
 
 void StartScene::update(){

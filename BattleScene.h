@@ -12,6 +12,7 @@ using namespace std;
 class BattleScene : public BaseScene{
 public:
 	BattleScene();
+	~BattleScene();
 	virtual void initialize() override;
 	virtual void update() override;
 	virtual void draw() override;
