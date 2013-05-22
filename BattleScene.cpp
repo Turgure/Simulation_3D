@@ -150,14 +150,19 @@ void BattleScene::update(){
 void BattleScene::draw(){
 	stage.draw();
 	cursor.draw();
-
-	for(auto& enemy : enemies){
-		enemy.draw();
-	}
+	
 	for(auto& player : players){
 		player.draw();
 	}
+	for(auto& enemy : enemies){
+		enemy.draw();
+	}
 
+	//コマンドを1番上に表示させるために別個にループをまわす
+	for(auto& player : players){
+		player.drawCommand();
+	}
+	
 	//行動順を表示
 	if(Keyboard::pushing(KEY_INPUT_LSHIFT)){
 		int i = 0;

@@ -40,7 +40,7 @@ Enemy::Enemy(string name, int x, int y, int hp, int mp, int str, int def, int ag
 		has_brightened = false;
 		wait_time = 0;
 		attack_range = 3;
-		attackstatus = 0;
+		attack_status = 0;
 }
 
 void Enemy::update(){
@@ -59,7 +59,7 @@ void Enemy::draw(){
 	if(pos == Cursor::pos){
 		showStatus();
 	}
-
+	
 	if(has_attacked){
 		static int cnt;
 		++cnt;
