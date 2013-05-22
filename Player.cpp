@@ -344,11 +344,11 @@ void Player::attack(vector<Enemy> &enemies){
 	}
 
 
-		static int atk_rate;
-		if(++atk_rate >= 5){
-			++attackstatus;
-			atk_rate = 0;
-		}
+	static int atk_rate;
+	if(++atk_rate >= 5){
+		++attackstatus;
+		atk_rate = 0;
+	}
 
 	if(attackstatus > 6){
 		Cursor::pos = pos;
