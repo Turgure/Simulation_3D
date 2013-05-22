@@ -184,11 +184,9 @@ private:
 	int attack_range;
 	bool moved;
 	bool attacked;
-<<<<<<< HEAD
+
 	vector<int> model;
 	int attackeffect[10];
-=======
->>>>>>> a94f7aca96ebfcdc8a80da687a016ac1360726e0
 
 	MoveManager mv_mng;
 	VECTOR myvec;

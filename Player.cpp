@@ -67,22 +67,13 @@ void Player::draw(){
 
 	// ３Ｄモデルの描画
 	switch(attack_status){
-	case 0:MV1DrawModel(model[0]);	break;
-<<<<<<< HEAD
-	case 1:MV1DrawModel(model[1]);	DrawGraph( 295, 210, attackeffect[0], TRUE );	break;
-	case 2:MV1DrawModel(model[2]);	DrawGraph( 295, 210, attackeffect[1], TRUE );	break;
-	case 3:MV1DrawModel(model[3]);	DrawGraph( 295, 210, attackeffect[2], TRUE );	break;
-	case 4:MV1DrawModel(model[4]);	DrawGraph( 295, 210, attackeffect[3], TRUE );	break;
-	case 5:MV1DrawModel(model[5]);	DrawGraph( 295, 210, attackeffect[4], TRUE );	break;
-	case 6:MV1DrawModel(model[6]);	DrawGraph( 295, 210, attackeffect[5], TRUE );	break;
-=======
-	case 1:MV1DrawModel(model[1]);	DrawGraph(295, 210, attackeffect[1], true); break;
-	case 2:MV1DrawModel(model[2]);	DrawGraph(295, 210, attackeffect[2], true); break;
-	case 3:MV1DrawModel(model[3]);	DrawGraph(295, 210, attackeffect[3], true); break;
-	case 4:MV1DrawModel(model[4]);	DrawGraph(295, 210, attackeffect[4], true); break;
-	case 5:MV1DrawModel(model[5]);	DrawGraph(295, 210, attackeffect[5], true); break;
-	case 6:MV1DrawModel(model[6]);	DrawGraph(295, 210, attackeffect[6], true); break;
->>>>>>> a94f7aca96ebfcdc8a80da687a016ac1360726e0
+	case 0:MV1DrawModel(model[0]); break;
+	case 1:MV1DrawModel(model[1]); DrawGraph(295, 210, attackeffect[1], true); break;
+	case 2:MV1DrawModel(model[2]); DrawGraph(295, 210, attackeffect[2], true); break;
+	case 3:MV1DrawModel(model[3]); DrawGraph(295, 210, attackeffect[3], true); break;
+	case 4:MV1DrawModel(model[4]); DrawGraph(295, 210, attackeffect[4], true); break;
+	case 5:MV1DrawModel(model[5]); DrawGraph(295, 210, attackeffect[5], true); break;
+	case 6:MV1DrawModel(model[6]); DrawGraph(295, 210, attackeffect[6], true); break;
 	}
 
 	if(pos == Cursor::pos){

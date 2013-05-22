@@ -61,14 +61,14 @@ void Enemy::draw(){
 	}
 
 	// ３Ｄモデルの描画
-	switch(attackstatus){
-	case 0:MV1DrawModel(model[0]);	break;
-	case 1:MV1DrawModel(model[1]);	DrawGraph( 295, 210, attackeffect[0], TRUE );	break;
-	case 2:MV1DrawModel(model[2]);	DrawGraph( 295, 210, attackeffect[1], TRUE );	break;
-	case 3:MV1DrawModel(model[3]);	DrawGraph( 295, 210, attackeffect[2], TRUE );break;
-	case 4:MV1DrawModel(model[4]);	DrawGraph( 295, 210, attackeffect[3], TRUE );break;
-	case 5:MV1DrawModel(model[5]);	DrawGraph( 295, 210, attackeffect[4], TRUE );break;
-	case 6:MV1DrawModel(model[6]);	DrawGraph( 295, 210, attackeffect[5], TRUE );break;
+	switch(attack_status){
+	case 0:MV1DrawModel(model[0]); break;
+	case 1:MV1DrawModel(model[1]); DrawGraph( 295, 210, attackeffect[0], true); break;
+	case 2:MV1DrawModel(model[2]); DrawGraph( 295, 210, attackeffect[1], true); break;
+	case 3:MV1DrawModel(model[3]); DrawGraph( 295, 210, attackeffect[2], true); break;
+	case 4:MV1DrawModel(model[4]); DrawGraph( 295, 210, attackeffect[3], true); break;
+	case 5:MV1DrawModel(model[5]); DrawGraph( 295, 210, attackeffect[4], true); break;
+	case 6:MV1DrawModel(model[6]); DrawGraph( 295, 210, attackeffect[5], true); break;
 	}
 
 	if(pos == Cursor::pos){
@@ -329,13 +329,13 @@ void Enemy::attack(vector<Player>& players){
 
 	static int atk_rate;
 	if(++atk_rate >= 5){
-		++attackstatus;
+		++attack_status;
 		atk_rate = 0;
 	}
 
-	if(attackstatus > 6){
+	if(attack_status > 6){
 		changeState(state, SELECT);
-		attackstatus = 0;
+		attack_status = 0;
 		checked = false;
 		has_brightened = false;
 		can_act = false;
