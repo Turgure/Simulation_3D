@@ -14,6 +14,7 @@ Cursor::Cursor(){
 void Cursor::update(){
 	myvec = VGet(pos.y*chipsize, Stage::getHeight(pos)*chipheight, pos.x*chipsize);
 	MV1SetPosition(image, VAdd(myvec, VGet(chipsize/2, chipsize/2 + 60, chipsize/2)));
+	MV1SetPosition(arrow, VAdd(myvec, VGet(chipsize/2, chipsize/2 + 60, chipsize/2)));
 }
 
 void Cursor::manipulate(){
@@ -36,9 +37,9 @@ void Cursor::manipulate(){
 }
 
 void Cursor::draw(){
+	MV1DrawModel(arrow);
 	//draw cone
 	MV1DrawModel(image);
-
 	//draw square
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 192);
 	Stage::drawChip(pos.x, pos.y, GetColor(255,0,0));

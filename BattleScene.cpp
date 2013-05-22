@@ -20,7 +20,7 @@ void BattleScene::initialize(){
 	stage.initialize();
 
 	stringstream ss; ss << imy_mission + 1;
-	string pass = "\data/stage/stage";
+	string pass = "data/stage/stage";
 	pass += ss.str();
 	ObjectManager::create(players, pass + "/players.csv");
 	ObjectManager::create(enemies, pass + "/enemies.csv");

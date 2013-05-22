@@ -149,11 +149,12 @@ public:
 	Status status;
 	Position pos;
 
+	MoveManager mv_mng;
 private:
 	int picture_frame;
 
 	CommandSelect command;
-	MoveManager mv_mng;
+//	MoveManager mv_mng;
 	VECTOR myvec;
 };
 

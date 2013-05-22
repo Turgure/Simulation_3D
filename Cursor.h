@@ -10,7 +10,6 @@ public:
 	void manipulate();
 
 	static Position pos;
-
 private:
 	void move(int direction);
 
