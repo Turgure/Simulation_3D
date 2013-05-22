@@ -10,4 +10,6 @@ public:
 
 private:
 	int bg;
+	int cnt;
+	bool adding;
 };
