@@ -36,8 +36,7 @@ void Cursor::manipulate(){
 	}
 }
 
-void Cursor::draw(){
-	MV1DrawModel(arrow);
+void Cursor::drawPoint(){
 	//draw cone
 	MV1DrawModel(image);
 	//draw square
@@ -46,8 +45,26 @@ void Cursor::draw(){
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
-void Cursor::move(int direction){
-	switch(direction){
+void Cursor::drawArrow(int dir){
+	switch(dir){
+	case NORTH:
+		MV1SetRotationXYZ(arrow, VGet(0.0f, DX_PI_F/2, 0.0f));
+		break;
+	case SOUTH:
+		MV1SetRotationXYZ(arrow, VGet(0.0f, -DX_PI_F/2, 0.0f));
+		break;
+	case WEST:
+		MV1SetRotationXYZ(arrow, VGet(0.0f, 0.0f, 0.0f));
+		break;
+	case EAST:
+		MV1SetRotationXYZ(arrow, VGet(0.0f, DX_PI_F, 0.0f));
+		break;
+	}
+	MV1DrawModel(arrow);
+}
+
+void Cursor::move(int dir){
+	switch(dir){
 	case NORTH:
 		if(pos.y > 0) pos.Move(0, -1);
 		break;

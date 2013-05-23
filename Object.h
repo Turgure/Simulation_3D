@@ -102,6 +102,7 @@ protected:
 		void setObjectDirection(int model, int dir);
 		void setObjectDirection(int model, const Position& dirpos);
 		void setObjectDirection(int model);
+		int getDiection(){ return current_dir; }
 		int current_dir;
 		double moving_rate;
 		VECTOR diff;
@@ -149,13 +150,15 @@ public:
 	Status status;
 	Position pos;
 
-	MoveManager mv_mng;
 private:
 	int picture_frame;
 
 	CommandSelect command;
-//	MoveManager mv_mng;
+	MoveManager mv_mng;
 	VECTOR myvec;
+
+public:
+	int getDirection(){ return mv_mng.getDiection(); }
 };
 
 

@@ -6,12 +6,13 @@ class Cursor{
 public:
 	Cursor();
 	void update();
-	void draw();
+	void drawPoint();
+	void drawArrow(int dir);
 	void manipulate();
 
 	static Position pos;
 private:
-	void move(int direction);
+	void move(int dir);
 
 	int image;
 	int arrow;

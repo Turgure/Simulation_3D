@@ -92,6 +92,8 @@ void BaseObject::MoveManager::setObjectDirection(int model, int dir){
 		MV1SetRotationXYZ(model, VGet(0.0f, DX_PI_F, 0.0f));
 		break;
 	}
+
+	current_dir = dir;
 }
 
 void BaseObject::MoveManager::setObjectDirection(int model, const Position& dirpos){

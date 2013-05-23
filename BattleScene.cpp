@@ -96,6 +96,7 @@ void BattleScene::update(){
 			player.attack(enemies);
 			player.action();
 			if(player.state == player.END){
+				cursor.drawArrow(player.getDirection());
 				if(player.assignDirection()){
 					player.endMyTurn();
 					has_come_turn = false;
@@ -158,7 +159,7 @@ void BattleScene::draw(){
 	DrawGraph(0, 0, bg, true);
 
 	stage.draw();
-	cursor.draw();
+	cursor.drawPoint();
 	
 	for(auto& player : players){
 		player.draw();
