@@ -6,14 +6,14 @@
 #include "ChipBrightnessManager.h"
 
 Player::Player(string name, int x, int y, int hp, int mp, int str, int def, int agi, int mobility, int jump_power):pos(x, y){
-	picture_frame = LoadGraph("data/image/frame/f02_208x160.png");
-	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/woman003/waitting.pmx") );
-	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/woman003/attack01.pmx") );
-	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/woman003/attack02.pmx") );
-	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/woman003/attack03.pmx") );
-	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/woman003/attack04.pmx") );
-	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/woman003/attack05.pmx") );
-	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/woman003/attack06.pmx") );
+	picture_frame = LoadGraph("data/image/frame/frame.png");
+	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/friend/waitting.pmx") );
+	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/friend/attack01.pmx") );
+	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/friend/attack02.pmx") );
+	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/friend/attack03.pmx") );
+	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/friend/attack04.pmx") );
+	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/friend/attack05.pmx") );
+	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/friend/attack06.pmx") );
 	for(int i = 0; i < 7; i++){
 		MV1SetScale(model[i], VGet(3.0f, 3.0f, 3.0f));	//拡大
 	}

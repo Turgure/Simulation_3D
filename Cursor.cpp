@@ -8,7 +8,7 @@ Position Cursor::pos;
 
 Cursor::Cursor(){
 	image = MV1LoadModel("data/image/3Dmodel/cursor/cursor.x");
-	arrow = MV1LoadModel("data/image/3dmodel/cursor/arrowsz.mqo");
+	arrow = MV1LoadModel("data/image/3dmodel/cursor/arrow.mqo");
 }
 
 void Cursor::update(){
