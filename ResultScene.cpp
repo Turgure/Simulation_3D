@@ -11,15 +11,21 @@ ResultScene::ResultScene(){
 ResultScene::~ResultScene(){
 	if(my_mission[0] < imy_mission && imy_mission < all_stage) my_mission[0] = imy_mission;
 	FileStream::write("data/data.dat", my_mission);
+
+	StopSoundMem(Sound::result_scene);
 }
 
 void ResultScene::initialize(){
 	FileStream::load("data/data.dat", my_mission);
 	imy_mission = my_mission[1];
 	if(imy_mission < all_stage) ++imy_mission;
+
+	PlaySoundMem(Sound::result_scene, DX_PLAYTYPE_BACK);
 }
 
 void ResultScene::update(){
+	if(CheckSoundMem(Sound::result_scene)) return;
+
 	if(Keyboard::pushed(KEY_INPUT_Z)){
 		changeScene(new StartScene);
 	}
