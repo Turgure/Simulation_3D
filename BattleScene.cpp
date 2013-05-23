@@ -8,7 +8,7 @@
 #include "Keyboard.h"
 
 BattleScene::BattleScene(){
-	bg = LoadGraph("data/image/bg/BattleScene.jpg");
+	bg = LoadGraph("data/image/bg/BattleScene.png");
 	has_come_turn = false;
 	act_only_one = false;
 }
