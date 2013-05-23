@@ -78,7 +78,12 @@ void Player::draw(){
 	if(has_attacked){
 		static int cnt;
 		++cnt;
-		DrawFormatString(330, 190 - cnt, GetColor(255,0,0), "%d", damage);
+		int color;
+		
+		if(damage >= 0) color = GetColor(255, 0, 0);
+		else color = GetColor(0, 255, 0);
+
+		DrawFormatString(330, 190 - cnt, color, "%d", abs(damage));
 		if(cnt >= 30){
 			has_attacked = false;
 			cnt = 0;
@@ -168,6 +173,17 @@ void Player::action(){
 				if(changeState(state, ATTACK)){
 					command.step();
 				}
+			}
+
+			if(command.commandIs("アイテム")){
+				setDamage(-5);
+				setHP(getHP() - getDamage());
+				if(getHP() > maxhp) setHP(maxhp);
+
+				can_act = false;
+				has_attacked = true;
+				changeState(state, SELECT);
+				command.clear();
 			}
 		}
 		break;

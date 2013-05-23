@@ -50,9 +50,6 @@ void CommandSelect::draw(int x, int y){
 void CommandSelect::loadCommands(){
 	FileStream::loadCSV("data/command/00 select.csv", commands[00]);
 	FileStream::loadCSV("data/command/01 action.csv", commands[01]);
-	FileStream::loadCSV("data/command/02 swordplay.csv", commands[02]);
-	FileStream::loadCSV("data/command/03 white_magic.csv", commands[02]);
-	FileStream::loadCSV("data/command/04 black_magic.csv", commands[03]);
 }
 
 void CommandSelect::initCommands(){
@@ -99,6 +96,6 @@ int CommandSelect::setNext(){
 	if(commandIs("終了")) return SELECT;
 
 	if(commandIs("たたかう")) return SELECT;
-	if(commandIs("とくぎ")) return SELECT;
+	if(commandIs("アイテム")) return SELECT;
 	else return -1;
 }

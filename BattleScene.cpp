@@ -48,7 +48,7 @@ void BattleScene::update(){
 	for(auto& enemy : enemies){
 		enemy.update();
 	}
-	
+
 	//calculate ATBgauge
 	while(!has_come_turn){
 		for(auto& player : players){
@@ -159,7 +159,7 @@ void BattleScene::draw(){
 
 	stage.draw();
 	cursor.drawPoint();
-		
+
 	for(auto& player : players){
 		player.draw();
 	}
@@ -167,16 +167,15 @@ void BattleScene::draw(){
 		enemy.draw();
 	}
 
-
-	//コマンドを1番上に表示させるために別個にループをまわす
+	//コマンドを1番上に表示させる
 	for(auto& player : players){
 		player.drawCommand();
 		if(player.isMyTurn() && (player.state == player.END)){
 			//ターン終了時の向きを表示
-				cursor.drawArrow(player.getDirection());
+			cursor.drawArrow(player.getDirection());
 		}
 	}
-	
+
 	//行動順を表示
 	if(Keyboard::pushing(KEY_INPUT_LSHIFT)){
 		int i = 0, x;
