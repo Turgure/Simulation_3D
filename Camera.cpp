@@ -32,9 +32,9 @@ void Camera::update(){
 		turn();
 		return;
 	}
-	target.x = Cursor::pos.y * chipsize;
-	target.z = Cursor::pos.x * chipsize;
-
+	target.x = Cursor::pos.y * chipsize+chipsize/2;
+	target.z = Cursor::pos.x * chipsize+chipsize/2;
+	target.y = Stage::getHeight(Cursor::pos)*chipheight;
 	//カメラの位置を移動後
 	switch(dir){
 	case MAX_MAX:
