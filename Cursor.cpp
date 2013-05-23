@@ -8,13 +8,13 @@ Position Cursor::pos;
 
 Cursor::Cursor(){
 	image = MV1LoadModel("data/image/3Dmodel/cursor/cursor.x");
-	arrow = MV1LoadModel("data/image/3dmodel/cursor/arrow.mqo");
+	arrow = MV1LoadModel("data/image/3dmodel/cursor/arrow2.mqo");
 }
 
 void Cursor::update(){
 	myvec = VGet(pos.y*chipsize, Stage::getHeight(pos)*chipheight, pos.x*chipsize);
 	MV1SetPosition(image, VAdd(myvec, VGet(chipsize/2, chipsize/2 + 60, chipsize/2)));
-	MV1SetPosition(arrow, VAdd(myvec, VGet(chipsize/2, chipsize/2 + 60, chipsize/2)));
+	MV1SetPosition(arrow, VAdd(myvec, VGet(chipsize/2, chipsize/2 + 70, chipsize/2)));
 }
 
 void Cursor::manipulate(){

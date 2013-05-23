@@ -96,7 +96,6 @@ void BattleScene::update(){
 			player.attack(enemies);
 			player.action();
 			if(player.state == player.END){
-				cursor.drawArrow(player.getDirection());
 				if(player.assignDirection()){
 					player.endMyTurn();
 					has_come_turn = false;
@@ -160,7 +159,7 @@ void BattleScene::draw(){
 
 	stage.draw();
 	cursor.drawPoint();
-	
+		
 	for(auto& player : players){
 		player.draw();
 	}
@@ -168,9 +167,14 @@ void BattleScene::draw(){
 		enemy.draw();
 	}
 
+
 	//コマンドを1番上に表示させるために別個にループをまわす
 	for(auto& player : players){
 		player.drawCommand();
+		if(player.isMyTurn() && (player.state == player.END)){
+			//ターン終了時の向きを表示
+				cursor.drawArrow(player.getDirection());
+		}
 	}
 	
 	//行動順を表示
