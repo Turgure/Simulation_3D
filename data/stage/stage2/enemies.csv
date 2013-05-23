@@ -1,0 +1,6 @@
+//name, x, y, hp, mp, str, def, agi, mobility, jump_power
+Enemy1, 0, 1, 5, 3, 5, 3, 3, 4, 2
+Enemy2, 0, 2, 4, 4, 4, 4, 4, 4, 2
+Enemy3, 0, 3, 3, 5, 3, 4, 3, 4, 3
+Enemy4, 0, 4, 3, 3, 3, 3, 4, 5, 3
+Enemy5, 0, 5, 3, 3, 3, 3, 2, 5, 3
