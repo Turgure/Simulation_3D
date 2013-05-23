@@ -5,7 +5,7 @@
 #include "Keyboard.h"
 
 StartScene::StartScene(){
-	bg = LoadGraph("data/image/bg/StartScene.jpg");
+	bg = LoadGraph("data/image/bg/start.jpg");
 	order.push_back(0);
 	addMenu();
 }

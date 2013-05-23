@@ -6,6 +6,7 @@
 #include "Keyboard.h"
 
 ResultScene::ResultScene(){
+	bg = LoadGraph("data/image/bg/result.jpg");
 }
 
 ResultScene::~ResultScene(){
@@ -24,6 +25,8 @@ void ResultScene::initialize(){
 }
 
 void ResultScene::update(){
+	DrawGraph(0, 0, bg, true);
+
 	if(CheckSoundMem(Sound::result_scene)) return;
 
 	if(Keyboard::pushed(KEY_INPUT_Z)){
@@ -32,13 +35,15 @@ void ResultScene::update(){
 }
 
 void ResultScene::draw(){
+	SetFontSize(32);
 	if(imy_mission < all_stage){
-		DrawString(100, 200, "ステージクリアー！", GetColor(255,255,255));
+		DrawString(180, 120, "ステージクリアー！", GetColor(255,255,255));
 		//未クリア
 		if(my_mission[0] < imy_mission){
-			DrawString(100, 216, "新しいミッションが解禁されました！", GetColor(255,255,255));
+			DrawString(25, 180, "新しいミッションが解禁されました！", GetColor(255,255,255));
 		}
 	} else {
-		DrawString(100, 200, "オールクリア！", GetColor(255,255,255));
+		DrawString(200, 120, "オールクリアー！", GetColor(255,255,255));
 	}
+	SetFontSize(16);
 }

@@ -11,6 +11,8 @@ public:
 	virtual void draw() override;
 
 private:
+	int bg;
+
 	int imy_mission;
 	std::vector<int> my_mission;
 };
