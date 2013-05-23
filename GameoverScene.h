@@ -4,6 +4,7 @@
 class GameoverScene : public BaseScene{
 public:
 	GameoverScene();
+	~GameoverScene();
 	virtual void initialize() override;
 	virtual void update() override;
 	virtual void draw() override;
