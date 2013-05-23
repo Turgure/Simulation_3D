@@ -6,6 +6,7 @@
 #include "Keyboard.h"
 
 ResultScene::ResultScene(){
+	bg = LoadGraph("data/image/bg/result.jpg");
 }
 
 ResultScene::~ResultScene(){
@@ -24,6 +25,8 @@ void ResultScene::initialize(){
 }
 
 void ResultScene::update(){
+	DrawGraph(0, 0, bg, true);
+
 	if(CheckSoundMem(Sound::result_scene)) return;
 
 	if(Keyboard::pushed(KEY_INPUT_Z)){
