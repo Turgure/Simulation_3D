@@ -59,16 +59,11 @@ void Enemy::draw(){
 	if(isMyTurn()){
 		DrawFormatString(0, 0, GetColor(255,255,255), "%s's turn.", name.c_str());
 	}
-
+	
 	// ３Ｄモデルの描画
-	switch(attack_status){
-	case 0:MV1DrawModel(model[0]); break;
-	case 1:MV1DrawModel(model[1]); DrawGraph( 295, 210, attack_effect[0], true); break;
-	case 2:MV1DrawModel(model[2]); DrawGraph( 295, 210, attack_effect[1], true); break;
-	case 3:MV1DrawModel(model[3]); DrawGraph( 295, 210, attack_effect[2], true); break;
-	case 4:MV1DrawModel(model[4]); DrawGraph( 295, 210, attack_effect[3], true); break;
-	case 5:MV1DrawModel(model[5]); DrawGraph( 295, 210, attack_effect[4], true); break;
-	case 6:MV1DrawModel(model[6]); DrawGraph( 295, 210, attack_effect[5], true); break;
+	MV1DrawModel(model[attack_status]);
+	if(attack_status != 0){
+		DrawGraph(295, 210, attack_effect[attack_status-1], true);
 	}
 
 	if(pos == Cursor::pos){
