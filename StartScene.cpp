@@ -48,17 +48,17 @@ void StartScene::draw(){
 }
 
 void StartScene::addMenu(){
-	content[make_pair(280, 320)] = "New Game";
-	content[make_pair(280, 340)] = "Continue";
-	content[make_pair(280, 360)] = "Exit";
+	content[make_pair(280, 330)] = "New Game";
+	content[make_pair(280, 360)] = "Continue";
+	content[make_pair(280, 390)] = "Exit";
 	menus.push_back(content);
 	content.clear();
 
-	content[make_pair(96, 16)] = "hoge 1";
-	content[make_pair(96, 32)] = "hoge 2";
-	content[make_pair(96, 48)] = "hoge 3";
-	content[make_pair(96, 64)] = "hoge 4";
-	content[make_pair(96, 80)] = "hoge 5";
+	content[make_pair(60,  40)] = "Mission 1";
+	content[make_pair(60,  70)] = "Mission 2";
+	content[make_pair(60, 100)] = "Mission 3";
+	content[make_pair(60, 130)] = "Mission 4";
+	content[make_pair(60, 160)] = "Mission 5";
 	menus.push_back(content);
 	content.clear();
 }
@@ -112,6 +112,7 @@ void StartScene::action(){
 }
 
 void StartScene::drawValues(map<pair<int, int>, string> maps, bool show_all){
+	SetFontSize(20);
 	int i = 0, color;
 	for(auto& map : maps){
 		if(!show_all && my_mission[0] < i) break;
@@ -125,4 +126,5 @@ void StartScene::drawValues(map<pair<int, int>, string> maps, bool show_all){
 		DrawString(map.first.first, map.first.second, map.second.c_str(), color);
 		++i;
 	}
+	SetFontSize(16);
 }
