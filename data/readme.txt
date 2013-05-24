@@ -1,13 +1,13 @@
 *************************************************************************
 【ソ フ ト名】  NEO TACTICS
 【 作 成 者 】  tannpo, Turgure
+【 作 成 日 】  2013/05/25
 【  種  別  】  シミュレーションゲーム
 *************************************************************************
 
 ●はじめに
 このたびは、「NEO TACTICS」を手に取っていただきありがとうございます。
 ゲームを始めるには、「Game.exe」を起動してお楽しみください。
-
 
 
 ●操作方法
@@ -17,7 +17,6 @@ Xボタン：キャンセル
 Q, Wボタン：カメラの回転
 左SHIFT:行動順の表示
 F12ボタン：スタート画面に戻る(ゲームプレイ時のみ)
-
 
 
 ●素材提供(敬称略、アルファベット順)
@@ -30,7 +29,6 @@ http://bungakuseinen.com/
 
 魔王魂
 http://maoudamashii.jokersounds.com/
-
 
 ・効果音
 HURT RECORD
@@ -48,16 +46,13 @@ http://www.zero-matter.com/
 魔王魂
 http://maoudamashii.jokersounds.com/
 
-
 ・背景
 日曜日改伝
 http://nitiyoubikaiden.husuma.com/
 
-
 ・エフェクト
 ぴぽや
 http://piposozai.blog76.fc2.com/
-
 
 
 ●お問い合わせ

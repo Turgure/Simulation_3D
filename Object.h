@@ -34,7 +34,7 @@ protected:
 	bool changeState(State& mystate, State next);
 	bool state_changed;
 
-	vector<int> model;
+	vector<int> models;
 	int attack_effect[10];
 	int attack_status;
 
@@ -91,14 +91,16 @@ protected:
 			jump_path = NULL;
 			jump_height = chipheight;
 		}
+
+		void move(vector<int>& models, int order, const Position& pos, Position& topos);
+
 		//horizontal
-		void trackMovement(const Position& pos, const Position& topos, int mob, BaseObject* obj);
 		void initialize();
+		void trackMovement(const Position& pos, const Position& topos, int mob, BaseObject* obj);
 		void calcShortestPath(const Position& pos, const Position& topos, int mob, BaseObject* obj);
 		Position dir[4];
 		vector<int> path;
 		
-		void move();
 		void setObjectDirection(int model, int dir);
 		void setObjectDirection(int model, const Position& dirpos);
 		void setObjectDirection(int model);
@@ -188,7 +190,6 @@ private:
 	int attack_range;
 	bool moved;
 	bool attacked;
-	vector<int> model;
 	int attackeffect[10];
 
 	MoveManager mv_mng;
