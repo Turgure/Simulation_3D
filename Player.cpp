@@ -196,7 +196,7 @@ void Player::action(){
 				if(changeState(state, SELECT)){
 					if(rest_item-- > 0){
 						PlaySoundMem(Sound::item, DX_PLAYTYPE_BACK);
-						setDamage(-5);
+						setDamage(-50);
 						setHP(getHP() - getDamage());
 						if(getHP() > maxhp) setHP(maxhp);
 
