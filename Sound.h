@@ -13,4 +13,6 @@ public:
 	static int decide;
 	static int cancel;
 	static int select;
+	static int shot;
+	static int thunder;
 };
