@@ -6,6 +6,7 @@ int Sound::battle_scene[5];
 int Sound::gameover_scene;
 int Sound::result_scene;
 
+int Sound::step;
 int Sound::decide;
 int Sound::cancel;
 int Sound::select;
@@ -20,7 +21,8 @@ void Sound::initialize(){
 	battle_scene[3] = LoadSoundMem("data/sound/bgm/battle/spmo_ruinh.mp3");
 	battle_scene[4] = LoadSoundMem("data/sound/bgm/battle/spmo_kiiki.mp3");
 
-	decide = LoadSoundMem("data/sound/se/decide4.wav");
+	step = LoadSoundMem("data/sound/se/decide4.wav");
+	decide = LoadSoundMem("data/sound/se/decide1.wav");
 	cancel = LoadSoundMem("data/sound/se/tama1.wav");
 	select = LoadSoundMem("data/sound/se/cursor8.wav");
 }

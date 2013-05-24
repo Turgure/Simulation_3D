@@ -9,6 +9,7 @@ public:
 	static int gameover_scene;
 	static int result_scene;
 
+	static int step;
 	static int decide;
 	static int cancel;
 	static int select;

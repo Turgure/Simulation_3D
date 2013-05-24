@@ -22,7 +22,7 @@ StartScene::~StartScene(){
 		break;
 	}
 	FileStream::write("data/data.dat", my_mission);
-	
+
 	StopSoundMem(Sound::start_scene);
 }
 
@@ -85,25 +85,28 @@ void StartScene::select(map<pair<int, int>, string> maps){
 
 void StartScene::action(){
 	if(Keyboard::pushed(KEY_INPUT_Z)){
-		PlaySoundMem(Sound::decide, DX_PLAYTYPE_BACK);
 		switch(order.size()-1){
 		case 0:
 			switch(order[order.size()-1]){
 			case 0:
+				PlaySoundMem(Sound::decide, DX_PLAYTYPE_BACK);
 				changeScene(new BattleScene);
 				break;
 			case 1:
 				if(my_mission[0] > 0){
+					PlaySoundMem(Sound::step, DX_PLAYTYPE_BACK);
 					order.push_back(0);
 				}
 				break;
 			default:
+				PlaySoundMem(Sound::step, DX_PLAYTYPE_BACK);
 				changeScene(nullptr);
 				break;
 			}
 			break;
 
 		case 1:
+			PlaySoundMem(Sound::decide, DX_PLAYTYPE_BACK);
 			changeScene(new BattleScene);
 			break;
 		}
