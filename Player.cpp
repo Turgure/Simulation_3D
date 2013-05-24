@@ -194,7 +194,7 @@ void Player::action(){
 			if(command.commandIs("アイテム")){
 				if(changeState(state, SELECT)){
 					PlaySoundMem(Sound::item, DX_PLAYTYPE_BACK);
-					setDamage(-5);
+					setDamage(-50);
 					setHP(getHP() - getDamage());
 					if(getHP() > maxhp) setHP(maxhp);
 
