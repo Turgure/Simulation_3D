@@ -83,7 +83,7 @@ void Player::draw(){
 		if(damage >= 0) color = GetColor(255, 0, 0);
 		else color = GetColor(0, 255, 0);
 
-		DrawFormatString(330, 190 - cnt, color, "%d", abs(damage));
+		DrawFormatString(330, 210 - cnt, color, "%d", abs(damage));
 		if(cnt >= 30){
 			has_attacked = false;
 			cnt = 0;

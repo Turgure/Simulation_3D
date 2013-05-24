@@ -22,11 +22,11 @@ void GameoverScene::update(){
 	if(adding) ++cnt;
 	else {
 		--cnt;
-		SetVolumeSoundMem(6000 + cnt*16, Sound::gameover_scene); 
+		SetVolumeSoundMem(8000 + cnt*20, Sound::gameover_scene); 
 	}
 
-	if(cnt > 240){
-		cnt = 240;
+	if(cnt > 120){
+		cnt = 120;
 		if(Keyboard::pushed(KEY_INPUT_Z)){
 			adding = false;
 		}
@@ -38,7 +38,7 @@ void GameoverScene::update(){
 }
 
 void GameoverScene::draw(){
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, cnt+15);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, cnt*2);
 	DrawGraph(0, 0, bg, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

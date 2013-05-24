@@ -1,13 +1,13 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 #include "Sound.h"
 #include "Keyboard.h"
 #include "StartScene.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow){
-	// ƒEƒCƒ“ƒhƒEƒ‚[ƒh‚É•ÏX
+	// ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒ¢ãƒ¼ãƒ‰ã«å¤‰æ›´
 	ChangeWindowMode(true);
-	if(DxLib_Init() == -1 || SetDrawScreen(DX_SCREEN_BACK) != 0) return -1;	//‰Šú‰»‚Æ— ‰æ–Êˆ—
-	SetMainWindowText("neo ƒ^ƒNƒeƒBƒNƒX");
+	if(DxLib_Init() == -1 || SetDrawScreen(DX_SCREEN_BACK) != 0) return -1;	//åˆæœŸåŒ–ã¨è£ç”»é¢å‡¦ç†
+	SetMainWindowText("NEO TACTICS");
 
 	Keyboard::initialize();
 	Sound::initialize();
