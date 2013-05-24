@@ -148,9 +148,9 @@ void BattleScene::update(){
 	}
 
 	//change scene
-	if(players.empty() || Keyboard::pushed(KEY_INPUT_1)){
+	if(players.empty()){
 		changeScene(new GameoverScene);
-	} else if(enemies.empty() || Keyboard::pushed(KEY_INPUT_2)){
+	} else if(enemies.empty()){
 		changeScene(new ResultScene);
 	}
 }

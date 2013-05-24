@@ -6,7 +6,6 @@
 
 StartScene::StartScene(){
 	bg = LoadGraph("data/image/bg/start.jpg");
-	order.push_back(1);
 	addMenu();
 }
 
@@ -33,6 +32,8 @@ void StartScene::initialize(){
 		my_mission.push_back(0);
 		FileStream::write("data/data.dat", my_mission);
 	}
+	if(my_mission[0] <= 0) order.push_back(0);
+	else order.push_back(1);
 
 	PlaySoundMem(Sound::start_scene, DX_PLAYTYPE_LOOP);
 }
