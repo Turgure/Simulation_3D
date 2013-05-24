@@ -8,6 +8,7 @@ GameoverScene::GameoverScene(){
 	bg = LoadGraph("data/image/bg/gameover.png");
 	cnt = 0;
 
+	SetVolumeSoundMem(10000, Sound::gameover_scene);
 	PlaySoundMem(Sound::gameover_scene, DX_PLAYTYPE_LOOP);
 }
 
