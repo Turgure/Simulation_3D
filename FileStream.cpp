@@ -16,10 +16,10 @@ void FileStream::load(const string& filename, vector<int>& data){
 		if((p = str.find("//")) != str.npos) continue;
 		//スペースがあるかを探し、そこまでをvaluesに格納
 		while((p = str.find(" ")) != str.npos){
-				data.push_back(stoi(str.substr(0, p)));
+			data.push_back(stoi(str.substr(0, p)));
 
-				//strの中身は" "の1文字を飛ばす
-				str = str.substr(p+1);
+			//strの中身は" "の1文字を飛ばす
+			str = str.substr(p+1);
 		}
 	}
 }
