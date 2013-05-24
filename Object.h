@@ -34,7 +34,7 @@ protected:
 	bool changeState(State& mystate, State next);
 	bool state_changed;
 
-	vector<int> model;
+	vector<int> models;
 	int attack_effect[10];
 	int attack_status;
 
@@ -92,7 +92,7 @@ protected:
 			jump_height = chipheight;
 		}
 
-		void move(vector<int>& model, int order, const Position& pos, Position& topos);
+		void move(vector<int>& models, int order, const Position& pos, Position& topos);
 
 		//horizontal
 		void initialize();
@@ -190,7 +190,6 @@ private:
 	int attack_range;
 	bool moved;
 	bool attacked;
-	vector<int> model;
 	int attackeffect[10];
 
 	MoveManager mv_mng;

@@ -7,21 +7,21 @@
 
 Player::Player(string name, int x, int y, int hp, int mp, int str, int def, int agi, int mobility, int jump_power):pos(x, y){
 	picture_frame = LoadGraph("data/image/frame/frame.png");
-	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/friend/waitting.pmx") );
-	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/friend/attack01.pmx") );
-	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/friend/attack02.pmx") );
-	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/friend/attack03.pmx") );
-	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/friend/attack04.pmx") );
-	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/friend/attack05.pmx") );
-	model.push_back( MV1LoadModel("data/image/3Dmodel/chara/friend/attack06.pmx") );
-	for(int i = 0; i < 7; i++){
-		MV1SetScale(model[i], VGet(0.7f, 0.7f, 0.7f));	//拡大
+	models.push_back( MV1LoadModel("data/image/3Dmodel/chara/friend/waitting.pmx") );
+	models.push_back( MV1LoadModel("data/image/3Dmodel/chara/friend/attack01.pmx") );
+	models.push_back( MV1LoadModel("data/image/3Dmodel/chara/friend/attack02.pmx") );
+	models.push_back( MV1LoadModel("data/image/3Dmodel/chara/friend/attack03.pmx") );
+	models.push_back( MV1LoadModel("data/image/3Dmodel/chara/friend/attack04.pmx") );
+	models.push_back( MV1LoadModel("data/image/3Dmodel/chara/friend/attack05.pmx") );
+	models.push_back( MV1LoadModel("data/image/3Dmodel/chara/friend/attack06.pmx") );
+	for(auto& model : models){
+		MV1SetScale(model, VGet(0.7f, 0.7f, 0.7f));	//拡大
 	}
 
 	LoadDivGraph("data/image/attackeffect/fire.png", 7, 7, 1, 48, 48, attack_effect);
 
 	mv_mng.current_dir = NORTH;
-	mv_mng.setObjectDirection(model[0]);	//向き
+	mv_mng.setObjectDirection(models[0]);	//向き
 
 	this->name = name;
 	this->hp = maxhp = hp;
@@ -48,8 +48,8 @@ void Player::update(){
 	}
 
 	//3Dモデルの配置
-	for(int i = 0; i < 7; ++i){
-		MV1SetPosition(model[i], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));
+	for(auto& model : models){
+		MV1SetPosition(model, VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));
 	}
 	Stage::setObjectAt(pos, this);
 
@@ -71,7 +71,7 @@ void Player::draw(){
 	}
 
 	// ３Ｄモデルの描画
-	MV1DrawModel(model[attack_status]);
+	MV1DrawModel(models[attack_status]);
 	if(attack_status != 0){
 		DrawGraph(295, 210, attack_effect[attack_status-1], true);
 	}
@@ -248,7 +248,7 @@ void Player::action(){
 	case MOVING:
 		static int order;
 		static Position topos;
-		mv_mng.move(model, order, pos, topos);
+		mv_mng.move(models, order, pos, topos);
 		if(abs(topos.x*chipsize-myvec.z) < 1.0 && abs(topos.y*chipsize-myvec.x) < 1.0){
 			pos = topos;
 			mv_mng.jump_path = NULL;
@@ -315,8 +315,8 @@ void Player::attack(vector<Enemy> &enemies){
 				enemy->setHP(enemy->getHP() - diff);
 
 				//向きの指定
-				for(int i = 0; i < 7; ++i){
-					mv_mng.setObjectDirection(model[i], enemy->pos - pos);
+				for(auto& model : models){
+					mv_mng.setObjectDirection(model, enemy->pos - pos);
 				}
 
 				checked = true;
@@ -369,16 +369,16 @@ bool Player::assignDirection(){
 
 	if(Keyboard::pushed(KEY_INPUT_UP)){
 		PlaySoundMem(Sound::cursor, DX_PLAYTYPE_BACK);
-		mv_mng.setObjectDirection(model[0], Camera::getDirection(FRONT));
+		mv_mng.setObjectDirection(models[0], Camera::getDirection(FRONT));
 	} else if(Keyboard::pushed(KEY_INPUT_DOWN)){
 		PlaySoundMem(Sound::cursor, DX_PLAYTYPE_BACK);
-		mv_mng.setObjectDirection(model[0], Camera::getDirection(BACK));
+		mv_mng.setObjectDirection(models[0], Camera::getDirection(BACK));
 	} else if(Keyboard::pushed(KEY_INPUT_LEFT)){
 		PlaySoundMem(Sound::cursor, DX_PLAYTYPE_BACK);
-		mv_mng.setObjectDirection(model[0], Camera::getDirection(LEFT));
+		mv_mng.setObjectDirection(models[0], Camera::getDirection(LEFT));
 	} else if(Keyboard::pushed(KEY_INPUT_RIGHT)){
 		PlaySoundMem(Sound::cursor, DX_PLAYTYPE_BACK);
-		mv_mng.setObjectDirection(model[0], Camera::getDirection(RIGHT));
+		mv_mng.setObjectDirection(models[0], Camera::getDirection(RIGHT));
 	}
 
 	if(Keyboard::pushed(KEY_INPUT_Z)){

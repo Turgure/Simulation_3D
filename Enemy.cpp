@@ -9,21 +9,21 @@ Enemy::Enemy(string name, int x, int y, int hp, int mp, int str, int def, int ag
 	move_pos(),
 	act_pos(){
 
-		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_waiting.pmx") );
-		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack01.pmx") );
-		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack02.pmx") );
-		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack03.pmx") );
-		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack04.pmx") );
-		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack05.pmx") );
-		model.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack06.pmx") );
-		for(int i = 0; i < 7; i++){
-			MV1SetScale(model[i], VGet(3.0f, 3.0f, 3.0f));	//拡大
+		models.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_waiting.pmx") );
+		models.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack01.pmx") );
+		models.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack02.pmx") );
+		models.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack03.pmx") );
+		models.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack04.pmx") );
+		models.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack05.pmx") );
+		models.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack06.pmx") );
+		for(auto& model : models){
+			MV1SetScale(model, VGet(3.0f, 3.0f, 3.0f));	//拡大
 		}
 
 		LoadDivGraph("data/image/attackeffect/thunder.png", 8, 8, 1, 48, 48, attack_effect);
 		
 		mv_mng.current_dir = SOUTH;
-		mv_mng.setObjectDirection(model[0]);	//向き
+		mv_mng.setObjectDirection(models[0]);	//向き
 
 		this->name = name;
 		this->hp = maxhp = hp;
@@ -54,8 +54,8 @@ void Enemy::update(){
 	}
 
 	//3Dモデルの配置
-	for(int i = 0;  i < 7; i++){
-		MV1SetPosition(model[i], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));
+	for(auto& model : models){
+		MV1SetPosition(model, VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));
 	}
 	Stage::setObjectAt(pos, this);
 }
@@ -66,7 +66,7 @@ void Enemy::draw(){
 	}
 	
 	// ３Ｄモデルの描画
-	MV1DrawModel(model[attack_status]);
+	MV1DrawModel(models[attack_status]);
 	if(attack_status != 0){
 		DrawGraph(295, 200, attack_effect[attack_status-1], true);
 	}
@@ -159,7 +159,7 @@ void Enemy::action(){
 	case MOVING:
 		static int order;
 		static Position topos;
-		mv_mng.move(model, order, pos, topos);
+		mv_mng.move(models, order, pos, topos);
 		if(abs(topos.x*chipsize-myvec.z) < 1.0 && abs(topos.y*chipsize-myvec.x) < 1.0){
 			pos = topos;
 			mv_mng.jump_path = NULL;
@@ -293,8 +293,8 @@ void Enemy::attack(vector<Player>& players){
 			player->setHP(player->getHP() - diff);
 			
 			//向きの指定
-			for(int i = 0; i < 7; ++i){
-				mv_mng.setObjectDirection(model[i], player->pos - pos);
+			for(auto& model : models){
+				mv_mng.setObjectDirection(model, player->pos - pos);
 			}
 			
 			checked = true;
@@ -337,7 +337,7 @@ void Enemy::assignDirection(const vector<Player>& players){
 			}
 		}
 	}
-	for(int i=0; i<7; ++i){
-		mv_mng.setObjectDirection(model[i], finalpos - pos);
+	for(auto& model : models){
+		mv_mng.setObjectDirection(model, finalpos - pos);
 	}
 }

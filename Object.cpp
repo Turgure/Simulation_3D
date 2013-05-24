@@ -38,12 +38,12 @@ void BaseObject::Status::showStatus() const{
 
 
 ///BaseObject::MovingManager
-void BaseObject::MoveManager::move(vector<int>& model, int order, const Position& pos, Position& topos){
+void BaseObject::MoveManager::move(vector<int>& models, int order, const Position& pos, Position& topos){
 	current_dir = path[order];
 	topos = pos + dir[current_dir];
 
-	for(int i = 0; i < 7; ++i){
-		setObjectDirection(model[i]);
+	for(auto& model : models){
+		setObjectDirection(model);
 	}
 
 	diff = VAdd(diff,
