@@ -334,7 +334,7 @@ void Player::attack(vector<Enemy> &enemies){
 		if(Stage::isBrightened(Cursor::pos)){
 			if(enemy->pos == Cursor::pos){
 				PlaySoundMem(Sound::shot, DX_PLAYTYPE_BACK);
-				int diff = str-enemy->getDef() > 0 ? str-enemy->getDef() : 0;
+				int diff = str-enemy->getDef()> 0 ? (str-enemy->getDef())*(((double)GetRand(40)/100)+0.8) : 0;
 				enemy->setDamage(diff);
 				enemy->setHP(enemy->getHP() - diff);
 

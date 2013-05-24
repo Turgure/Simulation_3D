@@ -309,7 +309,7 @@ void Enemy::attack(vector<Player>& players){
 
 		if(player->pos == act_pos){
 			PlaySoundMem(Sound::thunder, DX_PLAYTYPE_BACK);
-			int diff = str-player->getDef() > 0 ? str-player->getDef() : 0;
+			int diff = str-player->getDef() > 0 ? (str-player->getDef())*(((double)GetRand(40)/100)+0.8)  : 0;
 			player->setDamage(diff);
 			player->setHP(player->getHP() - diff);
 			
