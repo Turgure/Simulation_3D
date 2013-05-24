@@ -41,7 +41,12 @@ Player::Player(string name, int x, int y, int hp, int mp, int str, int def, int 
 }
 
 void Player::update(){
-	myvec = VAdd(VGet(pos.y*chipsize, Stage::getHeight(pos)*chipheight, pos.x*chipsize), mv_mng.diff);
+	if(Stage::getID(pos) != 2){
+		myvec = VAdd(VGet(pos.y*chipsize, Stage::getHeight(pos)*chipheight, pos.x*chipsize), mv_mng.diff);
+	} else {
+		myvec = VAdd(VGet(pos.y*chipsize, Stage::getHeight(pos)*chipheight - chipheight/2, pos.x*chipsize), mv_mng.diff);
+	}
+
 	//3Dモデルの配置
 	for(int i = 0; i < 7; ++i){
 		MV1SetPosition(model[i], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));
@@ -271,6 +276,12 @@ void Player::action(){
 				break;
 			}
 			mv_mng.diff = VAdd(mv_mng.diff, VGet(0.0f, mv_mng.jump_dist*mv_mng.moving_rate, 0.0f));
+
+			if(Stage::getID(pos) == 1 && Stage::getID(topos) == 2){
+				mv_mng.diff = VSub(mv_mng.diff, VGet(0.0f, chipheight/2*mv_mng.moving_rate, 0.0f));
+			} else if(Stage::getID(pos) == 2 && Stage::getID(topos) == 1){
+				mv_mng.diff = VAdd(mv_mng.diff, VGet(0.0f, chipheight/2*mv_mng.moving_rate, 0.0f));
+			}
 		}
 
 		if(abs(topos.x*chipsize-myvec.z) < 1.0 && abs(topos.y*chipsize-myvec.x) < 1.0){

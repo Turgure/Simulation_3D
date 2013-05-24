@@ -6,8 +6,6 @@
 
 int Stage::width;
 int Stage::depth;
-int Stage::leftup_positionX = 128;
-int Stage::leftup_positionY = 128;
 Stage::Mapchip Stage::mapchip[100][100];
 
 Stage::Stage(){

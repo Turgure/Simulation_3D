@@ -29,8 +29,7 @@ public:
 	static int getWidth(){ return width; }
 	static int getDepth(){ return depth; }
 	static int getHeight(const Position& pos){ return mapchip[pos.y][pos.x].height; }
-	static int getLeftupPositionX(){ return leftup_positionX; }
-	static int getLeftupPositionY(){ return leftup_positionY; }
+	static int getID(const Position& pos){ return mapchip[pos.y][pos.x].definition->id; }
 	static int getResistance(const Position& pos){ return mapchip[pos.y][pos.x].definition->resistance; }
 
 	static void setObjectAt(const Position& pos, BaseObject* obj){ mapchip[pos.y][pos.x].object = obj; }
@@ -39,8 +38,6 @@ public:
 private:
 	static int width;
 	static int depth;
-	static int leftup_positionX;
-	static int leftup_positionY;
 
 	struct MapchipDefinition{
 		MapchipDefinition(int id):id(id){};
