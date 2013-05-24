@@ -33,11 +33,18 @@ void ChipBrightnessManager::range(const Position& pos, int n, bool is_resistance
 				(me_enemy != NULL && me_enemy->getJumpPow() >= height) ){
 
 					int rest = is_resistance ? n - Stage::getResistance(topos) : n - 1;
+
 					if(rest >= 0){
 						Stage::brighten(topos, color_move);
 						//敵をすり抜けないようにする
 						Player* you_player = dynamic_cast<Player*>(Stage::getObjectAt(topos));
 						Enemy* you_enemy = dynamic_cast<Enemy*>(Stage::getObjectAt(topos));
+						
+						//段差がある程度大きいと移動力が減る
+						if( (me_player != NULL && me_player->getJumpPow()/2 < height && height <= me_player->getJumpPow()) ||
+							(me_enemy != NULL && me_enemy->getJumpPow()/2 < height && height <= me_enemy->getJumpPow()) ){
+									rest -= 1;
+						}
 
 						if(me_player != NULL){
 							if(me_player == you_player || you_enemy == NULL){
