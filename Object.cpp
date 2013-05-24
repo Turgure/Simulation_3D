@@ -36,7 +36,46 @@ void BaseObject::Status::showStatus() const{
 	DrawFormatString(0, 16*9, GetColor(255,255,255), "ジャンプ力 %d", jump_power);
 }
 
+
 ///BaseObject::MovingManager
+void BaseObject::MoveManager::move(vector<int>& model, int order, const Position& pos, Position& topos){
+	current_dir = path[order];
+	topos = pos + dir[current_dir];
+
+	for(int i = 0; i < 7; ++i){
+		setObjectDirection(model[i]);
+	}
+
+	diff = VAdd(diff,
+		VGet(dir[current_dir].y*chipsize*moving_rate, 0.0f, dir[current_dir].x*chipsize*moving_rate));
+
+	//高さが違うとき
+	if(Stage::getHeight(topos) != Stage::getHeight(pos)){
+		initJumpmotion(pos, topos);
+		jump_path -= jump_dist*moving_rate;
+
+		switch(jump){
+		case UP:
+			if(jump_path < jump_height){
+				jump_dist *= -1;
+			}
+			break;
+		case DOWN:
+			if(jump_path < jump_height + step){
+				jump_dist *= -1;
+			}
+			break;
+		}
+		diff = VAdd(diff, VGet(0.0f, jump_dist*moving_rate, 0.0f));
+
+		if(Stage::getID(pos) == 1 && Stage::getID(topos) == 2){
+			diff = VSub(diff, VGet(0.0f, chipheight/2*moving_rate, 0.0f));
+		} else if(Stage::getID(pos) == 2 && Stage::getID(topos) == 1){
+			diff = VAdd(diff, VGet(0.0f, chipheight/2*moving_rate, 0.0f));
+		}
+	}
+}
+
 void BaseObject::MoveManager::initialize(){
 	shortest_path.resize(100);
 }

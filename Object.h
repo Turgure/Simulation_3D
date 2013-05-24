@@ -91,14 +91,16 @@ protected:
 			jump_path = NULL;
 			jump_height = chipheight;
 		}
+
+		void move(vector<int>& model, int order, const Position& pos, Position& topos);
+
 		//horizontal
-		void trackMovement(const Position& pos, const Position& topos, int mob, BaseObject* obj);
 		void initialize();
+		void trackMovement(const Position& pos, const Position& topos, int mob, BaseObject* obj);
 		void calcShortestPath(const Position& pos, const Position& topos, int mob, BaseObject* obj);
 		Position dir[4];
 		vector<int> path;
 		
-		void move();
 		void setObjectDirection(int model, int dir);
 		void setObjectDirection(int model, const Position& dirpos);
 		void setObjectDirection(int model);

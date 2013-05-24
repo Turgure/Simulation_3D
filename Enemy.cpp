@@ -47,7 +47,12 @@ Enemy::Enemy(string name, int x, int y, int hp, int mp, int str, int def, int ag
 }
 
 void Enemy::update(){
-	myvec = VAdd(VGet(pos.y*chipsize, Stage::getHeight(pos)*chipheight, pos.x*chipsize), mv_mng.diff);
+	if(Stage::getID(pos) != 2){
+		myvec = VAdd(VGet(pos.y*chipsize, Stage::getHeight(pos)*chipheight, pos.x*chipsize), mv_mng.diff);
+	} else {
+		myvec = VAdd(VGet(pos.y*chipsize, Stage::getHeight(pos)*chipheight - chipheight/2, pos.x*chipsize), mv_mng.diff);
+	}
+
 	//3Dモデルの配置
 	for(int i = 0;  i < 7; i++){
 		MV1SetPosition(model[i], VAdd(myvec, VGet(chipsize/2, 0, chipsize/2)));
@@ -154,33 +159,7 @@ void Enemy::action(){
 	case MOVING:
 		static int order;
 		static Position topos;
-		mv_mng.current_dir = mv_mng.path[order];
-		topos = pos + mv_mng.dir[mv_mng.current_dir];
-		mv_mng.setObjectDirection(model[0]);
-
-		mv_mng.diff = VAdd(mv_mng.diff,
-			VGet(mv_mng.dir[mv_mng.current_dir].y*chipsize*mv_mng.moving_rate, 0.0f, mv_mng.dir[mv_mng.current_dir].x*chipsize*mv_mng.moving_rate));
-
-		//高さが違うとき
-		if(Stage::getHeight(topos) != Stage::getHeight(pos)){
-			mv_mng.initJumpmotion(pos, topos);
-			mv_mng.jump_path -= mv_mng.jump_dist*mv_mng.moving_rate;
-
-			switch(mv_mng.jump){
-			case mv_mng.UP:
-				if(mv_mng.jump_path < mv_mng.jump_height){
-					mv_mng.jump_dist *= -1;
-				}
-				break;
-			case mv_mng.DOWN:
-				if(mv_mng.jump_path < mv_mng.jump_height + mv_mng.step){
-					mv_mng.jump_dist *= -1;
-				}
-				break;
-			}
-			mv_mng.diff = VAdd(mv_mng.diff, VGet(0.0f, mv_mng.jump_dist*mv_mng.moving_rate, 0.0f));
-		}
-
+		mv_mng.move(model, order, pos, topos);
 		if(abs(topos.x*chipsize-myvec.z) < 1.0 && abs(topos.y*chipsize-myvec.x) < 1.0){
 			pos = topos;
 			mv_mng.jump_path = NULL;
