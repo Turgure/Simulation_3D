@@ -65,6 +65,7 @@ void StartScene::addMenu(){
 
 void StartScene::select(map<pair<int, int>, string> maps){
 	if(Keyboard::pushed(KEY_INPUT_DOWN)){
+		PlaySoundMem(Sound::select, DX_PLAYTYPE_BACK);
 		if(maps == menus[1]){
 			order[order.size()-1] = (order[order.size()-1] + 1) % (my_mission[0]+1);
 		} else {
@@ -73,6 +74,7 @@ void StartScene::select(map<pair<int, int>, string> maps){
 	}
 
 	if(Keyboard::pushed(KEY_INPUT_UP)){
+		PlaySoundMem(Sound::select, DX_PLAYTYPE_BACK);
 		if(maps == menus[1]){
 			order[order.size()-1] = (order[order.size()-1] + (my_mission[0])) % (my_mission[0]+1);
 		} else {
@@ -83,6 +85,7 @@ void StartScene::select(map<pair<int, int>, string> maps){
 
 void StartScene::action(){
 	if(Keyboard::pushed(KEY_INPUT_Z)){
+		PlaySoundMem(Sound::decide, DX_PLAYTYPE_BACK);
 		switch(order.size()-1){
 		case 0:
 			switch(order[order.size()-1]){
@@ -107,6 +110,7 @@ void StartScene::action(){
 	}
 
 	if(Keyboard::pushed(KEY_INPUT_X) && order.size() >= 2){
+		PlaySoundMem(Sound::cancel, DX_PLAYTYPE_BACK);
 		order.pop_back();
 	}
 }
