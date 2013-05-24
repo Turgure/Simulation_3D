@@ -8,4 +8,13 @@ public:
 	static int battle_scene[5];
 	static int gameover_scene;
 	static int result_scene;
+
+	static int step;
+	static int decide;
+	static int cancel;
+	static int select;
+	static int shot;
+	static int thunder;
+	static int item;
+	static int cursor;
 };

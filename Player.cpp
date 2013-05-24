@@ -19,7 +19,7 @@ Player::Player(string name, int x, int y, int hp, int mp, int str, int def, int 
 	}
 
 	LoadDivGraph("data/image/attackeffect/fire.png", 7, 7, 1, 48, 48, attack_effect);
-	
+
 	mv_mng.current_dir = NORTH;
 	mv_mng.setObjectDirection(model[0]);	//向き
 
@@ -79,11 +79,11 @@ void Player::draw(){
 		static int cnt;
 		++cnt;
 		int color;
-		
+
 		if(damage >= 0) color = GetColor(255, 0, 0);
 		else color = GetColor(0, 255, 0);
 
-		DrawFormatString(330, 190 - cnt, color, "%d", abs(damage));
+		DrawFormatString(330, 210 - cnt, color, "%d", abs(damage));
 		if(cnt >= 30){
 			has_attacked = false;
 			cnt = 0;
@@ -117,6 +117,7 @@ void Player::action(){
 		if(pos == Cursor::pos){
 			if(Keyboard::pushed(KEY_INPUT_X)){
 				if(changeState(state, WAIT)){
+					PlaySoundMem(Sound::cancel, DX_PLAYTYPE_BACK);
 					command.clear();
 				}
 			}
@@ -124,16 +125,19 @@ void Player::action(){
 			if(Keyboard::pushed(KEY_INPUT_Z)){
 				if(command.commandIs("移動") && can_move){
 					if(changeState(state, MOVE)){
+						PlaySoundMem(Sound::step, DX_PLAYTYPE_BACK);
 						command.step();
 					}
 				}
 				if(command.commandIs("行動") && can_act){
 					if(changeState(state, ACTION)){
+						PlaySoundMem(Sound::step, DX_PLAYTYPE_BACK);
 						command.step();
 					}
 				}
 				if(command.commandIs("終了")){
 					if(changeState(state, END)){
+						PlaySoundMem(Sound::step, DX_PLAYTYPE_BACK);
 						command.clear();
 					}
 				}
@@ -143,19 +147,24 @@ void Player::action(){
 
 	case MOVE:
 		if(Keyboard::pushed(KEY_INPUT_X)){
-			Cursor::pos = pos;
 			if(changeState(state, SELECT)){
+				PlaySoundMem(Sound::cancel, DX_PLAYTYPE_BACK);
+				Cursor::pos = pos;
 				command.clear();
 			}
 		}
 		if(Keyboard::pushed(KEY_INPUT_Z)){
 			command.clear();
 			if(Stage::isBrightened(Cursor::pos) && !Stage::getObjectAt(Cursor::pos)){
-				changeState(state, MOVING);
-				mv_mng.trackMovement(pos, Cursor::pos, mobility, this);
+				if(changeState(state, MOVING)){
+					PlaySoundMem(Sound::step, DX_PLAYTYPE_BACK);
+					mv_mng.trackMovement(pos, Cursor::pos, mobility, this);
+				}
 			} else {
-				Cursor::pos = pos;
-				changeState(state, SELECT);
+				if(changeState(state, SELECT)){
+					PlaySoundMem(Sound::cancel, DX_PLAYTYPE_BACK);
+					Cursor::pos = pos;
+				}
 			}
 		}
 		break;
@@ -165,33 +174,38 @@ void Player::action(){
 		has_brightened = false;
 		if(Keyboard::pushed(KEY_INPUT_X)){
 			if(changeState(state, SELECT)){
+				PlaySoundMem(Sound::cancel, DX_PLAYTYPE_BACK);
 				command.back();
 			}
 		}
 		if(Keyboard::pushed(KEY_INPUT_Z)){
 			if(command.commandIs("たたかう")){
 				if(changeState(state, ATTACK)){
+					PlaySoundMem(Sound::step, DX_PLAYTYPE_BACK);
 					command.step();
 				}
 			}
 
 			if(command.commandIs("アイテム")){
-				setDamage(-5);
-				setHP(getHP() - getDamage());
-				if(getHP() > maxhp) setHP(maxhp);
+				if(changeState(state, SELECT)){
+					PlaySoundMem(Sound::item, DX_PLAYTYPE_BACK);
+					setDamage(-5);
+					setHP(getHP() - getDamage());
+					if(getHP() > maxhp) setHP(maxhp);
 
-				can_act = false;
-				has_attacked = true;
-				changeState(state, SELECT);
-				command.clear();
+					can_act = false;
+					has_attacked = true;
+					command.clear();
+				}
 			}
 		}
 		break;
 
 	case ATTACK:
 		if(Keyboard::pushed(KEY_INPUT_X)){
-			Cursor::pos = pos;
 			if(changeState(state, ACTION)){
+				PlaySoundMem(Sound::cancel, DX_PLAYTYPE_BACK);
+				Cursor::pos = pos;
 				command.back();
 			}
 		}
@@ -210,12 +224,15 @@ void Player::action(){
 	case WAIT:
 		if(Keyboard::pushed(KEY_INPUT_Z)){
 			if(Cursor::pos == pos){
+				PlaySoundMem(Sound::step, DX_PLAYTYPE_BACK);
 				changeState(state, SELECT);
 			}
 		}
 		if(Keyboard::pushed(KEY_INPUT_X)){
-			changeState(state, SELECT);
-			Cursor::pos = pos;
+			if(changeState(state, SELECT)){
+				PlaySoundMem(Sound::cancel, DX_PLAYTYPE_BACK);
+				Cursor::pos = pos;
+			}
 		}
 		break;
 
@@ -316,6 +333,7 @@ void Player::attack(vector<Enemy> &enemies){
 
 		if(Stage::isBrightened(Cursor::pos)){
 			if(enemy->pos == Cursor::pos){
+				PlaySoundMem(Sound::shot, DX_PLAYTYPE_BACK);
 				int diff = str-enemy->getDef()> 0 ? (str-enemy->getDef())*(((double)GetRand(40)/100)+0.8) : 0;
 				enemy->setDamage(diff);
 				enemy->setHP(enemy->getHP() - diff);
@@ -325,15 +343,15 @@ void Player::attack(vector<Enemy> &enemies){
 					mv_mng.setObjectDirection(model[i], enemy->pos - pos);
 				}
 
-
 				checked = true;
 				break;
 			}
 
 			//色付き空白マス
 			if(enemy == enemies.end()-1){
-				Cursor::pos = pos;
 				if(changeState(state, ACTION)){
+					PlaySoundMem(Sound::cancel, DX_PLAYTYPE_BACK);
+					Cursor::pos = pos;
 					command.back();
 					Stage::disbrighten();
 					has_brightened = false;
@@ -342,8 +360,9 @@ void Player::attack(vector<Enemy> &enemies){
 			}
 		} else {
 			//色なしマス
-			Cursor::pos = pos;
 			if(changeState(state, ACTION)){
+				PlaySoundMem(Sound::cancel, DX_PLAYTYPE_BACK);
+				Cursor::pos = pos;
 				command.back();
 				Stage::disbrighten();
 				has_brightened = false;
@@ -371,17 +390,25 @@ void Player::attack(vector<Enemy> &enemies){
 }
 
 bool Player::assignDirection(){
-	
+
 	if(Keyboard::pushed(KEY_INPUT_UP)){
+		PlaySoundMem(Sound::cursor, DX_PLAYTYPE_BACK);
 		mv_mng.setObjectDirection(model[0], Camera::getDirection(FRONT));
 	} else if(Keyboard::pushed(KEY_INPUT_DOWN)){
+		PlaySoundMem(Sound::cursor, DX_PLAYTYPE_BACK);
 		mv_mng.setObjectDirection(model[0], Camera::getDirection(BACK));
 	} else if(Keyboard::pushed(KEY_INPUT_LEFT)){
+		PlaySoundMem(Sound::cursor, DX_PLAYTYPE_BACK);
 		mv_mng.setObjectDirection(model[0], Camera::getDirection(LEFT));
 	} else if(Keyboard::pushed(KEY_INPUT_RIGHT)){
+		PlaySoundMem(Sound::cursor, DX_PLAYTYPE_BACK);
 		mv_mng.setObjectDirection(model[0], Camera::getDirection(RIGHT));
 	}
 
-	if(Keyboard::pushed(KEY_INPUT_Z)) return true;
-	else return false;
+	if(Keyboard::pushed(KEY_INPUT_Z)){
+		PlaySoundMem(Sound::step, DX_PLAYTYPE_BACK);
+		return true;
+	} else {
+		return false;
+	}
 }

@@ -22,7 +22,7 @@ StartScene::~StartScene(){
 		break;
 	}
 	FileStream::write("data/data.dat", my_mission);
-	
+
 	StopSoundMem(Sound::start_scene);
 }
 
@@ -65,6 +65,7 @@ void StartScene::addMenu(){
 
 void StartScene::select(map<pair<int, int>, string> maps){
 	if(Keyboard::pushed(KEY_INPUT_DOWN)){
+		PlaySoundMem(Sound::select, DX_PLAYTYPE_BACK);
 		if(maps == menus[1]){
 			order[order.size()-1] = (order[order.size()-1] + 1) % (my_mission[0]+1);
 		} else {
@@ -73,6 +74,7 @@ void StartScene::select(map<pair<int, int>, string> maps){
 	}
 
 	if(Keyboard::pushed(KEY_INPUT_UP)){
+		PlaySoundMem(Sound::select, DX_PLAYTYPE_BACK);
 		if(maps == menus[1]){
 			order[order.size()-1] = (order[order.size()-1] + (my_mission[0])) % (my_mission[0]+1);
 		} else {
@@ -87,26 +89,31 @@ void StartScene::action(){
 		case 0:
 			switch(order[order.size()-1]){
 			case 0:
+				PlaySoundMem(Sound::decide, DX_PLAYTYPE_BACK);
 				changeScene(new BattleScene);
 				break;
 			case 1:
 				if(my_mission[0] > 0){
+					PlaySoundMem(Sound::step, DX_PLAYTYPE_BACK);
 					order.push_back(0);
 				}
 				break;
 			default:
+				PlaySoundMem(Sound::step, DX_PLAYTYPE_BACK);
 				changeScene(nullptr);
 				break;
 			}
 			break;
 
 		case 1:
+			PlaySoundMem(Sound::decide, DX_PLAYTYPE_BACK);
 			changeScene(new BattleScene);
 			break;
 		}
 	}
 
 	if(Keyboard::pushed(KEY_INPUT_X) && order.size() >= 2){
+		PlaySoundMem(Sound::cancel, DX_PLAYTYPE_BACK);
 		order.pop_back();
 	}
 }

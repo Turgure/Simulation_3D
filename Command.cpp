@@ -1,5 +1,6 @@
 ﻿#include "DxLib.h"
 #include "Command.h"
+#include "Sound.h"
 #include "FileStream.h"
 #include "Keyboard.h"
 
@@ -17,9 +18,11 @@ CommandSelect::CommandSelect(){
 void CommandSelect::update(){
 	//content[0]はindex
 	if(Keyboard::pushed(KEY_INPUT_DOWN)){
+		PlaySoundMem(Sound::select, DX_PLAYTYPE_BACK);
 		select_num[current] = (select_num[current] + 1) % (content[current].size()-1);
 		next = setNext();
 	} else if(Keyboard::pushed(KEY_INPUT_UP)){
+		PlaySoundMem(Sound::select, DX_PLAYTYPE_BACK);
 		select_num[current] = (select_num[current] + (content[current].size()-2)) % (content[current].size()-1);
 		next = setNext();
 	}
