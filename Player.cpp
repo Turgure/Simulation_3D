@@ -67,7 +67,7 @@ void Player::update(){
 
 void Player::draw(){
 	if(isMyTurn()){
-		DrawFormatString(0, 0, GetColor(255,255,255), "%s's turn.", name.c_str());
+		DrawFormatString(0, 0, GetColor(255,255,255), "%s's turn", name.c_str());
 	}
 
 	// ３Ｄモデルの描画
