@@ -12,6 +12,7 @@ int Sound::cancel;
 int Sound::select;
 int Sound::shot;
 int Sound::thunder;
+int Sound::item;
 
 void Sound::initialize(){
 	start_scene = LoadSoundMem("data/sound/bgm/opening/free0219.mp3");
@@ -29,5 +30,5 @@ void Sound::initialize(){
 	select = LoadSoundMem("data/sound/se/cursor8.wav");
 	shot = LoadSoundMem("data/sound/se/se_maoudamashii_battle_gun02.mp3");
 	thunder = LoadSoundMem("data/sound/se/denpa9.mp3");
-
+	item = LoadSoundMem("data/sound/se/a2-034_recovery_03.mp3");
 }

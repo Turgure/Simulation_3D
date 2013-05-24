@@ -176,6 +176,7 @@ void Player::action(){
 			}
 
 			if(command.commandIs("アイテム")){
+				PlaySoundMem(Sound::item, DX_PLAYTYPE_BACK);
 				setDamage(-5);
 				setHP(getHP() - getDamage());
 				if(getHP() > maxhp) setHP(maxhp);
@@ -325,7 +326,6 @@ void Player::attack(vector<Enemy> &enemies){
 				for(int i = 0; i < 7; ++i){
 					mv_mng.setObjectDirection(model[i], enemy->pos - pos);
 				}
-
 
 				checked = true;
 				break;

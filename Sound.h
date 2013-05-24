@@ -15,4 +15,5 @@ public:
 	static int select;
 	static int shot;
 	static int thunder;
+	static int item;
 };
