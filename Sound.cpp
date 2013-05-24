@@ -25,6 +25,12 @@ void Sound::initialize(){
 	battle_scene[3] = LoadSoundMem("data/sound/bgm/spmo_ruinh.mp3");
 	battle_scene[4] = LoadSoundMem("data/sound/bgm/spmo_kiiki.mp3");
 
+	SetVolumeSoundMem(9500, start_scene);
+	SetVolumeSoundMem(9500, result_scene);
+	for(int i = 0; i < 5; ++i){
+		SetVolumeSoundMem(9000, battle_scene[i]);
+	}
+
 	step = LoadSoundMem("data/sound/se/decide4.wav");
 	decide = LoadSoundMem("data/sound/se/decide1.wav");
 	cancel = LoadSoundMem("data/sound/se/tama1.wav");
@@ -33,4 +39,12 @@ void Sound::initialize(){
 	thunder = LoadSoundMem("data/sound/se/denpa9.mp3");
 	item = LoadSoundMem("data/sound/se/a2-034_recovery_03.mp3");
 	cursor = LoadSoundMem("data/sound/se/button45.mp3");
+
+	SetVolumeSoundMem(9000, step);
+	SetVolumeSoundMem(9000, decide);
+	SetVolumeSoundMem(9000, cancel);
+	SetVolumeSoundMem(9000, select);
+	SetVolumeSoundMem(9000, shot);
+	SetVolumeSoundMem(9000, thunder);
+	SetVolumeSoundMem(9000, cursor);
 }

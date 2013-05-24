@@ -8,7 +8,7 @@ GameoverScene::GameoverScene(){
 	bg = LoadGraph("data/image/bg/gameover.png");
 	cnt = 0;
 
-	SetVolumeSoundMem(10000, Sound::gameover_scene);
+	SetVolumeSoundMem(9500, Sound::gameover_scene);
 	PlaySoundMem(Sound::gameover_scene, DX_PLAYTYPE_LOOP);
 }
 
@@ -23,7 +23,7 @@ void GameoverScene::update(){
 	if(adding) ++cnt;
 	else {
 		--cnt;
-		SetVolumeSoundMem(8000 + cnt*20, Sound::gameover_scene); 
+		SetVolumeSoundMem(7000 + cnt*20, Sound::gameover_scene); 
 	}
 
 	if(cnt > 120){
