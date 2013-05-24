@@ -20,18 +20,22 @@ void Cursor::update(){
 void Cursor::manipulate(){
 	if(Keyboard::pushed(KEY_INPUT_LEFT, false) ||
 		(Keyboard::pushingUntil(KEY_INPUT_LEFT, 30) && Keyboard::pushingPer(KEY_INPUT_LEFT, 6))){
+			PlaySoundMem(Sound::cursor, DX_PLAYTYPE_BACK);
 			move(Camera::getDirection(LEFT));
 	}
 	if(Keyboard::pushed(KEY_INPUT_RIGHT, false) ||
 		(Keyboard::pushingUntil(KEY_INPUT_RIGHT, 30) && Keyboard::pushingPer(KEY_INPUT_RIGHT, 6))){
+			PlaySoundMem(Sound::cursor, DX_PLAYTYPE_BACK);
 			move(Camera::getDirection(RIGHT));
 	}
 	if(Keyboard::pushed(KEY_INPUT_UP, false) ||
 		(Keyboard::pushingUntil(KEY_INPUT_UP, 30) && Keyboard::pushingPer(KEY_INPUT_UP, 6))){
+			PlaySoundMem(Sound::cursor, DX_PLAYTYPE_BACK);
 			move(Camera::getDirection(FRONT));
 	}
 	if(Keyboard::pushed(KEY_INPUT_DOWN, false) ||
 		(Keyboard::pushingUntil(KEY_INPUT_DOWN, 30) && Keyboard::pushingPer(KEY_INPUT_DOWN, 6))){
+			PlaySoundMem(Sound::cursor, DX_PLAYTYPE_BACK);
 			move(Camera::getDirection(BACK));
 	}
 }

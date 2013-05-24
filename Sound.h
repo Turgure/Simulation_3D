@@ -16,4 +16,5 @@ public:
 	static int shot;
 	static int thunder;
 	static int item;
+	static int cursor;
 };
