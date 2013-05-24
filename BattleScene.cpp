@@ -187,7 +187,17 @@ void BattleScene::draw(){
 			++i;
 		}
 	}
-
+	/*
+	static int a = 0;
+	static double randam = 0;
+	if(a <= 60){
+	DrawFormatString(0, 300, GetColor(255,255,255), "%lf",randam);
+	a++;
+	}else{
+		randam = (((double)GetRand(40)/100)+0.8);
+		a = 0;
+	}
+	*/
 	lateUpdate();
 }
 

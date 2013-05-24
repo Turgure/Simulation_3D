@@ -6,7 +6,7 @@
 
 StartScene::StartScene(){
 	bg = LoadGraph("data/image/bg/start.jpg");
-	order.push_back(0);
+	order.push_back(1);
 	addMenu();
 }
 
