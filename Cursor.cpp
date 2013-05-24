@@ -47,6 +47,8 @@ void Cursor::drawPoint(){
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 192);
 	Stage::drawChip(pos.x, pos.y, GetColor(255,0,0));
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	//draw position
+	drawPosition();
 }
 
 void Cursor::drawArrow(int dir){
@@ -65,6 +67,12 @@ void Cursor::drawArrow(int dir){
 		break;
 	}
 	MV1DrawModel(arrow);
+}
+
+void Cursor::drawPosition(){
+	SetFontSize(24);
+	DrawFormatString(140, 0, GetColor(105,176,118), "H:%d", Stage::getHeight(pos));
+	SetFontSize(16);
 }
 
 void Cursor::move(int dir){

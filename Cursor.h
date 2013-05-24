@@ -12,6 +12,7 @@ public:
 
 	static Position pos;
 private:
+	void drawPosition();
 	void move(int dir);
 
 	int image;

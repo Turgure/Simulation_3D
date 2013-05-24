@@ -158,9 +158,8 @@ void BattleScene::update(){
 void BattleScene::draw(){
 	DrawGraph(0, 0, bg, true);
 
-	cursor.drawBrightenedChip();
 	stage.draw();
-	cursor.drawCone();
+	cursor.drawPoint();
 
 	for(auto& player : players){
 		player.draw();
