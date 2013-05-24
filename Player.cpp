@@ -234,10 +234,8 @@ void Player::action(){
 			}
 		}
 		if(Keyboard::pushed(KEY_INPUT_X)){
-			if(changeState(state, SELECT)){
-				PlaySoundMem(Sound::cancel, DX_PLAYTYPE_BACK);
-				Cursor::pos = pos;
-			}
+			PlaySoundMem(Sound::cancel, DX_PLAYTYPE_BACK);
+			Cursor::pos = pos;
 		}
 		break;
 
