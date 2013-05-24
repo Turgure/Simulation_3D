@@ -28,12 +28,12 @@ bool BaseObject::changeState(State& mystate, State next){
 void BaseObject::Status::showStatus() const{
 	DrawFormatString(0, 16*2, GetColor(255,255,255), "名前 %s", name.c_str());
 	DrawFormatString(0, 16*3, GetColor(255,255,255), "HP %d/%d", hp, maxhp);
-	DrawFormatString(0, 16*4, GetColor(255,255,255), "MP %d/%d", mp, maxmp);
-	DrawFormatString(0, 16*5, GetColor(255,255,255), "攻撃力 %d", str);
-	DrawFormatString(0, 16*6, GetColor(255,255,255), "防御力 %d", def);
-	DrawFormatString(0, 16*7, GetColor(255,255,255), "素早さ %d", agi);
-	DrawFormatString(0, 16*8, GetColor(255,255,255), "移動力 %d", mobility);
-	DrawFormatString(0, 16*9, GetColor(255,255,255), "ジャンプ力 %d", jump_power);
+	//DrawFormatString(0, 16*4, GetColor(255,255,255), "MP %d/%d", mp, maxmp);
+	DrawFormatString(0, 16*4, GetColor(255,255,255), "攻撃力 %d", str);
+	DrawFormatString(0, 16*5, GetColor(255,255,255), "防御力 %d", def);
+	DrawFormatString(0, 16*6, GetColor(255,255,255), "素早さ %d", agi);
+	DrawFormatString(0, 16*7, GetColor(255,255,255), "移動力 %d", mobility);
+	DrawFormatString(0, 16*8, GetColor(255,255,255), "ジャンプ力 %d", jump_power);
 }
 
 

@@ -255,7 +255,7 @@ void Enemy::calcAttack(const vector<Player>& players){
 
 			for(auto& player : players){
 				if(checkpos == player.pos){
-					int damage = abs(str - player.getDef());
+					int damage = str - player.getDef();
 					candidate_pos[damage] = checkpos;
 				}
 			}
@@ -277,10 +277,8 @@ void Enemy::calcAttack(const vector<Player>& players){
 
 void Enemy::attack(vector<Player>& players){
 	if(state != ATTACKING) return;
-	
 	if(act_pos.x < 0) return;
 	if(!can_act && attacked) return;
-
 	
 	static bool checked = false;
 	for(auto& player = players.begin(); player != players.end(); ++player){
@@ -288,7 +286,7 @@ void Enemy::attack(vector<Player>& players){
 
 		if(player->pos == act_pos){
 			PlaySoundMem(Sound::thunder, DX_PLAYTYPE_BACK);
-			int diff = str-player->getDef() > 0 ? (str-player->getDef())*(((double)GetRand(40)/100)+0.8)  : 0;
+			int diff = str-player->getDef() > 0 ? (str-player->getDef())*(((double)GetRand(40)/100)+0.8) : 0;
 			player->setDamage(diff);
 			player->setHP(player->getHP() - diff);
 			

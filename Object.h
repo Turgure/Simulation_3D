@@ -154,6 +154,7 @@ public:
 
 private:
 	int picture_frame;
+	int rest_item;
 
 	CommandSelect command;
 	MoveManager mv_mng;

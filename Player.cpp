@@ -38,6 +38,7 @@ Player::Player(string name, int x, int y, int hp, int mp, int str, int def, int 
 	has_attacked = false;
 	has_brightened = false;
 	attack_status = 0;
+	rest_item = 2;
 }
 
 void Player::update(){
@@ -193,14 +194,16 @@ void Player::action(){
 
 			if(command.commandIs("アイテム")){
 				if(changeState(state, SELECT)){
-					PlaySoundMem(Sound::item, DX_PLAYTYPE_BACK);
-					setDamage(-5);
-					setHP(getHP() - getDamage());
-					if(getHP() > maxhp) setHP(maxhp);
+					if(rest_item-- > 0){
+						PlaySoundMem(Sound::item, DX_PLAYTYPE_BACK);
+						setDamage(-5);
+						setHP(getHP() - getDamage());
+						if(getHP() > maxhp) setHP(maxhp);
 
-					can_act = false;
-					has_attacked = true;
-					command.clear();
+						can_act = false;
+						has_attacked = true;
+						command.clear();
+					}
 				}
 			}
 		}
