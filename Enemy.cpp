@@ -200,10 +200,10 @@ void Enemy::action(){
 
 void Enemy::endMyTurn(){
 	state = SELECT;
-	ATBgauge =  100;
 	wait_time = 0;
-	//if(moved) ATBgauge += 20;
-	//if(attacked) ATBgauge += 60;
+	ATBgauge += 20;
+	if(moved) ATBgauge += 40;
+	if(attacked) ATBgauge += 60;
 	can_move = false;
 	can_act = false;
 	moved = false;
