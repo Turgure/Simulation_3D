@@ -1,6 +1,7 @@
 ﻿#include <sstream>
 #include "DxLib.h"
 #include "BattleScene.h"
+#include "StartScene.h"
 #include "ResultScene.h"
 #include "GameoverScene.h"
 #include "GV.h"
@@ -198,6 +199,10 @@ void BattleScene::lateUpdate(){
 	}
 	for(auto& enemy : enemies){
 		enemy.lateUpdate();
+	}
+
+	if(Keyboard::pushed(KEY_INPUT_F12)){
+		changeScene(new StartScene);
 	}
 }
 
