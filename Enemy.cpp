@@ -63,7 +63,7 @@ void Enemy::draw(){
 	// ３Ｄモデルの描画
 	MV1DrawModel(model[attack_status]);
 	if(attack_status != 0){
-		DrawGraph(295, 210, attack_effect[attack_status-1], true);
+		DrawGraph(295, 200, attack_effect[attack_status-1], true);
 	}
 
 	if(pos == Cursor::pos){
