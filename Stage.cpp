@@ -47,6 +47,7 @@ void Stage::initID(){
 			break;
 
 		default:
+			chip.resistance = INT_MAX;
 			break;
 		}
 	}
