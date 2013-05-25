@@ -46,8 +46,11 @@ void CommandSelect::draw(int x, int y){
 	}
 	SetFontSize(16);
 
-	DrawFormatString(DEFAULT_SCREEN_SIZE_X - cnt, DEFAULT_SCREEN_SIZE_Y-16,
-		GetColor(0,0,0), "%s", content[current][select_num[current]+1].description.c_str());
+	DrawFormatString(
+		DEFAULT_SCREEN_SIZE_X - cnt,
+		DEFAULT_SCREEN_SIZE_Y-16,
+		GetColor(255,128,0), "%s",
+		content[current][select_num[current]+1].description.c_str());
 }
 
 void CommandSelect::loadCommands(){

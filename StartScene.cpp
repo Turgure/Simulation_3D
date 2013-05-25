@@ -6,6 +6,7 @@
 
 StartScene::StartScene(){
 	bg = LoadGraph("data/image/bg/start.jpg");
+	ChangeFontType(DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
 	addMenu();
 }
 
@@ -23,6 +24,8 @@ StartScene::~StartScene(){
 	FileStream::write("data/data.dat", my_mission);
 
 	StopSoundMem(Sound::start_scene);
+
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
 void StartScene::initialize(){
@@ -91,11 +94,14 @@ void StartScene::action(){
 			switch(order[order.size()-1]){
 			case 0:
 				PlaySoundMem(Sound::decide, DX_PLAYTYPE_BACK);
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 64);
+				DrawString(5, DEFAULT_SCREEN_SIZE_Y-20, "Now Loading...", GetColor(255,255,255));
 				changeScene(new BattleScene);
 				break;
 			case 1:
 				if(my_mission[0] > 0){
 					PlaySoundMem(Sound::step, DX_PLAYTYPE_BACK);
+					DrawString(5, DEFAULT_SCREEN_SIZE_Y-20, "Now Loading...", GetColor(255,255,255));
 					order.push_back(0);
 				}
 				break;
@@ -108,6 +114,7 @@ void StartScene::action(){
 
 		case 1:
 			PlaySoundMem(Sound::decide, DX_PLAYTYPE_BACK);
+			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 64);
 			changeScene(new BattleScene);
 			break;
 		}

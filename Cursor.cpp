@@ -71,7 +71,7 @@ void Cursor::drawArrow(int dir){
 
 void Cursor::drawPosition(){
 	SetFontSize(24);
-	DrawFormatString(140, 0, GetColor(105,176,118), "H:%d", Stage::getHeight(pos));
+	DrawFormatString(150, 0, GetColor(105,176,118), "H:%d", Stage::getHeight(pos));
 	SetFontSize(16);
 }
 
