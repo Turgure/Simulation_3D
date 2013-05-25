@@ -95,7 +95,7 @@ void StartScene::action(){
 			switch(order[order.size()-1]){
 			case 0:
 				PlaySoundMem(Sound::decide, DX_PLAYTYPE_BACK);
-				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 64);
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
 				DrawString(5, DEFAULT_SCREEN_SIZE_Y-20, "Now Loading...", GetColor(255,255,255));
 				changeScene(new BattleScene);
 				break;
@@ -114,7 +114,7 @@ void StartScene::action(){
 
 		case 1:
 			PlaySoundMem(Sound::decide, DX_PLAYTYPE_BACK);
-			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 64);
+			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
 			DrawString(5, DEFAULT_SCREEN_SIZE_Y-20, "Now Loading...", GetColor(255,255,255));
 			changeScene(new BattleScene);
 			break;
