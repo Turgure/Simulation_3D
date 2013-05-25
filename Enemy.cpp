@@ -18,6 +18,7 @@ Enemy::Enemy(string name, int x, int y, int hp, int mp, int str, int def, int ag
 		models.push_back( MV1LoadModel("data/image/3Dmodel/chara/enemy/jelly_yellow_attack06.pmx") );
 		for(auto& model : models){
 			MV1SetScale(model, VGet(3.0f, 3.0f, 3.0f));	//拡大
+			MV1SetUseZBuffer(model, true);
 		}
 
 		LoadDivGraph("data/image/attackeffect/thunder.png", 8, 8, 1, 48, 48, attack_effect);

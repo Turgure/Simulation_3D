@@ -16,6 +16,7 @@ Player::Player(string name, int x, int y, int hp, int mp, int str, int def, int 
 	models.push_back( MV1LoadModel("data/image/3Dmodel/chara/friend/attack06.pmx") );
 	for(auto& model : models){
 		MV1SetScale(model, VGet(0.7f, 0.7f, 0.7f));	//拡大
+		MV1SetUseZBuffer(model, true);
 	}
 
 	LoadDivGraph("data/image/attackeffect/fire.png", 7, 7, 1, 48, 48, attack_effect);

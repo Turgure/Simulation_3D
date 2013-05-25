@@ -7,6 +7,7 @@
 StartScene::StartScene(){
 	bg = LoadGraph("data/image/bg/start.jpg");
 	ChangeFontType(DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
+	SetUseZBuffer3D(true);
 	addMenu();
 }
 
